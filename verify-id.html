@@ -10,11 +10,28 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <h1>Verify ID</h1>
-        <!-- drop down to select type of id (passport, drivers liscense, stateid)-->
-        <!-- submit button-->        
-        <!-- opt out button (let users know other users will be able to see if they have verified with id or not)-->
+    <div id="main">
+        <div id="leftwrap" class="main-child">
+            <h1>Verify ID</h1>
+            <p>Submit a photo of an approved ID format to get verified. You may opt out of this, however, verifying your ID improves credibility.</p>
+        </div>
+        <div id="rightwrap" class="main-child">
+            <form action="/home.html" id="verify-id-form">
+                <label for="id-type-dropdown">Choose ID Type:</label>
+                <select name="id-type-dropdown" id="id-type-dropdown">
+                    <option value="state-id">State ID</option>
+                    <option value="drivers-license">Driver's License</option>
+                    <option value="passport">Passport</option>
+                </select>
+
+                <label for="upload-img">Upload Image:</label>
+                <input type="file" name="upload-img" id="upload-img" accept="image/*">
+
+                <input type="submit" value="Finish Signing Up" id="sign-up-submit">
+            </form>
+
+            <a href="/home.html" id="tohome"><button>Verify Later</button></a>
+        </div>
     </div>
 </body>
 </html>

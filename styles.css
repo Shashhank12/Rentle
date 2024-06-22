@@ -7,15 +7,10 @@
 }
 
 
-
 #main {
     display: flex;
     height: 100vh;
 }
-
-/* .main-child {
-    flex: 1;
-} */
 
 #leftwrap {
     background-color: #007566;
@@ -44,7 +39,7 @@
     width: 65%;
 }
 
-#sign-up-form {
+#sign-up-form, #verify-id-form {
     display: flex;
     flex-direction: column;
     padding-left: 10px;
@@ -69,6 +64,11 @@
     background-color: #628f85;
 }
 
+#role-radios {
+    border-width: 0;
+    font-size: 16px;
+}
+
 #sign-up-submit, #sign-in-submit {
     margin-top: 10px;
     padding: 10px;
@@ -84,12 +84,7 @@
     background-color: #628f85;
 }
 
-#role-radios {
-    border-width: 0;
-    font-size: 16px;
-}
-
-#tosignin button, #tosignup button {
+#tosignin button, #tosignup button, #tohome button {
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
