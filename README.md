@@ -1,1 +1,1 @@
-# CS157A-team3
+# Homepage for the project
