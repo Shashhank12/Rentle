@@ -17,7 +17,7 @@
             <a href="/home.jsp" id="continueasguest"><button>Or continue as guest</button></a>
         </div>
         <div id="rightwrap" class="main-child">
-            <form  action="/verify-id.html" id="sign-up-form">
+            <form action="/verify-id.jsp" id="sign-up-form">
                 <label for="email" id="email-label">Email:</label>
                 <input type="text" name="email" class="formtext" id="email">
 
