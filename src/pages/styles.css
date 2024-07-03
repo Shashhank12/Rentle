@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+}
+
+
+#main {
+    display: flex;
+    height: 100vh;
+}
+
+#leftwrap {
+    background-color: #007566;
+    align-content: center;
+    text-align: end;
+    width: 35%;
+}
+
+#leftwrap h1, #leftwrap p, #leftwrap a {
+    padding-right: 10px;
+    padding-left: 20px;
+}
+
+#continueasguest button {
+    padding-top: 10px;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+#rightwrap {
+    background-color: #8FC1B5;
+    align-content: center;
+    width: 65%;
+}
+
+#sign-up-form, #verify-id-form {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#sign-up-form label{
+    padding-top: 10px;
+}
+
+.formtext {
+    background-color: #79ada1;
+    border: none;
+    border-bottom: 2px solid #10231d;
+    padding: 5px;
+    outline: none;
+    font-size: 16px;
+    border-radius: 3px;
+}
+
+.formtext:focus {
+    background-color: #628f85;
+}
+
+#role-radios {
+    border-width: 0;
+    font-size: 16px;
+}
+
+#sign-up-submit, #sign-in-submit {
+    margin-top: 10px;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: #79ada1;
+    font-size: 16px;
+    text-align: center;
+}
+
+#sign-up-submit:hover, #sign-up-submit:focus, 
+#sign-in-submit:hover, #sign-in-submit:focus {
+    background-color: #628f85;
+}
+
+#tosignin button, #tosignup button, #tohome button {
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-size: 16px;
+    font-weight: 500;
+}
