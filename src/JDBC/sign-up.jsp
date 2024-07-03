@@ -17,7 +17,7 @@
             <a href="/home.jsp" id="continueasguest"><button>Or continue as guest</button></a>
         </div>
         <div id="rightwrap" class="main-child">
-            <form action="/verify-id.jsp" id="sign-up-form">
+            <form id="sign-up-form">
                 <label for="email" id="email-label">Email:</label>
                 <input type="text" name="email" class="formtext" id="email">
 
@@ -52,7 +52,7 @@
       String db = "RentalProj";
         String user; // assumes database name is the same as username
           user = "root";
-        String password = "ENTERYOURPASSWORDHERE"; //enter yourpass word
+        String password = "ENTERYOURPASSWORD"; //enter your password
         try {
             java.sql.Connection con;
             Class.forName("com.mysql.jdbc.Driver");
@@ -61,10 +61,16 @@
 
             out.println("Initial entries in table \"Users\": <br/>");
             Statement stmt = con.createStatement();
-            // ResultSet rs = stmt.executeQuery("SELECT * FROM User");
 
             if (request.getParameter("submit") != null) {
                 out.println("Submit button clicked <br/>");
+
+                String idQuery = "SELECT user_id FROM User ORDER BY user_id DESC LIMIT 1";
+                ResultSet rs = stmt.executeQuery(idQuery);
+                rs.next();
+                int newID = rs.getInt(1) + 1;
+                out.println(newID);
+                rs.close(); 
 
                 // get form items
                 String myEmail = (String)request.getParameter("email");
@@ -72,11 +78,12 @@
                 String myFName = (String)request.getParameter("firstname");
                 String myLName = (String)request.getParameter("lastname");
 
-                String query = "INSERT INTO User (user_id, email, password, first_name, last_name, acc_type) VALUES (66, \'" + myEmail + "\', \'" + myPassword + "\', \'" + myFName + "\', \'" + myLName + "\', 'Renter');";
+                String query = "INSERT INTO User (user_id, email, password, first_name, last_name, acc_type) VALUES (" + String.valueOf(newID) + ", \'" + myEmail + "\', \'" + myPassword + "\', \'" + myFName + "\', \'" + myLName + "\', 'Renter');";
 
-                int rs = stmt.executeUpdate(query);
-                out.println(rs);
-                // rs.close();   
+                int ri = stmt.executeUpdate(query);
+                out.println(ri);  
+                String redirectURL = "http://localhost:8080/verify-id.jsp";
+                response.sendRedirect(redirectURL);
             }
             stmt.close();
             con.close();
