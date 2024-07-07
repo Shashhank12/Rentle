@@ -7,6 +7,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <%
+        String db = "RentalProj";
+        String user; // assumes database name is the same as username
+        user = "root";
+        String password = "PASSWORD"; //enter your password
+    %>
     <title>Sign Up</title>
 </head>
 <body>
@@ -19,7 +25,34 @@
         <div id="rightwrap" class="main-child">
             <form id="sign-up-form">
                 <label for="email" id="email-label">Email:</label>
-                <input type="text" name="email" class="formtext" id="email">
+                <%
+                    String myEmail = (String)request.getParameter("email");
+                    Boolean emailInvalid = false;
+                    try {
+                        java.sql.Connection con;
+                        Class.forName("com.mysql.jdbc.Driver");
+                        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/RentalProj?autoReconnect=true&useSSL=false",user, password);
+            
+                        Statement stmt = con.createStatement();
+
+                        String checkEmailQuery = "SELECT COUNT(email) FROM User WHERE email='" + myEmail+"'";
+                        ResultSet rs = stmt.executeQuery(checkEmailQuery);
+                        rs.next();
+                        if (rs.getInt(1) == 1) {
+                            emailInvalid = true;
+                            %>
+                            <p id="email-error" style="color: red;">Email is already in use</p>
+                            <%
+                        }
+                        stmt.close();
+                        con.close();
+                    } catch(SQLException e) {
+                        out.println("SQLException caught: " + e.getMessage());
+                    }
+
+
+                %>
+                <input type="email" name="email" class="formtext" id="email">
 
                 <label for="firstname" id="fname-label">First Name:</label>
                 <input type="text" name="firstname" class="formtext" id="firstname">
@@ -31,7 +64,22 @@
                 <input type="text" name="username" class="formtext" id="username">
                 
                 <label for="password" id="password-label">Password:</label>
-                <input type="password" name="password" class="formtext" id="password">
+                <%
+                    String myPassword = (String)request.getParameter("password");
+                    Boolean passLengthCondition = (myPassword != null) && (myPassword.length() < 8);
+                    Boolean passNumberCondition = (myPassword != null) && (!myPassword.matches(".*\\d.*"));
+                    if (passLengthCondition) { //change to be a long list of illegal password conditions
+                %>
+                        <p id="password-error" style="color: red;">Password must be 8 characters or more</p>
+                <%
+                    } else if (passNumberCondition) {
+                %>
+                        <p id="password-error" style="color: red;">Password must include a number</p>
+                <%
+                    } 
+                %>
+                
+                <input type="password" name="password" class="formtext" id="password"> 
                 
                 <label for="role" id="role">Choose Account Type:</label>
                 <fieldset id="role-radios">                    
@@ -49,41 +97,38 @@
         </div>
     </div>
     <%
-      String db = "RentalProj";
-        String user; // assumes database name is the same as username
-          user = "root";
-        String password = "ENTERYOURPASSWORD"; //enter your password
         try {
             java.sql.Connection con;
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/RentalProj?autoReconnect=true&useSSL=false",user, password);
-            out.println(db + " database successfully opened.<br/><br/>");
 
-            out.println("Initial entries in table \"Users\": <br/>");
             Statement stmt = con.createStatement();
 
             if (request.getParameter("submit") != null) {
-                out.println("Submit button clicked <br/>");
-
-                String idQuery = "SELECT user_id FROM User ORDER BY user_id DESC LIMIT 1";
-                ResultSet rs = stmt.executeQuery(idQuery);
-                rs.next();
-                int newID = rs.getInt(1) + 1;
-                out.println(newID);
-                rs.close(); 
-
+                
                 // get form items
-                String myEmail = (String)request.getParameter("email");
-                String myPassword = (String)request.getParameter("password");
                 String myFName = (String)request.getParameter("firstname");
                 String myLName = (String)request.getParameter("lastname");
+                String accType = request.getParameter("role-radios");
 
-                String query = "INSERT INTO User (user_id, email, password, first_name, last_name, acc_type) VALUES (" + String.valueOf(newID) + ", \'" + myEmail + "\', \'" + myPassword + "\', \'" + myFName + "\', \'" + myLName + "\', 'Renter');";
+                boolean allConditions = (!passLengthCondition) && (!passNumberCondition) && (!emailInvalid);
 
-                int ri = stmt.executeUpdate(query);
-                out.println(ri);  
-                String redirectURL = "http://localhost:8080/verify-id.jsp";
-                response.sendRedirect(redirectURL);
+                if (allConditions) {
+                    String idQuery = "SELECT user_id FROM User ORDER BY user_id DESC LIMIT 1";
+                    ResultSet rs = stmt.executeQuery(idQuery);
+                    rs.next();
+                    int newID = rs.getInt(1) + 1;
+                    out.println(newID);
+                    rs.close(); 
+
+                    String query = "INSERT INTO User (user_id, email, password, first_name, last_name, acc_type) VALUES (" + String.valueOf(newID) + ", \'" + myEmail + "\', \'" + myPassword + "\', \'" + myFName + "\', \'" + myLName + "\', \'" + accType + "\');";
+
+                    int ri = stmt.executeUpdate(query);
+                    out.println(ri);  
+                    String redirectURL = "http://localhost:8080/verify-id.jsp";
+                    response.sendRedirect(redirectURL);
+                }
+            
             }
             stmt.close();
             con.close();
@@ -91,5 +136,6 @@
             out.println("SQLException caught: " + e.getMessage());
         }
     %>
+
 </body>
 </html>
