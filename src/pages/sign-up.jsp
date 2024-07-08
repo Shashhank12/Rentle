@@ -11,7 +11,7 @@
         String db = "RentalProj";
         String user; // assumes database name is the same as username
         user = "root";
-        String password = "PASSWORD"; //enter your password
+        String password = "ENTERPASSWORD"; //enter your password
     %>
     <title>Sign Up</title>
 </head>
