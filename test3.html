@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CS157A Project</title>
+    <link rel="stylesheet" href="main3.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="test.js"></script>
+    <script src="jquery-3.7.1.min.js"></script>
+</head>
+<body style="overflow-x: hidden;">
+    <img src="image1.png" alt = "" class="rectangle-image">
+    <div class="leftbar">
+        <input type="text" id="location_search" name="searchbox" placeholder="Address, ZIP Code, ...">
+
+        <div class="icon_circle">
+            <div class="icon"></div>
+        </div>
+
+        <div class="search_icon"></div>
+
+        <div id="notification">
+            <div class="notification_icon"></div>
+            <div class="notification_text"> Notifications </div>
+        </div>
+
+        <div id="messages">
+            <div class="messages_icon"></div>
+            <div class="messages_text"> Messages </div>
+        </div>
+
+        <div id="renting">
+            <div class="renting_icon"></div>
+            <div class="renting_text"> Suggested </div>
+        </div>
+
+        <div id="friends">
+            <div class="friends_icon"></div>
+            <div class="friends_text"> Connections </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="category_module">
+            <div class="category_icon_background">
+                <div class="category_icon"></div>
+            </div>
+            <div class="category_text"> Category</div>
+            <div class="category_dropdown_arrow"></div>
+        </div>
+
+        <div class="category_list">
+            <ul class="category-dropdown-content">
+                <li><a href="#">Bikes</a></li>
+                <li><a href="#">Scooters</a></li>
+                <li><a href="#">Google Cars</a></li>
+                <li><a href="#">Trucks</a></li>
+                <li><a href="#">SUVs</a></li>
+                <li><a href="#">Skateboards</a></li>
+            </ul>
+        </div>
+
+        <div class="features_module">
+            <div class="features_icon_background">
+                <div class="features_icon"></div>
+            </div>
+            <div class="features_text"> Features</div>
+            <div class="features_dropdown_arrow"></div>
+        </div>
+
+        <div class="features_list">
+            <ul class="features-dropdown-content">
+                <li><a href="#">Four-wheel</a></li>
+                <li><a href="#">Electric</a></li>
+                <li><a href="#">Tough terrains</a></li>
+                <li><a href="#">Good-looking</a></li>
+                <li><a href="#">Auto-pilot</a></li>
+                <li><a href="#">Trending</a></li>
+            </ul>
+        </div>
+
+        <div id="price">
+            <div id="price_container_1">
+                <div class="prices_icon"></div>
+                <div class="prices_text"> Price </div>
+            </div>
+            <div id="price_container_2">
+                <input type="text" id="min_price" name="min_price" placeholder="Min.">
+                <div class="to"> to </div>
+                <input type="text" id="max_price" name="max_price" placeholder="Max.">
+            </div>
+        </div>
+
+        <div id="location">
+            <div id="location_container_1">
+                <div class="location_icon"></div>
+                <div class="location_text"> Location (miles) </div>
+            </div>
+            <div id="location_container_2">
+                <input type="text" id="min_location" name="min_location" placeholder="Min.">
+                <div class="to"> to </div>
+                <input type="text" id="max_location" name="max_location" placeholder="Max.">
+            </div>
+        </div>
+
+        <div id="return">
+            <div id="return_module">
+                <div class="return_icon"></div>
+                <div class="return_text"> Return? </div>
+            </div>
+            <div id="return_yes_module">
+                <div class="return_yes_text"> Yes </div>
+                <div class="return_checkbox_yes"></div>
+                <div class="return_check_yes"></div>
+            </div>
+            <div id="return_no_module">
+                <div class="return_no_text"> No </div>
+                <div class="return_checkbox_no"></div>
+                <div class="return_check_no"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="homepage_bar">
+        <img src="image2.png" alt = "" class="logo">
+        <div class="settings_icon"></div>
+        <div class="shopping_icon"></div>
+        <div id="signup_container">
+            <div class="signup_login_button">
+                <div class="signup_login_text"> Signup / login</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="login-module">
+        <div class="login-background">
+            <div class="username"> Username </div>
+            <input type="text" id="username" name="searchbox" placeholder="Email, username, or phone number">
+            <div class="password"> Password </div>
+            <input type="password" id="password" name="searchbox" placeholder="">
+            <div id="login-button-module">
+                <div class="login_button_background"></div>
+                <div class="login_text"> Login </div>
+            </div>
+            <div id="signup_notification_component">
+                <div class="not_a_member_text"> Not a member? </div>
+                <div class="signup_hyperlink"> Sign up</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="wrapper">
+        <div class="rectangle">
+            <div class="rectangle_center_component" id="rectangle_center_component"></div>
+        </div>
+    </div>
+    <div class="rightbar" id="rightbar"></div>
+    <script>
+        var wrapper = document.getElementById("wrapper");
+        var rectangle_center_component = document.getElementById("rectangle_center_component");
+        var right_bar = document.getElementById("rightbar");
+        handleDrag(wrapper, rectangle_center_component, right_bar);
+    </script>
+
+    <script>
+        var category_dropdown_arrow = document.getElementsByClassName("category_dropdown_arrow");
+        var features_dropdown_arrow = document.getElementsByClassName("features_dropdown_arrow");
+
+        var category_list = document.getElementsByClassName("category_list");
+        var features_list = document.getElementsByClassName("features_list");
+
+        handleClickDropdown(category_dropdown_arrow[0], category_list[0]);
+        handleClickDropdown(features_dropdown_arrow[0], features_list[0]);
+    </script>
+
+    <script>
+        const signupContainer = document.querySelector('#signup_container');
+        const loginModule = document.querySelector('#login-module');
+        
+        handleClickShowModule(signupContainer, loginModule);
+
+        document.addEventListener('click', (event) => {
+            const withinBoundaries = event.composedPath().includes(signupContainer) || event.composedPath().includes(loginModule);
+
+            if (!withinBoundaries && loginModule.style.display === 'block') {
+                loginModule.style.display = 'none';
+            }
+        });
+    </script>
+
+
+
+</body>
+</html>
