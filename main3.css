@@ -52,13 +52,16 @@
     align-items: center;
     justify-content: center;
     right: 3%;
+    cursor: pointer;
 }
 .signup_login_button {
     width: 100%;
     height: 60%;
     border: 2px solid black;
+    transition: border-color 0.3s ease;
     border-radius: 7.5px 7.5px 7.5px 7.5px;
     background: white;
+    transition: background-color 0.3s ease;
     position: relative;
     align-items: center;
     display: flex;
@@ -69,6 +72,15 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+}
+#signup_container:hover .signup_login_button {
+    border: 2.5px solid black;
+    background: rgb(251, 222, 169);
+    
+}
+#signup_container:focus .signup_login_button {
+    border: 2.5px solid black;
+    background: rgb(245, 221, 176);
 }
 #login-module {
     z-index: 3;
@@ -250,7 +262,7 @@
     left: 0px;
     bottom: 0px;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .leftbar:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
@@ -502,10 +514,53 @@
     width: 92.5%;
     height: 1.5px;
     position: relative;
-    background: rgb(3, 12, 20, 0.5);
+    background: rgba(80, 83, 86, 0.5);
     left: 50%;
     transform: translateX(-50%);
     top: 8.75%;
+}
+
+#interested_rents {
+    align-self: center;
+    position: relative;
+    top: 11%;
+    left: 9%;
+    width: 73.5%;
+    height: 2.5%;
+    font-family: 'Montserrat', sans-serif;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid rgb(133, 133, 134);
+    transition: border-bottom 0.3s ease;
+    background-color: transparent; 
+    padding-right: 9%;
+    z-index: 2;
+}
+#interested_rents:hover {
+    border-bottom: 2px solid rgb(241, 112, 236);
+    outline: none;
+}
+#interested_rents:focus {
+    border-bottom: 2px solid rgb(241, 112, 236);
+    outline: none;
+}
+.searchrent_icon {
+    align-self: center;
+    font-size: 17px;
+    color: rgba(29, 20, 20, 0.836);
+    position: absolute;
+    right: 7.5%;
+    top: 29.65%;
+    z-index: 3;
+}
+.searchrent_icon::before {
+    content: "\f002";
+    font-family: FontAwesome;
+    position: relative;
+}
+.searchrent_icon:hover {
+    color: rgb(228, 73, 182);
 }
 
 .category_module {
@@ -520,7 +575,7 @@
     border-bottom-left-radius: 7.5px;
     border-bottom: 2px solid black;
     background: white;
-    top: 11.5%;
+    top: 13.5%;
     left: 8%;
 }
 .category_icon_background {
@@ -596,7 +651,7 @@
     position: relative;
     background: white;
     left: 8%;
-    top: 13%;
+    top: 15%;
     overflow: scroll;
     display: none;
 }
@@ -641,7 +696,7 @@
     border-bottom-left-radius: 7.5px;
     border-bottom: 2px solid black;
     background: white;
-    top: 14%;
+    top: 15.5%;
     left: 8%;
 }
 .features_icon_background {
@@ -720,7 +775,7 @@
     position: relative;
     background: white;
     left: 8.5%;
-    top: 15%;
+    top: 17%;
     overflow: scroll;
     display: none;
 }
@@ -755,7 +810,7 @@
     display: flex;
     flex-direction: column;
     left: 7.5%;
-    top: 16.5%;
+    top: 17.25%;
     width: 100%;
     height: 15%;
 }
@@ -880,7 +935,7 @@
     font-size: 17.75px;
 }
 
-#return {
+#condition {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -889,19 +944,19 @@
     width: 100%;
     height: 15%;
 }
-#return_module {
+#condition_module {
     display: flex;
 }
-.return_icon {
+.condition_icon {
     font-size: 25.5px;
     color: #100707;
     transition: color 0.3s ease;
 }
-.return_icon::before {
-    content: "\f0e2";
+.condition_icon::before {
+    content: "\f013";
     font-family: FontAwesome;
 }
-.return_text {
+.condition_text {
     color: black;
     position: relative;
     font-family: 'Montserrat', sans-serif;
@@ -912,11 +967,12 @@
     left: 6%;
     transform: translateY(7.5%);
 }
-#return_yes_module {
+#condition_module_2 {
     display: flex;
     transform: translateY(20%);
+    margin-bottom: 15px;
 }
-.return_yes_text {
+.condition_text_2 {
     color: black;
     position: relative;
     font-family: 'Montserrat', sans-serif;
@@ -925,7 +981,7 @@
     transition: color 0.3s ease;
     transition: font-size 0.3s ease;
 }
-.return_checkbox_yes {
+.condition_checkbox {
     width: 20px;
     height: 20px;
     background: white;
@@ -933,29 +989,14 @@
     border: 2px solid black;
     right: 15%;
 }
-#return_no_module {
-    display: flex;
-    transform: translateY(90%);
-}
-.return_no_text {
-    color: black;
+
+.space {
+    width: 5%;
+    height: 5%;
+    background: rgb(255, 255, 255);
     position: relative;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16.5px;
-    font-weight: bold;
-    transition: color 0.3s ease;
-    transition: font-size 0.3s ease;
+    top: 10%;
 }
-.return_checkbox_no {
-    width: 20px;
-    height: 20px;
-    background: white;
-    position: absolute;
-    border: 2px solid black;
-    right: 15%;
-}
-
-
 
 
 #wrapper {
@@ -989,4 +1030,84 @@
     position: fixed;
     right: 0px;
     bottom: 0px;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.add_button {
+    width: 20px;
+    height: 20px;
+    background: red;
+    border: 1px solid black;
+    top: 10%;
+    left: 5%;
+    position: relative;
+    cursor: pointer;
+}
+
+.grid_container {
+    display: grid;
+    position: relative;
+    top: 20%;
+    grid-template-columns: repeat(auto-fill, minmax(19vw, 1fr));
+    justify-items: center;
+    gap: 10px;
+}
+.grid_item {
+    background: rgb(249, 237, 238);
+    border: 2px solid black;
+    width: 90%;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 20px 20px 8.5px 8.5px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25%;
+}
+.item_image {
+    position: relative;
+    width: 97.5%;
+    height: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 2.25%;
+    border-radius: 15px 15px 0px 0px;
+}
+.item_module_1 {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+.item_name {
+    position: relative;
+    left: 1.5%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    top: 1.5%;
+}
+.item_module_2 {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    left: 1.5%;
+    gap: 3px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+}
+.item_location {
+    position: relative;
+    left: 1.8%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11.5px;
+    font-weight: 500;
+}
+.item_price {
+    position: absolute;
+    right: 2%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: 600;
 }

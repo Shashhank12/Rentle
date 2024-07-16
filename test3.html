@@ -41,6 +41,9 @@
 
         <div class="line"></div>
 
+        <input type="text" id="interested_rents" name="searchbox" placeholder="What's in your mind?...">
+        <div class="searchrent_icon"></div>
+
         <div class="category_module">
             <div class="category_icon_background">
                 <div class="category_icon"></div>
@@ -103,29 +106,36 @@
             </div>
         </div>
 
-        <div id="return">
-            <div id="return_module">
-                <div class="return_icon"></div>
-                <div class="return_text"> Return? </div>
+        <div id="condition">
+            <div id="condition_module">
+                <div class="condition_icon"></div>
+                <div class="condition_text"> Condition </div>
             </div>
-            <div id="return_yes_module">
-                <div class="return_yes_text"> Yes </div>
-                <div class="return_checkbox_yes"></div>
-                <div class="return_check_yes"></div>
+            <div id="condition_module_2">
+                <div class="condition_text_2"> New </div>
+                <div class="condition_checkbox"></div>
+                <div class="condition_check"></div>
             </div>
-            <div id="return_no_module">
-                <div class="return_no_text"> No </div>
-                <div class="return_checkbox_no"></div>
-                <div class="return_check_no"></div>
+            <div id="condition_module_2">
+                <div class="condition_text_2"> Used - Good </div>
+                <div class="condition_checkbox"></div>
+                <div class="condition_check"></div>
+            </div>
+            <div id="condition_module_2">
+                <div class="condition_text_2"> Used - Fair </div>
+                <div class="condition_checkbox"></div>
+                <div class="condition_check"></div>
             </div>
         </div>
+
+        <div class="space"></div>
 
     </div>
     <div class="homepage_bar">
         <img src="image2.png" alt = "" class="logo">
         <div class="settings_icon"></div>
         <div class="shopping_icon"></div>
-        <div id="signup_container">
+        <div tabindex="0" id="signup_container">
             <div class="signup_login_button">
                 <div class="signup_login_text"> Signup / login</div>
             </div>
@@ -154,7 +164,120 @@
             <div class="rectangle_center_component" id="rectangle_center_component"></div>
         </div>
     </div>
-    <div class="rightbar" id="rightbar"></div>
+    <div class="rightbar" id="rightbar">
+        <div class="add_button"> + </div>
+        <div class="grid_container">
+            <div class="grid_item">
+                <img src="image3.png" alt = "" class="item_image">
+                <div class="item_name"> Bicycle for rent! </div>
+                <div class="item_module_1">
+                    <div class="item_module_2">
+                        <div class="item_category"> Bike - </div>
+                        <div class="item_feature"> Multiple gears </div>
+                    </div>
+                    <div class="item_price"> $15 </div>
+                </div>
+                <div class="item_location"> San Jose, CA </div>
+            </div>
+
+            <div class="grid_item">
+                <img src="image4.png" alt = "" class="item_image">
+                <div class="item_name"> Waymo 5th Generation </div>
+                <div class="item_module_1">
+                    <div class="item_module_2">
+                        <div class="item_category"> Automobile - </div>
+                        <div class="item_feature"> Self-driving </div>
+                    </div>
+                    <div class="item_price"> $19.5 </div>
+                </div>
+                <div class="item_location"> Mountain View, CA </div>
+            </div>
+
+            <div class="grid_item">
+                <img src="image5.png" alt = "" class="item_image">
+                <div class="item_name"> Gotrax Scooter Rent $1/hour </div>
+                <div class="item_module_1">
+                    <div class="item_module_2">
+                        <div class="item_category"> Scooter - </div>
+                        <div class="item_feature"> Speakers </div>
+                    </div>
+                    <div class="item_price"> $12.5 </div>
+                </div>
+                <div class="item_location"> Hayward, CA </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#signup_container').on('click', function() {
+                $(this).toggleClass('clicked');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            let rightbar = document.querySelector('.rightbar');
+            let gridContainer = document.querySelector('.grid_container');
+            let gridItems = document.querySelectorAll('.grid_item');
+
+            let initialRightBarWidth = rightbar.clientWidth;
+            let initialHeight = (window.innerWidth - 50) * 0.14; 
+            let initialHeight2 = 0;
+            let bool = 0;
+
+            gridItems.forEach(item => {
+                item.style.height = `${initialHeight}px`;
+            });
+
+            function getGridColumnCount() {
+                let style = window.getComputedStyle(gridContainer);
+                let columns = style.getPropertyValue('grid-template-columns');
+                let columnCount = columns.split(' ').filter(column => column !== '').length;
+                return columnCount;
+            }
+
+            let initialColumnCount = getGridColumnCount();
+
+            function adjustHeight() {
+                const currentColumnCount = getGridColumnCount();
+                const currentRightBarWidth = rightbar.clientWidth;
+                const heightDifference = currentRightBarWidth - initialRightBarWidth;
+                let newHeight;
+
+                if (initialColumnCount === currentColumnCount) {
+                    if (bool === 1) {
+                        newHeight = initialHeight2 + heightDifference * 0.25;
+                    } else {
+                        newHeight = initialHeight + heightDifference * 0.25;
+                    }
+                } else {
+                    console.log(initialColumnCount, currentColumnCount);
+                    if (initialColumnCount < currentColumnCount) {
+                        newHeight = initialHeight;
+                        bool = 0;
+                    } else {
+                        newHeight = initialHeight2;
+                        bool = 1;
+                    }
+                    initialColumnCount = currentColumnCount;
+                    initialRightBarWidth = currentRightBarWidth;
+                }
+
+                if (newHeight >= initialHeight2) {
+                    initialHeight2 = newHeight;
+                }
+                gridItems.forEach(item => {
+                    item.style.height = `${newHeight}px`;
+                });
+            }   
+            const resizeObserver = new ResizeObserver(adjustHeight);
+            resizeObserver.observe(rightbar);
+        });
+    </script>
+
     <script>
         var wrapper = document.getElementById("wrapper");
         var rectangle_center_component = document.getElementById("rectangle_center_component");
@@ -183,6 +306,14 @@
             const withinBoundaries = event.composedPath().includes(signupContainer) || event.composedPath().includes(loginModule);
 
             if (!withinBoundaries && loginModule.style.display === 'block') {
+                loginModule.style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            const noColor = event.composedPath().includes(signupContainer) || event.composedPath().includes(loginModule);
+
+            if (!noColor && loginModule.style.background === 'block') {
                 loginModule.style.display = 'none';
             }
         });
