@@ -8,10 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <%
-        String db = "RentalProj";
+        String db = "rentle";
         String user; // assumes database name is the same as username
         user = "root";
-        String password = "ENTERPASSWORD"; //enter your password
+        String password = "PASSWORD"; //enter your password
     %>
     <title>Sign Up</title>
 </head>
@@ -31,11 +31,11 @@
                     try {
                         java.sql.Connection con;
                         Class.forName("com.mysql.jdbc.Driver");
-                        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/RentalProj?autoReconnect=true&useSSL=false",user, password);
+                        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
             
                         Statement stmt = con.createStatement();
 
-                        String checkEmailQuery = "SELECT COUNT(email) FROM User WHERE email='" + myEmail+"'";
+                        String checkEmailQuery = String.format("SELECT COUNT(email) FROM user WHERE email='myEmail'", myEmail);
                         ResultSet rs = stmt.executeQuery(checkEmailQuery);
                         rs.next();
                         if (rs.getInt(1) == 1) {
@@ -49,8 +49,6 @@
                     } catch(SQLException e) {
                         out.println("SQLException caught: " + e.getMessage());
                     }
-
-
                 %>
                 <input type="email" name="email" class="formtext" id="email">
 
@@ -59,9 +57,6 @@
 
                 <label for="lastname" id="lname-label">Last Name:</label>
                 <input type="text" name="lastname" class="formtext" id="lastname">
-
-                <label for="username" id="username-label">Username:</label>
-                <input type="text" name="username" class="formtext" id="username">
                 
                 <label for="password" id="password-label">Password:</label>
                 <%
@@ -100,7 +95,7 @@
         try {
             java.sql.Connection con;
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/RentalProj?autoReconnect=true&useSSL=false",user, password);
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
 
             Statement stmt = con.createStatement();
 
@@ -121,11 +116,13 @@
                     out.println(newID);
                     rs.close(); 
 
-                    String query = "INSERT INTO User (user_id, email, password, first_name, last_name, acc_type) VALUES (" + String.valueOf(newID) + ", \'" + myEmail + "\', \'" + myPassword + "\', \'" + myFName + "\', \'" + myLName + "\', \'" + accType + "\');";
+                    String SALT = "ZZdD";
+                    String query = String.format("INSERT INTO user (user_id, email, first_name, last_name, password, salt) VALUES (%s, '%s', '%s', '%s', '%s', '%s');", String.valueOf(newID), myEmail, myFName, myLName, myPassword, SALT);
 
                     int ri = stmt.executeUpdate(query);
-                    out.println(ri);  
-                    String redirectURL = "http://localhost:8080/verify-id.jsp";
+                    
+                    session.setAttribute("userID", newID);
+                    String redirectURL = "http://localhost:8080/home.jsp";
                     response.sendRedirect(redirectURL);
                 }
             
