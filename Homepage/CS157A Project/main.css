@@ -1,0 +1,60 @@
+#rect1 {
+  width: 100px;
+  height: 500px;
+  background: blue;
+  position: absolute;
+  display: none;
+}
+
+#rect2 {
+  width: 100px;
+  height: 500px;
+  background: rgb(255, 0, 230);
+  display: none;
+
+}
+
+#rect3 {
+  width: 100px;
+  height: 500px;
+  background: rgb(255, 106, 0);
+  display: none;
+
+}
+
+#rect4 {
+  width: 100px;
+  height: 500px;
+  background: rgb(0, 255, 17);
+  display: none;
+
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+}
+
+#button1 {
+  width: 10px;
+  height: 10px;
+  background: blue;
+}
+
+#button2 {
+  width: 10px;
+  height: 10px;
+  background: pink;
+}
+
+#button3 {
+  width: 10px;
+  height: 10px;
+  background: orange;
+}
+
+#button4 {
+  width: 10px;
+  height: 10px;
+  background: green;
+}
