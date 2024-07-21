@@ -5,70 +5,26 @@
     <link rel="stylesheet" href="main.css" type="text/css">
 </head>
 <body flex-direction="row">
-    <div id="rect1"></div>
-    <div id="rect2"></div>
-    <div id="rect3"></div>
-    <div id="rect4"></div>
-
-    <button id="myButton1">Click Me 1</button>
-    <button id="myButton2">Click Me 2</button>
-    <button id="myButton3">Click Me 3</button>
-    <button id="myButton4">Click Me 4</button>
-
-    <script>
-        const button1 = document.getElementById('myButton1');
-        const button2 = document.getElementById('myButton2');
-        const button3 = document.getElementById('myButton3');
-        const button4 = document.getElementById('myButton4');
-
-        const rect1 = document.getElementById('rect1');
-        const rect2 = document.getElementById('rect2');
-        const rect3 = document.getElementById('rect3');
-        const rect4 = document.getElementById('rect4');
-
-        button1.addEventListener('click', function() {
-            if (rect1.style.display === 'none') {
-                rect1.style.display = 'block';
-                rect2.style.display = 'none';
-                rect3.style.display = 'none';
-                rect4.style.display = 'none';
-            } else {
-                rect1.style.display = 'none';
-            }
-        });
-
-        button2.addEventListener('click', function() {
-            if (rect2.style.display === 'none') {
-                rect2.style.display = 'block';
-                rect1.style.display = 'none';
-                rect3.style.display = 'none';
-                rect4.style.display = 'none';
-            } else {
-                rect2.style.display = 'none';
-            }
-        });
-
-        button3.addEventListener('click', function() {
-            if (rect3.style.display === 'none') {
-                rect3.style.display = 'block';
-                rect1.style.display = 'none';
-                rect2.style.display = 'none';
-                rect4.style.display = 'none';
-            } else {
-                rect3.style.display = 'none';
-            }
-        });
-
-        button4.addEventListener('click', function() {
-            if (rect4.style.display === 'none') {
-                rect4.style.display = 'block';
-                rect1.style.display = 'none';
-                rect2.style.display = 'none';
-                rect3.style.display = 'none';
-            } else {
-                rect4.style.display = 'none';
-            }
-        });
-    </script>
+    <div class="add_item_module">
+        <div class="add_item_photo_container">
+            <img src="test_add_image_1.png" alt = "" class="photo_item">
+            <img src="test_add_image_2.png" alt = "" class="photo_item">
+            <img src="test_add_image_3.png" alt = "" class="photo_item">
+            <img src="test_add_image_4.png" alt = "" class="photo_item">
+            <img src="test_add_image_5.png" alt = "" class="photo_item">
+            <img src="test_add_image_1.png" alt = "" class="photo_item">
+            <img src="test_add_image_2.png" alt = "" class="photo_item">
+            <img src="test_add_image_3.png" alt = "" class="photo_item">
+            <img src="test_add_image_4.png" alt = "" class="photo_item">
+            <img src="test_add_image_5.png" alt = "" class="photo_item">
+            <img src="test_add_image_4.png" alt = "" class="photo_item">
+            <img src="test_add_image_5.png" alt = "" class="photo_item">
+            <img src="test_add_image_1.png" alt = "" class="photo_item">
+            <img src="test_add_image_2.png" alt = "" class="photo_item">
+            <img src="test_add_image_3.png" alt = "" class="photo_item">
+            <img src="test_add_image_4.png" alt = "" class="photo_item">
+            <img src="test_add_image_5.png" alt = "" class="photo_item">
+        </div>
+    </div>
 </body>
 </html>

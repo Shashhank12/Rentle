@@ -37,6 +37,7 @@
     font-size: 25px;
     color: rgba(29, 20, 20, 0.836);
     right: 14.5%;
+    cursor: pointer;
 }
 .shopping_icon::before {
     content: "\f07a";
@@ -246,6 +247,67 @@
     text-decoration: underline;
     color: rgb(121, 192, 221);
 }
+.cart_module {
+    width: 15%;
+    height: 20%;
+    position: absolute;
+    right: 12%;
+    top: 6%;
+    z-index: 4;
+    border: 2px solid black;
+    border-radius: 7.5px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+.cart_list {
+    display: flex;
+    flex-direction: column;
+}
+.cart_item {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+.cart_item_quantity {
+    margin-left: auto;
+}
+.cart_item_price_module {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+}
+.rent_now {
+    margin-left: auto;
+    color: green;
+    position: relative;
+    top: 15%;
+    cursor: pointer;
+}
+.cart_total_module {
+    display: flex;
+    flex-direction: row;
+}
+.cart_total_price {
+    margin-left: auto;
+}
+.cart_payment_module {
+    width: 15%;
+    height: 20%;
+    position: absolute;
+    right: 12%;
+    top: 6%;
+    z-index: 4;
+    border: 2px solid black;
+    border-radius: 7.5px;
+    background: white;
+    display: none;
+    flex-direction: column;
+}
+.cart_payment_submit {
+    color: green;
+    cursor: pointer;
+}
 
 
 
@@ -274,15 +336,20 @@
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Maintain aspect ratio and cover whole container */
-    z-index: -4; /* Send the image to the background */
+    object-fit: cover;
+    z-index: -4;
+}
+
+.location_search_module {
+    display: flex;
+    flex-direction: row;
+    left: 8.5%;
+    top: 3%;
+    position: relative;
 }
 
 #location_search {
-    align-self: center;
     position: relative;
-    top: 2.25%;
-    left: 9%;
     width: 63%;
     height: 2.5%;
     font-family: 'Montserrat', sans-serif;
@@ -293,7 +360,7 @@
     transition: border-bottom 0.3s ease;
     background-color: transparent; 
     padding-right: 9%;
-    z-index: 2;
+    font-size: 15px;
 }
 #location_search:hover {
     border-bottom: 2px solid rgb(148, 190, 216);
@@ -311,16 +378,16 @@
     background: rgb(193, 215, 240);
     align-items: center;
     justify-content: center;
-    position: absolute;
+    position: relative;
     display: flex;
-    right: 4%;
-    top: 1.75%;
+    margin-top: -2%;
+    right: 2%;
 }
 .icon {
     align-self: center;
+    justify-content: center;
     font-size: 20px;
     color: rgba(234, 21, 21, 0.526);
-    z-index: 3;
 }
 .icon:before {
     content: "\f041";
@@ -337,15 +404,13 @@
     align-self: center;
     font-size: 17px;
     color: rgba(29, 20, 20, 0.836);
-    position: absolute;
-    right: 18%;
-    top: 2.25%;
-    z-index: 3;
+    position: relative;
+    right: 6%;
+    margin-top: -1%;
 }
 .search_icon::before {
     content: "\f002";
     font-family: FontAwesome;
-    position: relative;
 }
 .search_icon:hover {
     color: rgb(96, 164, 240);
@@ -353,7 +418,7 @@
 
 #your_rentals {
     position: relative;
-    width: 35px;
+    width: 60%;
     height: auto;
     display: flex;
     top: 5%;
@@ -378,7 +443,8 @@
     transition: color 0.3s ease;
     transition: font-size 0.3s ease;
     transition: top 0.325s ease;
-    transition: left 0.325s ease; 
+    transition: left 0.325s ease;
+    right: 1%; 
 }
 #your_rentals:hover .your_rentals_icon,
 #your_rentals:hover .your_rentals_text {
@@ -393,7 +459,7 @@
 
 #your_rentings {
     position: relative;
-    width: 35px;
+    width: 60%;
     height: auto;
     display: flex;
     top: 5.75%;
@@ -418,7 +484,7 @@
     transition: color 0.3s ease;
     transition: font-size 0.3s ease;
     transition: top 0.325s ease;
-    transition: left 0.325s ease;     
+    transition: left 0.325s ease;    
 }
 #your_rentings:hover .your_rentings_icon,
 #your_rentings:hover .your_rentings_text {
@@ -520,11 +586,16 @@
     top: 8.75%;
 }
 
+.searchrent_module {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: 8.5%;
+    top: 11.25%;
+}
 #interested_rents {
     align-self: center;
     position: relative;
-    top: 11%;
-    left: 9%;
     width: 73.5%;
     height: 2.5%;
     font-family: 'Montserrat', sans-serif;
@@ -535,7 +606,7 @@
     transition: border-bottom 0.3s ease;
     background-color: transparent; 
     padding-right: 9%;
-    z-index: 2;
+    font-size: 15px;
 }
 #interested_rents:hover {
     border-bottom: 2px solid rgb(241, 112, 236);
@@ -549,15 +620,12 @@
     align-self: center;
     font-size: 17px;
     color: rgba(29, 20, 20, 0.836);
-    position: absolute;
-    right: 7.5%;
-    top: 29.65%;
-    z-index: 3;
+    position: relative;
+    right: 6%;
 }
 .searchrent_icon::before {
     content: "\f002";
     font-family: FontAwesome;
-    position: relative;
 }
 .searchrent_icon:hover {
     color: rgb(228, 73, 182);
@@ -654,9 +722,7 @@
     top: 15%;
     overflow: scroll;
     display: none;
-}
-.category_list::-webkit-scrollbar {
-    display: none;
+    scrollbar-width: none;
 }
 .category-dropdown-content {
     list-style: none;
@@ -778,9 +844,7 @@
     top: 17%;
     overflow: scroll;
     display: none;
-}
-.features_list::-webkit-scrollbar {
-    display: none;
+    scrollbar-width: none;
 }
 .features-dropdown-content {
     list-style: none;
@@ -935,12 +999,77 @@
     font-size: 17.75px;
 }
 
+#duration {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    left: 7.5%;
+    top: 7%;
+    width: 100%;
+    height: 15%;
+}
+#duration_container_1 {
+    display: flex;
+}
+.durations_icon {
+    font-size: 25.5px;
+    color: #100707;
+    transition: color 0.3s ease;
+}
+.durations_icon::before {
+    content: "\f601";
+    font-family: FontAwesome;
+}
+.durations_text {
+    color: black;
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    transition: font-size 0.3s ease;
+    left: 6%;
+    transform: translateY(7.5%);
+}
+#duration_container_2 {
+    display: flex;
+    height: 100%;
+    transform: translateY(5%);
+}
+#min_duration, #max_duration {
+    width: 25%;
+    height: 30%;
+    background: rgb(255,255,255);
+    padding-left: 10px;
+    position: relative;
+    border-radius: 15px 15px 15px 15px;
+    border: 3px solid rgb(228, 29, 39);
+    transition: border-color 0.3s ease;
+    transition: font-size 0.3s ease;
+    font-size: 15px;
+}
+.to {
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: bold;
+    position: relative;
+    margin: 6.5%;
+    top: -15%;
+    justify-content: space-between;
+}
+#min_duration:hover, #max_duration:hover, #min_duration:focus, #max_duration:focus {
+    border: 3px solid rgb(213, 238, 90);
+    outline: none;
+    font-size: 17.75px;
+}
+
 #condition {
     position: relative;
     display: flex;
     flex-direction: column;
     left: 7.5%;
-    top: 7.5%;
+    top: 2.5%;
     width: 100%;
     height: 15%;
 }
@@ -989,7 +1118,6 @@
     border: 2px solid black;
     right: 15%;
 }
-
 .space {
     width: 5%;
     height: 5%;
@@ -1035,6 +1163,100 @@
     overflow-y: auto;
     scrollbar-width: none;
 }
+
+.add_item {
+    position: relative;
+    width: 100px;
+    height: 3%;
+    background: rgb(205, 247, 197);
+    border: 2px solid rgb(90, 88, 88);
+    border-radius: 7.5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    transition: all 0.15s ease-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 18%;
+    left: 22.5px;
+    cursor: pointer;
+}
+.add_item:hover {
+    background: rgb(81, 196, 81);
+    font-size: 16px;
+    border: 2px solid black;
+}
+.sort_module {
+    display: flex;
+    flex-direction: row;
+    width: 100px;
+    height: 3%;
+    position: absolute;
+    background: rgb(199, 199, 235);
+    transition: all 0.3s ease-in;
+    border-radius: 7.5px;
+    border: 2px solid black;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+    top: 18%;
+    right: 22.5px;
+    cursor: pointer;
+}
+.sort_module:hover {
+    background: rgb(81, 81, 145)!important;
+    border: 2px solid black!important;
+}
+.sort_text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    transition: all 0.3s ease-in;
+}
+.sort_module:hover .sort_text, 
+.sort_module:hover .sort_dropdown_trigger {
+    font-size: 16px !important;
+    color: white !important;
+}
+.sort_dropdown_trigger::before {
+    content: "\f107";
+    font-family: 'FontAwesome';
+    transition: all 0.3s ease-in;
+}
+.sort_list {
+    position: absolute;
+    z-index: 4;
+    right: 9px;
+    top: 22%;
+    display: none;
+}
+.sort-dropdown-content {
+    border: 2px solid black;
+    border-radius: 7.5px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.sort-dropdown-content li {
+    background: #f6f4f4;
+    transition: background-color 0.3s ease;
+    width: 240px;
+    border: 5px solid transparent;
+    text-align: right;
+}
+.sort-dropdown-content li:hover {
+    background: rgb(197, 239, 203);
+}
+.sort-dropdown-content li a {
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+
 .grid_container {
     display: grid;
     position: relative;
@@ -1052,6 +1274,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.25%;
+    cursor: pointer;
 }
 .item_image {
     position: relative;
@@ -1100,74 +1323,973 @@
     font-weight: 600;
 }
 
+
+.add_item_module {
+    width: 65vw;
+    height: 47.5vw;
+    background: rgb(255, 255, 255);
+    border: 2px solid black;
+    border-radius: 2%;
+    z-index: 5;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.add_photo_module {
+    top: 3%;
+    position: relative;
+}
+#add_photo_background {
+    width: 10vw;
+    height: 10vw;
+    background: rgb(189, 185, 185);
+    display: flex;
+    font-size: 150px;
+    cursor: pointer;
+    border-radius: 10%;
+}
+#file-upload {
+    display: none;
+}
+#add_photos_grid {
+    display: flex;
+    width: 90%;
+    flex-direction: row;
+    position: relative;
+    gap: 15px;
+    left: 2%;
+    top: 5%;
+    border: 2px solid black;
+}
+.grid-item img {
+    width: 10vw;
+    height: 10vw;
+    border-radius: 10%;
+    bottom: 0px;
+}
+.add_item_title {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    top: 7%;
+    gap: 5px;
+}
+.item_title {
+    position: relative;
+    left: 2%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+#add_item_title_input {
+    position: relative;
+    left: 2%;
+    line-height: 2.5;
+    border-radius: 12.5px;
+    padding-left: 12.5px;
+    width: 50%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+.add_item_description {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    top: 7.5%;
+    gap: 10px;
+}
+.item_description {
+    position: relative;
+    left: 2%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+#add_item_description_input {
+    position: relative;
+    left: 2%;
+    height: 250px;
+    width: 50%;
+}
+.add_item_location, .add_item_price {
+    position: relative;
+    top: 8.5%;
+}
+.add_item_location_title, .add_item_price_title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    left: 2%;
+}
+.item_location_input_module, .item_price_input_module {
+    left: 2%;
+    width: 95%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin-top: 7.5px;
+    justify-content: space-between;
+}
+#item_location_input_address, #item_location_input_city, #item_location_input_state, #item_location_input_zip_code, #item_price_input_address, #item_price_input_city, #item_price_input_state, #item_price_input_zip_code {
+    width: 20%;
+    line-height: 2.5;
+    padding-left: 10px;
+    border-radius: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+}
+.add_item_middle_module {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 90%;
+}
+.add_item_middle_module_1 {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.add_item_cancel_add_module {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    right: 6%;
+    gap: 15px;
+}
+.add_item_cancel {
+    width: 100%;
+    height: 5%;
+    background: red;
+    position: relative;
+    cursor: pointer;
+}
+.add_item_add {
+    width: 100%;
+    height: 5%;
+    background: green;
+    position: relative;
+    cursor: pointer;
+}
+.space {
+    width: 1px;
+    height: 20px;
+    background: white;
+    position: relative;
+}
+
+
+
+.view_item_module {
+    width: 65vw;
+    height: 47.5vw;
+    background: rgb(167, 160, 160);
+    border: 2px solid black;
+    border-radius: 2%;
+    z-index: 5;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.view_item_photo_grid {
+    display: flex;
+    width: 90%;
+    flex-direction: row;
+    position: relative;
+    gap: 15px;
+    left: 2%;
+    top: 5%;
+    border: 2px solid black;
+}
+.view_item_photo {
+    width: 10vw;
+    height: 10vw;
+}
+.view_item_title {
+    top: 6%;
+    position: relative;
+}
+.view_item_description {
+    top: 20%;
+    position: relative;
+}
+.view_item_features_list {
+    position: absolute;
+    right: 6%;
+}
+.view_item_category {
+    position: absolute;
+    right: 6%;
+}
+.view_item_location {
+    position: absolute;
+    right: 6%;
+    top: 50%;
+}
+.view_item_prices_list {
+    position: absolute;
+    right: 6%;
+    top: 55%;
+}
+.view_item_add_to_cart_module {
+    position: absolute;
+    right: 6%;
+    top: 60%;
+    cursor: pointer;
+    color: green;
+}
+.view_item_close {
+    position: absolute;
+    right: 6%;
+    top: 65%;
+    cursor: pointer;
+    color: red;
+}
+
+
 #your_rentals_view {
     width: 63.25%;
     height: calc(100vh - 50px);
-    background: rgb(245, 243, 243);
+    background: rgb(255, 255, 255);
     z-index: -3;
     position: absolute;
     top: 50px;
     left: 16.75%;
-    display: block;
-    flex-direction: column;
+    display: none;
     overflow-y: auto;
     scrollbar-width: none;
 }
-.your_rentals_history_text {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 30px;
-    font-weight: 700;
-    color:rgb(93, 146, 146);
-    top: 2%;
-    left: 2%;
-    position: relative; 
-}
-.your_rentals_line {
-    width: 95.5%;
-    height: 1.5px;
+#your_rentals_top_component {
+    display: flex;
+    flex-direction: row;
+    left: 3.5%;
     position: relative;
-    background: rgb(93, 146, 146, 0.5);
-    left: 50%;
-    transform: translateX(-50%);
-    top: 2.75%;
+    top: 3%;
+    height: 4%;
 }
-.your_rentals_grid_container {
+#rentals_search {
+    width: 40%;
+    height: 100%;
+    border: 3px solid rgb(82, 210, 230);
+    transition: border 0.3s ease;
+    border-radius: 15px;
+    padding-left: 1%;
+    font-size: 17.5px;
+}
+#rentals_search:hover {
+    border: 3px solid rgb(154, 32, 142);
+    outline: none;
+}
+#rentals_search:focus {
+    border: 3px solid rgb(154, 32, 142);
+    outline: none;
+}
+#past_rentals, #current_rentals {
+    width: 10%;
+    height: 90%;
+    border: 3px solid rgb(33, 95, 95);
+    transition: border 0.1s ease, background-color 0.1s ease, color 0.1s ease;
+    background: rgba(123, 241, 241, 0.429);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    right: -30%;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(5, 23, 23);
+    right: -30%;
+}
+#current_rentals {
+    margin-left: 1%;
+}
+#past_rentals:hover {
+    border: 3px solid rgb(13, 0, 255);
+    background: rgba(169, 194, 247, 0.46);
+    color: rgb(88, 83, 83);
+}
+#current_rentals:hover {
+    border: 3px solid rgb(13, 0, 255);
+    background: rgba(169, 194, 247, 0.46);
+    color: rgb(88, 83, 83);
+}
+#your_rentals_past_grid_container, #your_rentals_current_grid_container {
     display: grid;
     position: relative;
-    left: 2%;
-    top: 5%;
+    top: 7%;
+    justify-items: center;
+    gap: 3%;
 }
-.your_rentals_grid_item {
-   width: 95.5%;
-   height: 10%;
-   background: blue;
+#your_rentals_current_grid_container {
+    display: none;
 }
-
-
-
-
+.your_rentals_past_grid_item, .your_rentals_current_grid_item {
+    background: rgb(255, 255, 255);
+    transition: box-shadow 0.3s ease;
+    width: 95.5%;
+    height: 25vh;
+    border-radius: 20px 20px 20px 20px;
+    gap: 1.25%;
+    display: flex;
+    flex-direction: row;
+}
+.your_rentals_past_grid_item_image, .your_rentals_current_grid_item_image {
+    position: relative;
+    width: 17vw;
+    height: 23vh;
+    transition: all 0.2s ease-out;
+    left: 1%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 15px 15px 15px 15px;
+    transform-origin: bottom right;
+}
+.your_rentals_past_module, .your_rentals_current_module {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1%;
+    gap: 2px;
+}
+.your_rentals_past_grid_item_title, .your_rentals_current_grid_item_title {
+    font-family: 'Montserrat', sans-serif;
+    color: black;
+    font-size: 170%;
+    font-weight: 700;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.3s ease;
+    margin-top: 2%;
+    margin-bottom: 0.5%;
+}
+.your_rentals_past_category_module, .your_rentals_current_category_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentals_past_grid_item_category, .your_rentals_current_grid_item_category {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentals_past_grid_item_category_name, .your_rentals_current_grid_item_category_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentals_past_features_module, .your_rentals_current_features_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentals_past_grid_item_features, .your_rentals_current_grid_item_features {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentals_past_grid_item_features_name, .your_rentals_current_grid_item_features_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentals_past_location_module, .your_rentals_current_location_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentals_past_grid_item_location, .your_rentals_current_grid_item_location {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentals_past_grid_item_location_name, .your_rentals_current_grid_item_location_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentals_past_date_module, .your_rentals_current_date_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentals_past_grid_item_date, .your_rentals_current_grid_item_date {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentals_past_grid_item_date_name, .your_rentals_current_grid_item_date_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentals_past_duration_module, .your_rentals_current_duration_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentals_past_grid_item_duration, .your_rentals_current_grid_item_duration {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentals_past_grid_item_duration_name, .your_rentals_current_grid_item_duration_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentals_past_price_module, .your_rentals_current_price_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentals_past_grid_item_price, .your_rentals_current_grid_item_price {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentals_past_grid_item_price_name, .your_rentals_current_grid_item_price_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_title {
+    color: rgb(40, 43, 142);
+    font-size: 200%;
+}
+.your_rentals_past_grid_item:hover {
+    box-shadow: 0 0px 10px rgb(127, 215, 233);
+}
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_category, 
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_features,
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_location,
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_date,
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_duration,
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_price {
+    color: rgb(127, 130, 209);
+    font-size: 110%;
+}
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_category_name, 
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_features_name,
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_location_name,
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_date_name,
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_duration_name,
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_price_name {
+    color: rgb(132, 140, 208);
+    font-size: 110%;
+}
+.your_rentals_past_grid_item:hover .your_rentals_past_grid_item_image{
+    box-shadow: 0 0px 10px rgb(137, 217, 247);
+    width: 19vw;
+    height: 25vh;
+}
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_title {
+    color: rgb(40, 43, 142);
+    font-size: 200%;
+}
+.your_rentals_current_grid_item:hover {
+    box-shadow: 0 0px 10px rgb(127, 215, 233);
+}
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_category, 
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_features,
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_location,
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_date,
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_duration,
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_price {
+    color: rgb(127, 130, 209);
+    font-size: 110%;
+}
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_category_name, 
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_features_name,
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_location_name,
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_date_name,
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_duration_name,
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_price_name {
+    color: rgb(132, 140, 208);
+    font-size: 110%;
+}
+.your_rentals_current_grid_item:hover .your_rentals_current_grid_item_image{
+    box-shadow: 0 0px 10px rgb(137, 217, 247);
+    width: 19vw;
+    height: 25vh;
+}
 
 
 #your_rentings_view {
     width: 63.25%;
     height: calc(100vh - 50px);
-    background: rgb(227, 227, 239);
+    background: rgb(255, 255, 255);
     z-index: -3;
     position: absolute;
     top: 50px;
     left: 16.75%;
     display: none;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
+#your_rentings_top_component {
+    display: flex;
+    flex-direction: row;
+    left: 3.5%;
+    position: relative;
+    top: 3%;
+    height: 4%;
+}
+#rentings_search {
+    width: 40%;
+    height: 100%;
+    border: 3px solid rgb(235, 158, 64);
+    transition: border 0.3s ease;
+    transition: font-size 0.3s ease;
+    border-radius: 15px;
+    padding-left: 1%;
+    font-size: 16.5px;
+}
+#rentings_search:hover {
+    border: 3px solid rgb(240, 99, 67);
+    outline: none;
+    font-size: 17.5px;
+}
+#rentings_search:focus {
+    border: 3px solid rgb(240, 99, 67);
+    outline: none;
+    font-size: 17.5px;
+}
+#past_rentings, #current_rentings {
+    width: 10%;
+    height: 90%;
+    border: 3px solid rgb(116, 76, 40);
+    transition: border 0.1s ease, background-color 0.1s ease, color 0.1s ease;
+    background: rgba(215, 181, 137, 0.429);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    right: -30%;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(5, 23, 23);
+    right: -30%;
+}
+#current_rentings {
+    margin-left: 1%;
+}
+#past_rentings:hover {
+    border: 3px solid rgb(241, 109, 86);
+    background: rgba(243, 219, 186, 0.46);
+    color: rgb(88, 83, 83);
+}
+#current_rentings:hover {
+    border: 3px solid rgb(241, 109, 86);
+    background: rgba(243, 219, 186, 0.46);
+    color: rgb(88, 83, 83);
+}
+#your_rentings_past_grid_container, #your_rentings_current_grid_container {
+    display: grid;
+    position: relative;
+    top: 7%;
+    justify-items: center;
+    gap: 3%;
+}
+#your_rentings_current_grid_container {
+    display: none;
+}
+.your_rentings_past_grid_item, .your_rentings_current_grid_item {
+    background: rgb(255, 255, 255);
+    transition: box-shadow 0.3s ease;
+    width: 95.5%;
+    height: 25vh;
+    border-radius: 20px 20px 20px 20px;
+    gap: 1.25%;
+    display: flex;
+    flex-direction: row;
+}
+.your_rentings_past_grid_item_image, .your_rentings_current_grid_item_image {
+    position: relative;
+    width: 17vw;
+    height: 23vh;
+    transition: all 0.2s ease-out;
+    left: 1%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 15px 15px 15px 15px;
+}
+.your_rentings_past_module, .your_rentings_current_module {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1%;
+    gap: 2px;
+}
+.your_rentings_past_grid_item_title, .your_rentings_current_grid_item_title {
+    font-family: 'Montserrat', sans-serif;
+    color: black;
+    font-size: 170%;
+    font-weight: 700;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.3s ease;
+    margin-top: 2%;
+    margin-bottom: 0.5%;
+}
+.your_rentings_past_category_module, .your_rentings_current_category_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentings_past_grid_item_category, .your_rentings_current_grid_item_category {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentings_past_grid_item_category_name, .your_rentings_current_grid_item_category_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentings_past_features_module, .your_rentings_current_features_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentings_past_grid_item_features, .your_rentings_current_grid_item_features {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentings_past_grid_item_features_name, .your_rentings_current_grid_item_features_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentings_past_location_module, .your_rentings_current_location_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentings_past_grid_item_location, .your_rentings_current_grid_item_location {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentings_past_grid_item_location_name, .your_rentings_current_grid_item_location_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentings_past_date_module, .your_rentings_current_date_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentings_past_grid_item_date, .your_rentings_current_grid_item_date {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentings_past_grid_item_date_name, .your_rentings_current_grid_item_date_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentings_past_duration_module, .your_rentings_current_duration_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentings_past_grid_item_duration, .your_rentings_current_grid_item_duration {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentings_past_grid_item_duration_name, .your_rentings_current_grid_item_duration_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentings_past_price_module, .your_rentings_current_price_module {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+.your_rentings_past_grid_item_price, .your_rentings_current_grid_item_price {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 100%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentings_past_grid_item_price_name, .your_rentings_current_grid_item_price_name {
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 100%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_title {
+    color: rgb(149, 98, 10);
+    font-size: 200%;
+}
+.your_rentings_past_grid_item:hover {
+    box-shadow: 0 0px 10px rgb(240, 164, 151);
+}
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_category, 
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_features,
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_location,
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_date,
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_duration,
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_price {
+    color: rgb(202, 165, 100);
+    font-size: 110%;
+}
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_category_name, 
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_features_name,
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_location_name,
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_date_name,
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_duration_name,
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_price_name {
+    color: rgb(202, 165, 100);
+    font-size: 110%;
+}
+.your_rentings_past_grid_item:hover .your_rentings_past_grid_item_image{
+    box-shadow: 0 0px 10px rgb(240, 164, 151);
+    width: 19vw;
+    height: 25vh;
+}
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_title {
+    color: rgb(149, 98, 10);
+    font-size: 200%;
+}
+.your_rentings_current_grid_item:hover {
+    box-shadow: 0 0px 10px rgb(240, 164, 151);
+}
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_category, 
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_features,
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_location,
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_date,
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_duration,
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_price {
+    color: rgb(202, 165, 100);
+    font-size: 110%;
+}
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_category_name, 
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_features_name,
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_location_name,
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_date_name,
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_duration_name,
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_price_name {
+    color: rgb(202, 165, 100);
+    font-size: 110%;
+}
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_image{
+    box-shadow: 0 0px 10px rgb(240, 164, 151);
+    width: 19vw;
+    height: 25vh;
+}
+
+
+
 #messages_view {
     width: 63.25%;
     height: calc(100vh - 50px);
-    background: rgb(227, 227, 239);
+    background: rgb(255, 255, 255);
     z-index: -3;
     position: absolute;
     top: 50px;
     left: 16.75%;
     display: none;
+    transition: display 0.3s ease;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
+#people_messages_grid {
+    display: grid;
+    position: relative;
+    top: 5%;
+    left: 2%;
+    gap: 16px;
+}
+.people_messages_item {
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5%;
+    align-items: center;
+}
+.people_messages_profile_pic {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.people_messages_module {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    left: 2.75%;
+}
+.people_messages_name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(18, 2, 4);
+}
+.people_messages_content {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(22, 2, 5);
+}
+
+.your_messages_text {
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    font-weight: 700;
+    font-size: 25px;
+    color:rgb(4, 18, 68);
+    left: 2.5%;
+    top: 2%;
+}
+#people_search {
+    position: relative;
+    top: 3%;
+    left: 2.5%;
+    width: 20%;
+    height: 2.5%;
+    font-family: 'Montserrat', sans-serif;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-size: 15px;
+    border-bottom: 2px solid rgb(133, 133, 134);
+    transition: border-bottom 0.3s ease;
+    background-color: transparent; 
+    padding-right: 9%;
+}
+#people_search:hover {
+    border-bottom: 2px solid rgb(148, 190, 216);
+    outline: none;
+}
+#people_search:focus {
+    border-bottom: 2px solid rgb(148, 190, 216);
+    outline: none;
+}
+.messages_vertical_bar {
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+    width: 2px;
+    background: rgba(0, 0, 0, 0.37);
+    left: 33%;
+}
+
+
+
 #friends_view {
     width: 63.25%;
     height: calc(100vh - 50px);

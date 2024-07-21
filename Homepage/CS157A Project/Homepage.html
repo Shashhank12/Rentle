@@ -11,22 +11,22 @@
 <body style="overflow-x: hidden;">
     <img src="image1.png" alt = "" class="rectangle-image">
     <div class="leftbar">
-        <input type="text" id="location_search" name="searchbox" placeholder="Address, ZIP Code, ...">
-
-        <div class="icon_circle">
-            <div class="icon"></div>
+        <div class="location_search_module">
+            <input type="text" id="location_search" name="searchbox" placeholder="Address, ZIP Code, ...">
+            <div class="search_icon"></div>
+            <div class="icon_circle">
+                <div class="icon"></div>
+            </div>
         </div>
-
-        <div class="search_icon"></div>
 
         <div id="your_rentals">
             <div class="your_rentals_icon"></div>
-            <div class="your_rentals_text"> Past rentals </div>
+            <div class="your_rentals_text"> Your rentals </div>
         </div>
 
         <div id="your_rentings">
             <div class="your_rentings_icon"></div>
-            <div class="your_rentings_text"> Past rentings </div>
+            <div class="your_rentings_text"> Your rentings </div>
         </div>
 
         <div id="messages">
@@ -41,8 +41,10 @@
 
         <div class="line"></div>
 
-        <input type="text" id="interested_rents" name="searchbox" placeholder="What's in your mind?...">
-        <div class="searchrent_icon"></div>
+        <div class="searchrent_module">
+            <input type="text" id="interested_rents" name="searchbox" placeholder="What's in your mind?...">
+            <div class="searchrent_icon"></div>
+        </div>
 
         <div class="category_module">
             <div class="category_icon_background">
@@ -106,6 +108,18 @@
             </div>
         </div>
 
+        <div id="duration">
+            <div id="duration_container_1">
+                <div class="durations_icon"></div>
+                <div class="durations_text"> Duration </div>
+            </div>
+            <div id="duration_container_2">
+                <input type="text" id="min_duration" name="min_duration" placeholder="Min.">
+                <div class="to"> to </div>
+                <input type="text" id="max_duration" name="max_duration" placeholder="Max.">
+            </div>
+        </div>
+
         <div id="condition">
             <div id="condition_module">
                 <div class="condition_icon"></div>
@@ -133,13 +147,66 @@
     </div>
     <div class="homepage_bar">
         <img src="image2.png" alt = "" class="logo">
-        <div class="settings_icon"></div>
         <div class="shopping_icon"></div>
         <div tabindex="0" id="signup_container">
             <div class="signup_login_button">
                 <div class="signup_login_text"> Signup / login</div>
             </div>
         </div>
+    </div>
+
+
+    <!-- Shopping cart -->
+    <div class="cart_module">
+        <div class="cart_list">
+            <div class="cart_item">
+                <div class="cart_item_title"> Bicycle for rent!</div>
+                <div class="cart_item_quantity"> x2 </div>
+                <div class="cart_item_price_module">
+                    <div class="cart_item_price"> $30 </div>
+                </div>
+            </div>
+            <div class="cart_item">
+                <div class="cart_item_title"> Waymo 5th Generation!</div>
+                <div class="cart_item_quantity"> x1 </div>
+                <div class="cart_item_price_module">
+                    <div class="cart_item_price"> $19.5 </div>
+                </div>
+            </div>
+        </div>
+        <div class="rent_now"> Rent now </div>
+    </div>
+
+    <div class="cart_module">
+        <div class="cart_list">
+            <div class="cart_item">
+                <div class="cart_item_title"> Bicycle for rent!</div>
+                <div class="cart_item_quantity"> x2 </div>
+                <div class="cart_item_price_module">
+                    <div class="cart_item_price"> $30 </div>
+                </div>
+            </div>
+            <div class="cart_item">
+                <div class="cart_item_title"> Waymo 5th Generation!</div>
+                <div class="cart_item_quantity"> x1 </div>
+                <div class="cart_item_price_module">
+                    <div class="cart_item_price"> $19.5 </div>
+                </div>
+            </div>
+        </div>
+        <div class="cart_total_module">
+            <div class="cart_total_text"> Total </div>
+            <div class="cart_total_price"> $49.5 </div>
+        </div>
+        <div class="rent_now"> Rent now </div>
+    </div>
+
+    <div class="cart_payment_module">
+        <input type="text" id="card_full_name" placeholder="Full Name">
+        <input type="text" id="credit_card_number" placeholder="Credit Card Number">
+        <input type="text" class="card_expiraiton_date" placeholder="MM/YY">
+        <input type="text" id="card_cvv" placeholder="CVV">
+        <div class="cart_payment_submit"> Submit </div>
     </div>
 
     <div id="login-module">
@@ -165,6 +232,20 @@
         </div>
     </div>
     <div class="rightbar" id="rightbar">
+
+        <div class="add_item"> Add + </div>
+        <div class="sort_module">
+            <div class="sort_text"> Sort by </div>
+            <div class="sort_dropdown_trigger"></div>
+        </div>
+        <div class="sort_list">
+            <ul class="sort-dropdown-content">
+                <li><a href="#">Price: low to high</a></li>
+                <li><a href="#">Location: closest to furthest</a></li>
+                <li><a href="#">Date listed: newest to oldest</a></li>
+            </ul>
+        </div>
+
         <div class="grid_container">
             <div class="grid_item">
                 <img src="image3.png" alt = "" class="item_image">
@@ -205,55 +286,585 @@
                 <div class="item_location"> Hayward, CA </div>
             </div>
         </div>
+
+        
     </div>
 
     <div id="your_rentals_view">
-        <div class="your_rentals_history_text"> Your rental history</div>
-        <div class="your_rentals_line"></div>
-        <div class="your_rentals_grid_container">
-            <div class="your_rentals_grid_item"> 1 </div>
-            <div class="your_rentals_grid_item"> 2 </div>
+        <div id="your_rentals_top_component">
+            <input type="text" id="rentals_search" name="searchbox" placeholder="Title, category, location, date, ...">
+            <div id="past_rentals"> Past</div>
+            <div id="current_rentals"> Current</div>
+        </div>
+
+        <div id="your_rentals_past_grid_container">
+            <div class="your_rentals_past_grid_item">  
+                <img src="image3.png" alt = "" class="your_rentals_past_grid_item_image">
+                <div class="your_rentals_past_module">
+                    <div class="your_rentals_past_grid_item_title"> Bicycle for rent! </div>
+                    <div class="your_rentals_past_category_module">
+                        <div class="your_rentals_past_grid_item_category"> Category: </div>
+                        <div class="your_rentals_past_grid_item_category_name"> Bike </div>
+                    </div>
+                    <div class="your_rentals_past_features_module">
+                        <div class="your_rentals_past_grid_item_features"> Features: </div>
+                        <div class="your_rentals_past_grid_item_features_name"> Multiple technology, </div>
+                        <div class="your_rentals_past_grid_item_features_name"> Adjustable seat </div>
+                    </div>
+                    <div class="your_rentals_past_location_module">
+                        <div class="your_rentals_past_grid_item_location"> Location: </div>
+                        <div class="your_rentals_past_grid_item_location_name"> San Jose, CA </div>
+                    </div>
+                    <div class="your_rentals_past_date_module">
+                        <div class="your_rentals_past_grid_item_date"> Date: </div>
+                        <div class="your_rentals_past_grid_item_date_name"> July 18th, 2024 </div>
+                    </div>
+                    <div class="your_rentals_past_duration_module">
+                        <div class="your_rentals_past_grid_item_duration"> Duration: </div>
+                        <div class="your_rentals_past_grid_item_duration_name"> 3 hours </div>
+                    </div>
+                    <div class="your_rentals_past_price_module">
+                        <div class="your_rentals_past_grid_item_price"> Price: </div>
+                        <div class="your_rentals_past_grid_item_price_name"> $60 </div>
+                    </div>
+                </div>
+            </div>
+            <div class="your_rentals_past_grid_item">  
+                <img src="image4.png" alt = "" class="your_rentals_past_grid_item_image">
+                <div class="your_rentals_past_module">
+                    <div class="your_rentals_past_grid_item_title"> Waymo 5th Generation! </div>
+                    <div class="your_rentals_past_category_module">
+                        <div class="your_rentals_past_grid_item_category"> Category: </div>
+                        <div class="your_rentals_past_grid_item_category_name"> Automobile </div>
+                    </div>
+                    <div class="your_rentals_past_features_module">
+                        <div class="your_rentals_past_grid_item_features"> Features: </div>
+                        <div class="your_rentals_past_grid_item_features_name"> Self-driving, </div>
+                        <div class="your_rentals_past_grid_item_features_name"> Comfortable seats </div>
+                    </div>
+                    <div class="your_rentals_past_location_module">
+                        <div class="your_rentals_past_grid_item_location"> Location: </div>
+                        <div class="your_rentals_past_grid_item_location_name"> Mountain View, CA </div>
+                    </div>
+                    <div class="your_rentals_past_date_module">
+                        <div class="your_rentals_past_grid_item_date"> Date: </div>
+                        <div class="your_rentals_past_grid_item_date_name"> July 17th, 2024 </div>
+                    </div>
+                    <div class="your_rentals_past_duration_module">
+                        <div class="your_rentals_past_grid_item_duration"> Duration: </div>
+                        <div class="your_rentals_past_grid_item_duration_name"> 2 hours </div>
+                    </div>
+                    <div class="your_rentals_past_price_module">
+                        <div class="your_rentals_past_grid_item_price"> Price: </div>
+                        <div class="your_rentals_past_grid_item_price_name"> $40 </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="your_rentals_current_grid_container">
+            <div class="your_rentals_current_grid_item">  
+                <img src="image4.png" alt = "" class="your_rentals_current_grid_item_image">
+                <div class="your_rentals_current_module">
+                    <div class="your_rentals_current_grid_item_title"> Waymo 5th Generation! </div>
+                    <div class="your_rentals_current_category_module">
+                        <div class="your_rentals_current_grid_item_category"> Category: </div>
+                        <div class="your_rentals_current_grid_item_category_name"> Automobile </div>
+                    </div>
+                    <div class="your_rentals_current_features_module">
+                        <div class="your_rentals_current_grid_item_features"> Features: </div>
+                        <div class="your_rentals_current_grid_item_features_name"> Self-driving, </div>
+                        <div class="your_rentals_current_grid_item_features_name"> Comfortable seats </div>
+                    </div>
+                    <div class="your_rentals_current_location_module">
+                        <div class="your_rentals_current_grid_item_location"> Location: </div>
+                        <div class="your_rentals_current_grid_item_location_name"> Mountain View, CA </div>
+                    </div>
+                    <div class="your_rentals_current_date_module">
+                        <div class="your_rentals_current_grid_item_date"> Date created: </div>
+                        <div class="your_rentals_current_grid_item_date_name"> July 19th, 2024 </div>
+                    </div>
+                    <div class="your_rentals_current_price_module">
+                        <div class="your_rentals_current_grid_item_price"> Price: </div>
+                        <div class="your_rentals_current_grid_item_price_name"> $8/hour, </div>
+                        <div class="your_rentals_current_grid_item_price_name"> $20/week, </div>
+                        <div class="your_rentals_current_grid_item_price_name"> $75/month </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="your_rentals_current_grid_item">  
+                <img src="image5.png" alt = "" class="your_rentals_current_grid_item_image">
+                <div class="your_rentals_current_module">
+                    <div class="your_rentals_current_grid_item_title"> Gotrax Scooter Rent $1/hour! </div>
+                    <div class="your_rentals_current_category_module">
+                        <div class="your_rentals_current_grid_item_category"> Category: </div>
+                        <div class="your_rentals_current_grid_item_category_name"> Scooter </div>
+                    </div>
+                    <div class="your_rentals_current_features_module">
+                        <div class="your_rentals_current_grid_item_features"> Features: </div>
+                        <div class="your_rentals_current_grid_item_features_name"> Speakers, </div>
+                        <div class="your_rentals_current_grid_item_features_name"> Auto-stop </div>
+                    </div>
+                    <div class="your_rentals_current_location_module">
+                        <div class="your_rentals_current_grid_item_location"> Location: </div>
+                        <div class="your_rentals_current_grid_item_location_name"> Hayward, CA </div>
+                    </div>
+                    <div class="your_rentals_current_date_module">
+                        <div class="your_rentals_current_grid_item_date"> Date created: </div>
+                        <div class="your_rentals_current_grid_item_date_name"> July 16th, 2024 </div>
+                    </div>
+                    <div class="your_rentals_current_price_module">
+                        <div class="your_rentals_current_grid_item_price"> Price: </div>
+                        <div class="your_rentals_current_grid_item_price_name"> $5/hour, </div>
+                        <div class="your_rentals_current_grid_item_price_name"> $25/week </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
     <div id="your_rentings_view">
-        <div class="your_rentings_history_text"> Your renting history</div>
-        <div class="your_rentings_grid_container"></div>
+        <div id="your_rentings_top_component">
+            <input type="text" id="rentings_search" name="searchbox" placeholder="Title, category, location, date, ...">
+            <div id="past_rentings"> Past</div>
+            <div id="current_rentings"> Current</div>
+        </div>
+    
+        <div id="your_rentings_past_grid_container">
+            <div class="your_rentings_past_grid_item">  
+                <img src="image5.png" alt = "" class="your_rentings_past_grid_item_image">
+                <div class="your_rentings_past_module">
+                    <div class="your_rentings_past_grid_item_title"> Gotrax Scooter Rent $1/hour </div>
+                    <div class="your_rentings_past_category_module">
+                        <div class="your_rentings_past_grid_item_category"> Category: </div>
+                        <div class="your_rentings_past_grid_item_category_name"> Scooter </div>
+                    </div>
+                    <div class="your_rentings_past_features_module">
+                        <div class="your_rentings_past_grid_item_features"> Features: </div>
+                        <div class="your_rentings_past_grid_item_features_name"> Speakers, </div>
+                        <div class="your_rentings_past_grid_item_features_name"> Auto-stop </div>
+                    </div>
+                    <div class="your_rentings_past_location_module">
+                        <div class="your_rentings_past_grid_item_location"> Location: </div>
+                        <div class="your_rentings_past_grid_item_location_name"> Hayward, CA </div>
+                    </div>
+                    <div class="your_rentings_past_date_module">
+                        <div class="your_rentings_past_grid_item_date"> Date: </div>
+                        <div class="your_rentings_past_grid_item_date_name"> July 21st, 2024 </div>
+                    </div>
+                    <div class="your_rentings_past_duration_module">
+                        <div class="your_rentings_past_grid_item_duration"> Duration: </div>
+                        <div class="your_rentings_past_grid_item_duration_name"> 1 hours </div>
+                    </div>
+                    <div class="your_rentings_past_price_module">
+                        <div class="your_rentings_past_grid_item_price"> Price: </div>
+                        <div class="your_rentings_past_grid_item_price_name"> $12.5 </div>
+                    </div>
+                </div>
+            </div>
+            <div class="your_rentings_past_grid_item">  
+                <img src="image6.png" alt = "" class="your_rentings_past_grid_item_image">
+                <div class="your_rentings_past_module">
+                    <div class="your_rentings_past_grid_item_title"> Yarsca 24in Beach Cruiser Bike! </div>
+                    <div class="your_rentings_past_category_module">
+                        <div class="your_rentings_past_grid_item_category"> Category: </div>
+                        <div class="your_rentings_past_grid_item_category_name"> Bike </div>
+                    </div>
+                    <div class="your_rentings_past_features_module">
+                        <div class="your_rentings_past_grid_item_features"> Features: </div>
+                        <div class="your_rentings_past_grid_item_features_name"> Multiple colors, </div>
+                        <div class="your_rentings_past_grid_item_features_name"> Adjustable seats </div>
+                    </div>
+                    <div class="your_rentings_past_location_module">
+                        <div class="your_rentings_past_grid_item_location"> Location: </div>
+                        <div class="your_rentings_past_grid_item_location_name"> Santa Cruz, CA </div>
+                    </div>
+                    <div class="your_rentings_past_date_module">
+                        <div class="your_rentings_past_grid_item_date"> Date: </div>
+                        <div class="your_rentings_past_grid_item_date_name"> July 20th, 2024 </div>
+                    </div>
+                    <div class="your_rentings_past_duration_module">
+                        <div class="your_rentings_past_grid_item_duration"> Duration: </div>
+                        <div class="your_rentings_past_grid_item_duration_name"> 20 hours </div>
+                    </div>
+                    <div class="your_rentings_past_price_module">
+                        <div class="your_rentings_past_grid_item_price"> Price: </div>
+                        <div class="your_rentings_past_grid_item_price_name"> $8 </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div id="your_rentings_current_grid_container">
+            <div class="your_rentings_current_grid_item">  
+                <img src="image6.png" alt = "" class="your_rentings_current_grid_item_image">
+                <div class="your_rentings_current_module">
+                    <div class="your_rentings_current_grid_item_title"> Yarsca 24in Beach Cruiser Bike! </div>
+                    <div class="your_rentings_current_category_module">
+                        <div class="your_rentings_current_grid_item_category"> Category: </div>
+                        <div class="your_rentings_current_grid_item_category_name"> Bike </div>
+                    </div>
+                    <div class="your_rentings_current_features_module">
+                        <div class="your_rentings_current_grid_item_features"> Features: </div>
+                        <div class="your_rentings_current_grid_item_features_name"> Speakers, </div>
+                        <div class="your_rentings_current_grid_item_features_name"> Auto-stop </div>
+                    </div>
+                    <div class="your_rentings_current_location_module">
+                        <div class="your_rentings_current_grid_item_location"> Location: </div>
+                        <div class="your_rentings_current_grid_item_location_name"> Hayward, CA </div>
+                    </div>
+                    <div class="your_rentings_current_date_module">
+                        <div class="your_rentings_current_grid_item_date"> Date: </div>
+                        <div class="your_rentings_current_grid_item_date_name"> July 22th, 2024 </div>
+                    </div>
+                    <div class="your_rentings_current_duration_module">
+                        <div class="your_rentings_current_grid_item_duration"> Duration: </div>
+                        <div class="your_rentings_current_grid_item_duration_name"> 5 hours </div>
+                    </div>
+                    <div class="your_rentings_current_price_module">
+                        <div class="your_rentings_current_grid_item_price"> Price: </div>
+                        <div class="your_rentings_current_grid_item_price_name"> $14 </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="your_rentings_current_grid_item">  
+                <img src="image5.png" alt = "" class="your_rentings_current_grid_item_image">
+                <div class="your_rentings_current_module">
+                    <div class="your_rentings_current_grid_item_title"> Gotrax Scooter Rent $1/hour </div>
+                    <div class="your_rentings_current_category_module">
+                        <div class="your_rentings_current_grid_item_category"> Category: </div>
+                        <div class="your_rentings_current_grid_item_category_name"> Scooter </div>
+                    </div>
+                    <div class="your_rentings_current_features_module">
+                        <div class="your_rentings_current_grid_item_features"> Features: </div>
+                        <div class="your_rentings_current_grid_item_features_name"> Multiple colors, </div>
+                        <div class="your_rentings_current_grid_item_features_name"> Adjustable seats </div>
+                    </div>
+                    <div class="your_rentings_current_location_module">
+                        <div class="your_rentings_current_grid_item_location"> Location: </div>
+                        <div class="your_rentings_current_grid_item_location_name"> Santa Cruz, CA </div>
+                    </div>
+                    <div class="your_rentings_current_date_module">
+                        <div class="your_rentings_current_grid_item_date"> Date: </div>
+                        <div class="your_rentings_current_grid_item_date_name"> July 23th, 2024 </div>
+                    </div>
+                    <div class="your_rentings_current_duration_module">
+                        <div class="your_rentings_current_grid_item_duration"> Duration: </div>
+                        <div class="your_rentings_current_grid_item_duration_name"> 20 hours </div>
+                    </div>
+                    <div class="your_rentings_current_price_module">
+                        <div class="your_rentings_current_grid_item_price"> Price: </div>
+                        <div class="your_rentings_current_grid_item_price_name"> $8 </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="messages_view"></div>
+    
+    <div id="messages_view">
+        <div class="your_messages_text"> Messages </div>
+        <input type="text" id="people_search" name="searchbox" placeholder="Who are you finding?">
+        <div id="people_messages_grid">
+            <div class="people_messages_item">
+                <img src="profilepic1.png" alt = "" class="people_messages_profile_pic">
+                <div class="people_messages_module">
+                    <div class="people_messages_name"> Shiba Inu </div>
+                    <div class="people_messages_content"> I need a bike to go to space </div>
+                </div>
+            </div>
+
+            <div class="people_messages_item">
+                <img src="profilepic2.png" alt = "" class="people_messages_profile_pic">
+                <div class="people_messages_module">
+                    <div class="people_messages_name"> Pepe the Frog </div>
+                    <div class="people_messages_content"> How about the Limousine that you have for rent? </div>
+                </div>
+            </div>
+
+            <div class="people_messages_item">
+                <img src="profilepic3.png" alt = "" class="people_messages_profile_pic">
+                <div class="people_messages_module">
+                    <div class="people_messages_name"> Madison Cat </div>
+                    <div class="people_messages_content"> My parents aren't home, so... </div>
+                </div>
+            </div>
+        </div>
+        <div class="messages_vertical_bar"></div>
+    </div>
+
+
     <div id="friends_view"></div>
+    <div class="add_item_module">
+        <div id="add_photos_grid">
+            <div class="add_photo_module">
+                <label for="file-upload" id="add_photo_background"> + </label>
+                <input type="file" id="file-upload" accept="image/*">
+            </div>
+        </div>
+
+        <div class="add_item_middle_module">
+            <div class="add_item_middle_module_1">
+                <div class="add_item_title">
+                    <div class="item_title"> Item Title </div>
+                    <input type="text" id="add_item_title_input" placeholder="What is the main thing you want to say?..."> 
+                </div>
+                <div class="add_item_description">
+                    <div class="item_description"> Item Description </div>
+                    <textarea id="add_item_description_input" placeholder="Write a few words about your product..."></textarea>
+                </div>
+            </div>
+            <div class="add_item_category">
+                <div class="add_item_category_name"> Category </div>
+                <ul class="add_item_category_dropdown_content">
+                    <li><a href="#">Bike</a></li>
+                    <li><a href="#">Google Cars</a></li>
+                    <li><a href="#">Scooters</a></li>
+                </ul>
+            </div>
+            <div class="add_item_features">
+                <div class="add_item_features_name"> Features </div>
+                <ul class="add_item_features_dropdown_content">
+                    <li><a href="#">Four-wheel</a></li>
+                    <li><a href="#">Electric</a></li>
+                    <li><a href="#">Tough terrains</a></li>
+                    <li><a href="#">Good-looking</a></li>
+                    <li><a href="#">Auto-pilot</a></li>
+                    <li><a href="#">Trending</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="add_item_location">
+            <div class="add_item_location_title"> Item Location </div>
+            <div class="item_location_input_module">
+                <input type="text" id="item_location_input_address" placeholder="Street Address">
+                <input type="text" id="item_location_input_city" placeholder="City">
+                <input type="text" id="item_location_input_state" placeholder="State">
+                <input type="text" id="item_location_input_zip_code" placeholder="ZIP Code">
+            </div>
+        </div>
+
+        <div class="add_item_price">
+            <div class="add_item_price_title"> Price </div>
+            <div class="item_price_input_module">
+                <input type="text" id="item_price_input_address" placeholder="Price per hour">
+                <input type="text" id="item_price_input_city" placeholder="Price per day">
+                <input type="text" id="item_price_input_state" placeholder="Price per week">
+                <input type="text" id="item_price_input_zip_code" placeholder="Price per month">
+            </div>
+        </div>
+
+        <div class="add_item_cancel_add_module">
+            <div class="add_item_cancel"> Cancel </div>
+            <div class="add_item_add"> Add </div>
+        </div>
+
+        <div class="space"></div>
+    </div>
+
+    <div class="view_item_module">
+        <div class="view_item_photo_grid">
+            Insert the item's photos here
+            <img src="test_add_image_1.png" alt = "" class="view_item_photo">
+            <img src="test_add_image_2.png" alt = "" class="view_item_photo">
+            <img src="test_add_image_3.png" alt = "" class="view_item_photo">
+        </div>
+        <div class="view_item_title"> Insert the item's title right here </div>
+        <div class="view_item_description"> Put the item's description right here </div>
+        <div class="view_item_category"> Put the item's category here</div>
+        <ul class="view_item_features_list">
+            Put the features here
+            <li><a href="#">Four-wheel</a></li>
+            <li><a href="#">Electric</a></li>
+            <li><a href="#">Tough terrains</a></li>
+        </ul>
+        <div class="view_item_location"> Put the location (including the address, city, state, zip code)</div>
+        <ul class="view_item_prices_list">
+            Insert the prices here. If any of them are null, do not contain it in this list.
+            <li><a href="#">Price per hour</a></li>
+            <li><a href="#">Price per day</a></li>
+            <li><a href="#">Price per week</a></li>
+            <li><a href="#">Price per month</a></li>
+        </ul>
+        <div class="view_item_add_to_cart_module"> Add to cart </div>
+        <div class="view_item_close"> Close this module</div>
+    </div>
 
     <script>
-        const your_rentals_button = document.getElementById('your_rentals');
-        const your_rentings_button = document.getElementById('your_rentings');
+        const inputImg = document.getElementById('file-upload')
+        const addPhotosGrid = document.getElementById('add_photos_grid');
+
+        function getImg(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const url = window.URL.createObjectURL(file);
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'grid-item';
+                
+                const img = document.createElement('img');
+                img.src = url;
+                imageDiv.appendChild(img);
+                
+                addPhotosGrid.insertBefore(imageDiv, addPhotosGrid.querySelector('.add_photo_module'));
+            } else {
+                alert('Please select a valid image file.');
+            }
+        }
+        inputImg?.addEventListener('change', getImg);
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.sort_module').click(function() {
+                var currentRotation = $('.sort_dropdown_trigger').css('transform');
+                if (currentRotation === 'matrix(-1, 0, 0, -1, 0, 0)') {
+                    $('.sort_dropdown_trigger').css({
+                        'transform': 'rotate(0deg)',
+                        'color': 'black'
+                    });
+                    $('.sort_list').css('display', 'none');
+                    $('.sort_module').css('background', 'rgb(199, 199, 235)');
+                    $('.sort_text').css({
+                        'font-size': '15px',
+                        'color': 'black'
+                    });
+                } else {
+                    $('.sort_dropdown_trigger').css({
+                        'transform': 'rotate(180deg)',
+                        'color': 'white'
+                    });
+                    $('.sort_list').css('display', 'block');
+                    $('.sort_module').css('background', 'rgb(81, 81, 145)');
+                    $('.sort_text').css({
+                        'font-size': '16px',
+                        'color': 'white'
+                    });
+                    $('.sort_text').css({
+                        'font-size': '16px',
+                        'color': 'white'
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.add_item').click(function() {
+                if ($('.add_item_module').css('display') === 'block') {
+                    $('.add_item_module').css('display', 'none');
+                }
+                else {
+                    if ($('.view_item_module').css('display') === 'block') {
+                        $('.view_item_module').css('display', 'none');
+                    } 
+                    $('.add_item_module').css('display', 'block');
+                }
+            });
+
+            $('.add_item_cancel').click(function() {
+                $('.add_item_module').css('display', 'none');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.grid_item').click(function() {
+                if ($('.view_item_module').css('display') === 'block') {
+                    $('.view_item_module').css('display', 'none');
+                }
+                else {
+                    if ($('.add_item_module').css('display') === 'block') {
+                        $('.add_item_module').css('display', 'none');
+                    }
+                    $('.view_item_module').css('display', 'block');
+                }
+            });
+
+            $('.view_item_close').click(function() {
+                $('.view_item_module').css('display', 'none');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.shopping_icon').click(function() {
+                if ($('.cart_module').css('display') === 'block') {
+                    $('.cart_module').css('display', 'none');
+                }
+                else {
+                    $('.cart_module').css('display', 'block');
+                }
+            });
+
+            $('.rent_now').click(function() {
+                if ($('.cart_payment_module').css('display') === 'block') {
+                    $('.cart_payment_module').css('display', 'none');
+                }
+                else {
+                    $('.cart_payment_module').css('display', 'block');
+                }
+            });
+        });
+    </script>
+
+    <script>
         const your_messages_button = document.getElementById('messages');
         const your_friends_button = document.getElementById('friends');
 
-        const your_rentals_view = document.getElementById('your_rentals_view');
-        const your_rentings_view = document.getElementById('your_rentings_view');
         const messages_view = document.getElementById('messages_view');
         const friends_view = document.getElementById('friends_view');
 
-        your_rentals_button.addEventListener('click', function() {
-            if (your_rentals_view.style.display === 'none') {
-                your_rentals_view.style.display = 'block';
-                your_rentings_view.style.display = 'none';
-                messages_view.style.display = 'none';
-                friends_view.style.display = 'none';
-            } else {
-                your_rentals_view.style.display = 'none';
-            }
+        $(document).ready(function() {
+            $('#your_rentals').click(function() {
+                if ($('#your_rentals_view').css('display') === 'none') {
+                    $('#your_rentals_view').css('display', 'block');
+                    $('#your_rentings_view').css('display', 'none');
+                    $('#messages_view').css('display', 'none');
+                    $('#friends_view').css('display', 'none');
+                } else {
+                    $('#your_rentals_view').css('display', 'none');
+                }
+            });
+
+            $('#past_rentals').click(function() {
+                $('#your_rentals_past_grid_container').css('display', 'grid');
+                $('#your_rentals_current_grid_container').css('display', 'none');
+            });
+
+            $('#current_rentals').click(function() {
+                $('#your_rentals_current_grid_container').css('display', 'grid');
+                $('#your_rentals_past_grid_container').css('display', 'none');
+            });
         });
 
-        your_rentings_button.addEventListener('click', function() {
-            if (your_rentings_view.style.display === 'none') {
-                your_rentings_view.style.display = 'block';
-                your_rentals_view.style.display = 'none';
-                messages_view.style.display = 'none';
-                friends_view.style.display = 'none';
-            } else {
-                your_rentings_view.style.display = 'none';
-            }
+        $(document).ready(function() {
+            $('#your_rentings').click(function() {
+                if ($('#your_rentings_view').css('display') === 'none') {
+                    $('#your_rentings_view').css('display', 'block');
+                    $('#your_rentals_view').css('display', 'none');
+                    $('#messages_view').css('display', 'none');
+                    $('#friends_view').css('display', 'none');
+                } else {
+                    $('#your_rentings_view').css('display', 'none');
+                }
+            });
+
+            $('#past_rentings').click(function() {
+                $('#your_rentings_past_grid_container').css('display', 'grid');
+                $('#your_rentings_current_grid_container').css('display', 'none');
+            });
+
+            $('#current_rentings').click(function() {
+                $('#your_rentings_current_grid_container').css('display', 'grid');
+                $('#your_rentings_past_grid_container').css('display', 'none');
+            });
         });
+
 
         your_messages_button.addEventListener('click', function() {
             if (messages_view.style.display === 'none') {

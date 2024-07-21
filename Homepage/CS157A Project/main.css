@@ -1,60 +1,35 @@
-#rect1 {
-  width: 100px;
-  height: 500px;
-  background: blue;
+.add_item_module {
+  width: 65vw;
+  height: 47.5vw;
+  border: 2px solid black;
+  border-radius: 2%;
+  z-index: 5;
   position: absolute;
-  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
-#rect2 {
-  width: 100px;
-  height: 500px;
-  background: rgb(255, 0, 230);
-  display: none;
-
-}
-
-#rect3 {
-  width: 100px;
-  height: 500px;
-  background: rgb(255, 106, 0);
-  display: none;
-
-}
-
-#rect4 {
-  width: 100px;
-  height: 500px;
-  background: rgb(0, 255, 17);
-  display: none;
-
-}
-
-body {
+.add_item_photo_container {
   display: flex;
-  flex-direction: row;
+  overflow-y: hidden;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  position: relative;
+  width: 95%;
+  border: 7.5px 7.5px;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: 15px;
+  top: 5%;
 }
 
-#button1 {
-  width: 10px;
-  height: 10px;
-  background: blue;
-}
-
-#button2 {
-  width: 10px;
-  height: 10px;
-  background: pink;
-}
-
-#button3 {
-  width: 10px;
-  height: 10px;
-  background: orange;
-}
-
-#button4 {
-  width: 10px;
-  height: 10px;
-  background: green;
+.photo_item {
+  scroll-snap-align: start;
+  width: 15%;
+  height: 15%;
+  box-shadow: 0 0px 4px black;
 }
