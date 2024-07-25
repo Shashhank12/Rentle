@@ -1,6 +1,57 @@
-rgb(149, 98, 10)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello world!</title>
+    <link rel="stylesheet" href="main.css" type="text/css">
+</head>
+<body>
+    <button id="backButton">Back</button>
+    <button id="frontButton">Front</button>
+    <div class="test_photo"></div>
 
-rgb(240, 164, 151)
-rgb(202, 165, 100)
+    <script>
+        const imageFilenames = [
+            'test_add_image_1.png',
+            'test_add_image_2.png',
+            'test_add_image_3.png',
+            'test_add_image_4.png',
+            'test_add_image_5.png'
+        ];
 
-rgb(240, 164, 151)
+        let currentImageIndex = 0;
+
+        function updateImage() {
+            const testPhotoDiv = document.querySelector('.test_photo');
+            testPhotoDiv.innerHTML = ''; // Clear the current image
+            const imgElement = document.createElement('img');
+            imgElement.src = imagesPath + imageFilenames[currentImageIndex];
+            testPhotoDiv.appendChild(imgElement);
+        }
+
+        // Define the relative path to the images directory
+        const imagesPath = 'C:/Users/USER/Downloads/PDVProject-main/CS157A Project/';
+
+        document.getElementById('backButton').addEventListener('click', () => {
+            if (currentImageIndex === 0) {
+                currentImageIndex = imageFilenames.length - 1;
+            }
+            else {
+                currentImageIndex = currentImageIndex - 1;
+            }
+            updateImage();
+        });
+
+        document.getElementById('frontButton').addEventListener('click', () => {
+            if (currentImageIndex === imageFilenames.length - 1) {
+                currentImageIndex = 0;
+            }
+            else {
+                currentImageIndex = currentImageIndex + 1;
+            }
+            updateImage();
+        });
+
+        updateImage();
+    </script>
+</body>
+</html>

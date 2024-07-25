@@ -25,25 +25,3 @@ function handleDrag(obj1, obj2, obj3) {
         }
     });
 }
-
-function handleClickDropdown(obj1, obj2) {
-    obj1.addEventListener('click', function () {
-        if (obj2.style.display === 'none' || obj2.style.display === '') {
-            obj2.style.display = 'block';
-            obj1.style.transform = 'rotate(180deg)';
-        } else {
-            obj2.style.display = 'none';
-            obj1.style.transform = 'rotate(0deg)';
-        }
-    });
-}
-
-function handleClickShowModule(obj1, obj2) {
-    obj1.addEventListener('click', function (e) {
-        if (obj2.style.display === 'none' || obj2.style.display === '') {
-            obj2.style.display = 'block';
-        } else {
-            obj2.style.display = 'none';
-        }
-    });
-}
