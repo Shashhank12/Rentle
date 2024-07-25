@@ -27,7 +27,7 @@
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db + "?autoReconnect=true&useSSL=false", user, password);
             
-            String sql = "SELECT items.name, items.description, prices.priceperhour, prices.priceperday, prices.priceperweek, prices.pricepermonth FROM items JOIN rentsfor USING (ItemID) JOIN prices USING (PricesID) WHERE (items.name LIKE ? OR items.description LIKE ?)";
+            String sql = "SELECT items.itemid, items.name, items.description, prices.priceperhour, prices.priceperday, prices.priceperweek, prices.pricepermonth FROM items JOIN rentsfor USING (ItemID) JOIN prices USING (PricesID) WHERE (items.name LIKE ? OR items.description LIKE ?)";
             
             if (category != null && !category.equals("all")) {
                 sql += " AND items.ItemID IN (SELECT ItemID FROM items JOIN has USING (ItemID) JOIN category USING (CategoryID) WHERE categoryname LIKE ?)";
@@ -36,6 +36,8 @@
             if (feature != null && !feature.equals("all")) {
                 sql += " AND items.ItemID IN (SELECT ItemID FROM items JOIN has USING (ItemID) JOIN consistsof USING (CategoryID) JOIN feature USING (FeaturesID) WHERE FeaturesName LIKE ?)";
             }
+            
+             
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + query + "%");
             ps.setString(2, "%" + query + "%");
@@ -47,11 +49,48 @@
                 ps.setString(category != null && !category.equals("all") ? 4 : 3, "%" + feature + "%");
             }
             ResultSet rs = ps.executeQuery();
-            
-            out.println("<h2>Search Results</h2>");
+            if (!rs.isBeforeFirst()) {
+                out.println("No results found.");
+            }
             while (rs.next()) {
                 String itemName = rs.getString("name");
                 String itemDescription = rs.getString("description");
+                String itemCategory = "None";
+                String itemFeature = "None";
+                String itemImage = "None";
+                
+                try{
+                    itemCategory = rs.getString("categoryname");
+                } catch (Exception e) {
+                    ps = con.prepareStatement("SELECT categoryname FROM items JOIN has USING (ItemID) JOIN category USING (CategoryID) WHERE ItemID = ? LIMIT 1");
+                    ps.setInt(1, rs.getInt("ItemID"));
+                    ResultSet rs2 = ps.executeQuery();
+                    if (rs2.next()) {
+                        itemCategory = rs2.getString("categoryname");
+                    }
+                }
+                
+                try {
+                    itemFeature = rs.getString("FeaturesName");
+                } catch (Exception e) {
+                    ps = con.prepareStatement("SELECT FeaturesName FROM items JOIN has USING (ItemID) JOIN consistsof USING (CategoryID) JOIN feature USING (FeaturesID) WHERE ItemID = ? LIMIT 1");
+                    ps.setInt(1, rs.getInt("ItemID"));
+                    ResultSet rs2 = ps.executeQuery();
+                    if (rs2.next()) {
+                        itemFeature = rs2.getString("FeaturesName");
+                    }
+                }
+                
+                try  {
+                    ps = con.prepareStatement("SELECT photos.photo FROM photos JOIN contains USING (PhotoID) WHERE ItemID = ? LIMIT 1");
+                    ps.setInt(1, rs.getInt("ItemID"));
+                    ResultSet rs2 = ps.executeQuery();
+                    if (rs2.next()) {
+                        itemImage = rs2.getString("photo");
+                    }
+                } catch (Exception e) {
+                    out.println(e);
+                }
                 
                 Double pricePerHour = rs.getDouble("priceperhour") == 0.0 ? Double.MAX_VALUE : rs.getDouble("priceperhour");
                 Double pricePerDay = rs.getDouble("priceperday") == 0.0 ? Double.MAX_VALUE : rs.getDouble("priceperday") / 24;
@@ -70,22 +109,37 @@
                 }
                 
                 price = price * duration * durationMap.get(durationCategory);
+
+                //TODO LOCATION NEEDS TO BE IMPLEMENTED
+                String itemLocation = "San Jose, CA";
                 
                 if (price != null && price >= minPrice && price <= maxPrice) {
-                    out.println("<h3>" + itemName + "</h3>");
-                    out.println("<p>" + itemDescription + "</p>");
-                    // Format a price string with 2 decimal places and commas
-                    out.println("<p> Price for " + duration + " " + durationCategory + "(s): $" + String.format("%,.2f", price) + "</p>");
+                    out.println("<div class=\"grid_item\">");
+                        out.println("    <img src=\"" + itemImage + "\" alt=\"\" class=\"item_image\">");
+                        out.println("    <div class=\"grid_item_module_1\">");
+                        out.println("        <div class=\"grid_item_module_2\">");
+                        out.println("            <div class=\"item_name\">" + itemName + "</div>");
+                        out.println("            <div class=\"item_module_1\">");
+                        out.println("                <div class=\"item_category\">" + itemCategory + " - </div>");
+                        out.println("                <div class=\"item_feature\">" + itemFeature + "</div>");
+                        out.println("            </div>");
+                        out.println("            <div class=\"item_location\">" + itemLocation + "</div>");
+                        out.println("        </div>");
+                        out.println("        <div class=\"item_price\">$" + String.format("%,.2f", price) + "</div>");
+                        out.println("    </div>");
+                        out.println("</div>");
                 }
             }
 
             con.close();
         } catch (Exception e) {
             e.getMessage();
-            e.printStackTrace();
+            out.println(e);
             out.println("An error occurred while searching.");
         }
     } else {
         out.println("Please enter a search query or price range.");
+        out.println(query);
+        out.println(request);
     }
 %>
