@@ -1,3 +1,15 @@
+.blur_background {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(161, 158, 158, 0.5);
+    backdrop-filter: blur(10px); 
+    z-index: 4;
+    display: none;
+}
+
 .homepage_bar {
     width: 100vw;
     height: 50px;
@@ -823,12 +835,13 @@
     text-decoration: none;
 }
 .category-dropdown-content li.active {
-    background: rgb(189, 250, 195);
-    border: 2px solid rgb(75, 130, 84);
+    background: rgb(197, 239, 203);
+    border: 2px solid rgb(128, 229, 143);
 }
 
 .category-dropdown-content li.active a {
     font-weight: 700;
+    color: rgb(36, 146, 36);
 }
 
 
@@ -911,7 +924,7 @@
     font-size: 45px!important; 
 }
 .features_module:hover .features_text {
-    color: rgb(171, 54, 180);
+    color: rgb(171, 54, 180)!important;
     font-size: 19px!important;
 }
 
@@ -953,11 +966,12 @@
     text-decoration: none;
 }
 .features-dropdown-content li.active {
-    background: rgb(227, 189, 225);
-    border: 2px solid rgb(195, 116, 192);
+    background: rgb(251, 221, 250);
+    border: 2px solid rgb(231, 164, 229);
 }
 .features-dropdown-content li.active a {
     font-weight: 700;
+    color: rgb(221, 34, 215);
 }
 
 #price {
@@ -1059,35 +1073,43 @@
 }
 #location_container_2 {
     display: flex;
-    height: 100%;
-    transform: translateY(5%);
-}
-#min_location, #max_location {
-    width: 25%;
-    height: 30%;
-    background: rgb(255,255,255);
-    padding-left: 10px;
+    flex-direction: row;
+    width: 82.5%;
     position: relative;
-    border-radius: 15px 15px 15px 15px;
-    border: 3px solid rgb(183, 70, 134);
-    transition: border-color 0.3s ease;
-    transition: font-size 0.3s ease;
-    font-size: 15px;
+    top: 3.5%;
 }
-.to {
-    color: black;
+#location_slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 65%;
+    height: 5px;
+    background: #d3d3cf;
+    transition: background-color 0.2s ease;
+    position: relative;
+    margin-right: auto;
+    align-self: center;
+}
+#location_slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 17.5px;
+    height: 17.5px;
+    background: #858682;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+#location_slider::-webkit-slider-thumb:hover {
+    background: #9cb44d;
+}
+#location_slider:hover {
+    background: #dee5bb;
+}
+.location_value {
+    white-space: nowrap;
     font-family: 'Montserrat', sans-serif;
-    font-size: 17.5px;
-    font-weight: bold;
+    font-size: 16.5px;
     position: relative;
-    margin: 6.5%;
-    top: -15%;
-    justify-content: space-between;
-}
-#min_location:hover, #max_location:hover, #min_location:focus, #max_location:focus {
-    border: 3px solid rgb(213, 238, 90);
-    outline: none;
-    font-size: 17.75px;
 }
 
 #duration {
@@ -1095,7 +1117,7 @@
     display: flex;
     flex-direction: column;
     left: 8.5%;
-    top: 20%;
+    top: 18.5%;
     width: 100%;
     height: 15%;
 }
@@ -1124,11 +1146,11 @@
 }
 #duration_container_2 {
     display: flex;
+    flex-direction: row;
     height: 100%;
-    transform: translateY(5%);
 }
-#min_duration, #max_duration {
-    width: 25%;
+#min_duration {
+    width: 27.5%;
     height: 30%;
     background: rgb(255,255,255);
     padding-left: 10px;
@@ -1137,22 +1159,108 @@
     border: 3px solid rgb(228, 29, 39);
     transition: border-color 0.3s ease;
     transition: font-size 0.3s ease;
-    font-size: 15px;
-}
-.to {
-    color: black;
     font-family: 'Montserrat', sans-serif;
-    font-size: 17.5px;
-    font-weight: bold;
-    position: relative;
-    margin: 6.5%;
-    top: -15%;
-    justify-content: space-between;
+    font-size: 12.5px;
+    display: flex;
+    align-items: center;
+    margin-right: 25px;
 }
-#min_duration:hover, #max_duration:hover, #min_duration:focus, #max_duration:focus {
+#min_duration:hover, #min_duration:focus {
     border: 3px solid rgb(213, 238, 90);
     outline: none;
-    font-size: 17.75px;
+    font-size: 15px;
+}
+#duration_container_3 {
+    display: flex;
+    flex-direction: row;
+    width: 45%;
+    height: 30%;
+}
+.duration-dropdown-module {
+    width: 100%;
+    height: 100%;
+    background: rgb(255,255,255);
+    padding-left: 10px;
+    position: relative;
+    border-radius: 7.5px;
+    border: 3px solid rgb(31, 93, 30);
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+.duration_dropdown_arrow {
+    position: relative;
+    right: 22.5%;
+    margin-top: 1px;
+    transition: all 0.2s ease;
+    font-size: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    top: 5%;
+
+}
+.duration_dropdown_arrow::before {
+    content: "\f0d7";
+    font-family: FontAwesome;
+}
+.duration-dropdown-content {
+    position: absolute;
+    list-style: none;
+    width: 42.5%;
+    top: 55%;
+    box-shadow: 0 0 6px rgb(0,0,0,0.5);
+    padding: 0;
+    margin: 0;
+    right: 16.5%;
+    text-align: right;
+    border-radius: 7.5px;
+    overflow: hidden;
+    z-index: 3;
+    display: none;
+}
+
+#duration_container_3:hover .duration-dropdown-module{
+    font-size: 16.5px!important;
+    border: 3px solid rgb(70, 169, 68)!important;
+    color: green!important;
+}
+.duration_dropdown_arrow:hover {
+    color: rgb(31, 93, 30)!important;
+}
+
+.duration-dropdown-content li {
+    background: white;
+    transition: background-color 0.3s ease;
+    padding-bottom: 1.5px;
+}
+.duration-dropdown-content a {
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16.5px;
+    color: black;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding-right: 5px;
+}
+.duration-dropdown-content li:hover {
+    background: greenyellow!important;
+}
+.duration-dropdown-content li:hover a {
+    font-size: 17.5px;
+    font-weight: 700;
+    color: rgb(22, 70, 7);
+}
+.duration-dropdown-content li.active {
+    background: greenyellow;
+}
+.duration-dropdown-content li.active a {
+    font-size: 17.5px;
+    font-weight: 700;
+    color: rgb(33, 137, 89);
 }
 
 #condition {
@@ -1160,7 +1268,7 @@
     display: flex;
     flex-direction: column;
     left: 8.5%;
-    top: 15%;
+    top: 13.5%;
     width: 100%;
     height: 15%;
 }
@@ -1201,20 +1309,21 @@
     transition: color 0.3s ease;
     transition: font-size 0.3s ease;
 }
-.condition_checkbox {
+.condition_checkbox_excellent, .condition_checkbox_good, .condition_checkbox_fair {
     width: 20px;
     height: 20px;
     background: white;
     position: absolute;
     border: 2px solid black;
     right: 20%;
+    cursor: pointer;
 }
-.space {
-    width: 5%;
+.leftbar_space {
+    width: 100%;
     height: 5%;
-    background: rgb(255, 255, 255);
+    background: transparent;
     position: relative;
-    top: 10%;
+    top: 17.5%;
 }
 
 
@@ -1355,7 +1464,7 @@
     justify-items: center;
     position: relative;
     top: 20%;
-    gap: 20px 0px;
+    gap: 25px;
 }
 .grid_item {
     width: 91%;
@@ -1439,7 +1548,7 @@
     width: 65vw;
     height: 46vw;
     background: rgb(255, 255, 255);
-    border: 2px solid black;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.621);
     border-radius: 2%;
     z-index: 5;
     position: absolute;
@@ -1447,6 +1556,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     display: none;
+    z-index: 5;
 }
 
 #add_photo_background {
@@ -1853,7 +1963,7 @@
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: row;
-    display: block;
+    display: none;
 }
 .view_item_photo_module {
     display: flex;
@@ -2017,7 +2127,6 @@
 .view_item_description::-webkit-scrollbar-thumb {
     background: #dfdddd;
     border-radius: 7.5px;
-
 }
 .view_item_location_module {
     display: flex;
@@ -2146,6 +2255,520 @@
     display: flex;
     flex-direction: row;
     display: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+}
+.view_user_profile_1 {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    top: 2.5%;
+}
+.view_user_profile_2 {
+    display: flex; 
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+}
+.view_user_profile_2_asterisk {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 2.5%;
+    left: 4.5%;
+}
+.view_user_profile_module {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    gap: 10px;
+    width: 100%;
+    height: 25%;
+    top: 15%;
+}
+.view_user_profile_module_add_friend {
+    width: 15%;
+    background: rgb(231, 198, 198);
+    position: relative;
+    color: rgb(211, 74, 74);
+    border-radius: 7.5px;
+    box-shadow: 0 0 8px rgb(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.view_user_profile_module_add_friend::before {
+    content: '\f500';
+    font-family: FontAwesome;
+}
+.view_user_profile_module_message {
+    width: 45%;
+    background: rgb(229, 198, 231);
+    box-shadow: 0 0 8px rgb(0,0,0,0.5);
+    position: relative;
+    color: rgb(215, 45, 215);
+    border-radius: 7.5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.view_user_profile_module_message::before {
+    content: '\f27a';
+    font-family: FontAwesome;
+    margin-right: 5px;
+}
+.view_user_profile_module_see_rentals {
+    width: 45%;
+    background: rgb(198, 226, 231);
+    box-shadow: 0 0 8px rgb(0,0,0,0.5);
+    position: relative;
+    color: rgb(68, 137, 155);
+    border-radius: 7.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.view_user_profile_module_see_rentals::before {
+    content: '\f206';
+    font-family: FontAwesome;
+    margin-right: 5px;
+}
+.view_user_profile_module_add_friend:hover {
+    box-shadow: 0 0 10px rgb(0,0,0,0.7);
+    background: rgb(244, 221, 221)
+}
+.view_user_profile_module_message:hover {
+    box-shadow: 0 0 10px rgb(0,0,0,0.7);
+    background: rgb(237, 215, 239);
+}
+.view_user_profile_module_see_rentals:hover {
+    box-shadow: 0 0 10px rgb(0,0,0,0.7);
+    background: rgb(219, 240, 244);
+}
+.profile_picture {
+    width: calc(26vw * 0.25);
+    height: calc(26vw * 0.25);
+    border-radius: 50%;
+    left: 2.5%;
+    position: relative;
+}
+.email_icon {
+    margin-bottom: 5px;
+}
+.email_icon::before {
+    content: '\f0e0';
+    font-family: FontAwesome;
+    margin-right: 5px;
+    font-size: 17.5px;
+}
+.phone_number_icon::before {
+    content: '\f095';
+    font-family: FontAwesome;
+    font-size: 17.5px;
+}
+.email, .phone_number {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: 500;
+    left: 2.5%;
+    position: relative;
+    white-space: nowrap;
+}
+.email {
+    margin-bottom: 5px;
+}
+.user_full_name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    left: 2.5%;
+    position: relative;
+    top: 2.5%;
+}
+.member_date {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 25px;
+    font-weight: 500;
+    left: 2.5%;
+    position: relative;
+    color: rgb(95, 88, 88);
+    top: 2.5%;
+}
+.current_location {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: 500;
+    left: 2.75%;
+    position: relative;
+    color: rgb(110, 108, 108);
+    top: 3%;
+}
+.view_user_profile_line {
+    height: 2px;
+    width: 87.5%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background: black;
+    top: 4.5%;
+}
+
+.renter_reviews_module {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: 2.5%;
+    top: 6.5%;
+    gap: 7.5px;
+    align-items: center;
+}
+.renter_reviews_name {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18.5px;
+    font-weight: 700;
+}
+.renter_reviews {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+.renter_reviews::before {
+    content: "(";
+    font-size: 110%;
+    right: 100%;
+    color: black;
+}
+.renter_reviews::after {
+    content: ")";
+    font-size: 110%;
+    right: 100%;
+    margin-left: 2px;
+    color: black;
+}
+#renter_review_star_icon {
+    font-size: 13px;
+    background: transparent;
+    color: yellow;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+    margin-left: 4.5px;
+}
+.renter_reviews_list_module {
+    top: 8.5%;
+    position: relative;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.renter_reviews_list_module::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent; 
+}
+.renter_reviews_list_module::-webkit-scrollbar-thumb {
+    background: #d3d0d0;
+    border-radius: 7.5px;
+}
+.renter_reviews_list {
+    display: grid;
+    position: relative;
+    left: 2.5%;
+    width: 92.5%;
+    gap: 12px;
+}
+.renter_reviews_list::before {
+    content: '';
+    flex: 0 0 12px;
+}
+.renter_reviews_list::after {
+    content: '';
+    flex: 0 0 12px;
+}
+.renter_reviews_list_item {
+    display: flex;
+    flex-direction: column;
+    height: calc(75vh * 0.1);
+    background: rgb(234, 246, 232);
+    border-radius: 7.5px;
+    box-shadow: 0 0 8px rgb(0,0,0,0.75);
+    transition: all 0.15s ease;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-right: 1.5%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+.renter_reviews_list_item::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent; 
+}
+.renter_reviews_list_item::-webkit-scrollbar-thumb {
+    background: #d3d0d0;
+    border-radius: 7.5px;
+}
+
+.renter_reviews_list_item:hover {
+    box-shadow: 0 0 10px rgb(0,0,0,0.75);
+    background: rgb(226, 248, 223);
+}
+.renter_reviews_list_item_1 {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: 1.5%;
+}
+.renter_reviews_list_item_1_module {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    gap: 7.5px;
+    align-items: center;
+}
+.renter_review_full_name {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16.5px;
+    font-weight: 700;
+}
+.renter_review_stars {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+.renter_review_stars::before {
+    content: "(";
+    font-size: 110%;
+    right: 100%;
+    color: black;
+}
+.renter_review_stars::after {
+    content: ")";
+    font-size: 110%;
+    right: 100%;
+    margin-left: 2px;
+    color: black;
+}
+#renter_review_star_icon_1 {
+    font-size: 11.5px;
+    background: transparent;
+    color: yellow;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+    margin-left: 4.5px;
+}
+.renter_review_description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15.5px;
+    font-weight: 500;
+    left: 1.5%;
+    position: relative;
+}
+
+.view_user_profile_line_1 {
+    height: 2px;
+    width: 67.5%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(128, 128, 128, 0.577);
+    top: 11%;
+}
+
+
+.renting_reviews_module {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: 2.5%;
+    top: 12.5%;
+    gap: 7.5px;
+    align-items: center;
+}
+.renting_reviews_name {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18.5px;
+    font-weight: 700;
+}
+.renting_reviews {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+.renting_reviews::before {
+    content: "(";
+    font-size: 110%;
+    right: 100%;
+    color: black;
+}
+.renting_reviews::after {
+    content: ")";
+    font-size: 110%;
+    right: 100%;
+    margin-left: 2px;
+    color: black;
+}
+#renting_review_star_icon {
+    font-size: 13px;
+    background: transparent;
+    color: yellow;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+    margin-left: 4.5px;
+}
+.renting_reviews_list_module {
+    top: 13%;
+    position: relative;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.renting_reviews_list_module::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent; 
+}
+.renting_reviews_list_module::-webkit-scrollbar-thumb {
+    background: #d3d0d0;
+    border-radius: 7.5px;
+}
+.renting_reviews_list {
+    display: grid;
+    position: relative;
+    left: 2.5%;
+    width: 92.5%;
+    gap: 12px;
+}
+.renting_reviews_list::before {
+    content: '';
+    flex: 0 0 12px;
+}
+.renting_reviews_list::after {
+    content: '';
+    flex: 0 0 12px;
+}
+.renting_reviews_list_item {
+    display: flex;
+    flex-direction: column;
+    height: calc(75vh * 0.1);
+    background: rgb(234, 230, 244);
+    border-radius: 7.5px;
+    box-shadow: 0 0 8px rgb(0,0,0,0.5);
+    transition: all 0.2s ease;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-right: 1.5%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.renting_reviews_list_item::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent; 
+}
+.renting_reviews_list_item::-webkit-scrollbar-thumb {
+    background: #d3d0d0;
+    border-radius: 7.5px;
+}
+.renting_reviews_list_item:hover {
+    box-shadow: 0 0 10px rgb(0,0,0,0.75);
+    background: rgb(229, 222, 245);
+}
+.renting_reviews_list_item_1 {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: 1.5%;
+}
+.renting_reviews_list_item_1_module {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    gap: 7.5px;
+    align-items: center;
+}
+.renting_review_full_name {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16.5px;
+    font-weight: 700;
+}
+.renting_review_stars {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+.renting_review_stars::before {
+    content: "(";
+    font-size: 110%;
+    right: 100%;
+    color: black;
+}
+.renting_review_stars::after {
+    content: ")";
+    font-size: 110%;
+    right: 100%;
+    margin-left: 2px;
+    color: black;
+}
+#renting_review_star_icon_1 {
+    font-size: 11.5px;
+    background: transparent;
+    color: yellow;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+    margin-left: 4.5px;
+}
+.renting_review_description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15.5px;
+    font-weight: 500;
+    left: 1.5%;
+    position: relative;
+}
+.view_user_profile_close {
+    background: white;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0 0 8px black;
+    right: calc((2.5% - 25px) + 26vw);
+    top: 10%;
+    z-index: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    display: none;
+}
+.view_user_profile_close::before {
+    content: "\58";
+    font-family: FontAwesome;
+    font-size: 25px;
+    color: gray;
 }
 
 
@@ -2235,7 +2858,7 @@
     transition: box-shadow 0.3s ease;
     width: 95.5%;
     height: 25vh;
-    border-radius: 20px 20px 20px 20px;
+    border-radius: 20px;
     gap: 1.25%;
     display: flex;
     flex-direction: row;

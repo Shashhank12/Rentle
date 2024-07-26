@@ -9,6 +9,7 @@
     <script src="jquery-3.7.1.min.js"></script>
 </head>
 <body style="overflow-x: hidden;">
+    <div class="blur_background"></div>
     <img src="image1.png" alt = "" class="rectangle-image">
     <div class="leftbar">
         <div class="location_search_module">
@@ -101,9 +102,8 @@
                 <div class="location_text"> Location (miles) </div>
             </div>
             <div id="location_container_2">
-                <input type="text" id="min_location" name="min_location" placeholder="Min.">
-                <div class="to"> to </div>
-                <input type="text" id="max_location" name="max_location" placeholder="Max.">
+                <input type="range" min="0" max="100" value="5" step="5" id="location_slider">
+                <div class="location_value"> 5 miles </div>
             </div>
         </div>
 
@@ -113,9 +113,18 @@
                 <div class="durations_text"> Duration </div>
             </div>
             <div id="duration_container_2">
-                <input type="text" id="min_duration" name="min_duration" placeholder="Min.">
-                <div class="to"> to </div>
-                <input type="text" id="max_duration" name="max_duration" placeholder="Max.">
+                <input type="text" id="min_duration" name="min_duration" placeholder="Number">
+                <div id="duration_container_3">
+                    <div class="duration-dropdown-module"> Period 
+                    </div>
+                    <div class="duration_dropdown_arrow"> </div>
+                </div>
+                <ul class="duration-dropdown-content">
+                    <li class="duration-dropdown-content-hours"><a href="#">Hour(s)</a></li>
+                    <li class="duration-dropdown-content-days"><a href="#">Day(s)</a></li>
+                    <li class="duration-dropdown-content-weeks"><a href="#">Week(s)</a></li>
+                    <li class="duration-dropdown-content-months"><a href="#">Month(s)</a></li>
+                </ul>
             </div>
         </div>
 
@@ -126,22 +135,22 @@
             </div>
             <div id="condition_module_2">
                 <div class="condition_text_2"> Excellent </div>
-                <div class="condition_checkbox"></div>
+                <div class="condition_checkbox_excellent"></div>
                 <div class="condition_check"></div>
             </div>
             <div id="condition_module_2">
                 <div class="condition_text_2"> Good </div>
-                <div class="condition_checkbox"></div>
+                <div class="condition_checkbox_good"></div>
                 <div class="condition_check"></div>
             </div>
             <div id="condition_module_2">
                 <div class="condition_text_2"> Fair </div>
-                <div class="condition_checkbox"></div>
+                <div class="condition_checkbox_fair"></div>
                 <div class="condition_check"></div>
             </div>
         </div>
 
-        <div class="space"></div>
+        <div class="leftbar_space"></div>
 
     </div>
     <div class="homepage_bar">
@@ -156,7 +165,6 @@
 
 
     <!-- Shopping cart -->
-
     <div class="cart_module">
         <div class="cart_list">
             <div class="cart_item">
@@ -237,9 +245,9 @@
         </div>
         <div class="sort_list">
             <ul class="sort-dropdown-content">
-                <li><a href="#">Price: low to high</a></li>
-                <li><a href="#">Location: closest to furthest</a></li>
-                <li><a href="#">Date listed: newest to oldest</a></li>
+                <li class="sort-dropdown-content-price"><a href="#">Price: low to high</a></li>
+                <li class="sort-dropdown-content-location"><a href="#">Location: closest to furthest</a></li>
+                <li class="sort-dropdown-content-date-listed"><a href="#">Date listed: newest to oldest</a></li>
             </ul>
         </div>
 
@@ -261,66 +269,6 @@
 
             <div class="grid_item">
                 <img src="image4.png" alt = "" class="item_image">
-                <div class="grid_item_module_1">
-                    <div class="grid_item_module_2">
-                        <div class="item_name"> Bicycle for rent! </div>
-                        <div class="item_module_1">
-                            <div class="item_category"> Bike - </div>
-                            <div class="item_feature"> Multiple gears </div>
-                        </div>
-                        <div class="item_location"> San Jose, CA </div>
-                    </div>
-                    <div class="item_price"> $15 </div>
-                </div>
-            </div>
-
-            <div class="grid_item">
-                <img src="image5.png" alt = "" class="item_image">
-                <div class="grid_item_module_1">
-                    <div class="grid_item_module_2">
-                        <div class="item_name"> Bicycle for rent! </div>
-                        <div class="item_module_1">
-                            <div class="item_category"> Bike - </div>
-                            <div class="item_feature"> Multiple gears </div>
-                        </div>
-                        <div class="item_location"> San Jose, CA </div>
-                    </div>
-                    <div class="item_price"> $15 </div>
-                </div>
-            </div>
-
-            <div class="grid_item">
-                <img src="image5.png" alt = "" class="item_image">
-                <div class="grid_item_module_1">
-                    <div class="grid_item_module_2">
-                        <div class="item_name"> Bicycle for rent! </div>
-                        <div class="item_module_1">
-                            <div class="item_category"> Bike - </div>
-                            <div class="item_feature"> Multiple gears </div>
-                        </div>
-                        <div class="item_location"> San Jose, CA </div>
-                    </div>
-                    <div class="item_price"> $15 </div>
-                </div>
-            </div>
-
-            <div class="grid_item">
-                <img src="image5.png" alt = "" class="item_image">
-                <div class="grid_item_module_1">
-                    <div class="grid_item_module_2">
-                        <div class="item_name"> Bicycle for rent! </div>
-                        <div class="item_module_1">
-                            <div class="item_category"> Bike - </div>
-                            <div class="item_feature"> Multiple gears </div>
-                        </div>
-                        <div class="item_location"> San Jose, CA </div>
-                    </div>
-                    <div class="item_price"> $15 </div>
-                </div>
-            </div>
-
-            <div class="grid_item">
-                <img src="image5.png" alt = "" class="item_image">
                 <div class="grid_item_module_1">
                     <div class="grid_item_module_2">
                         <div class="item_name"> Bicycle for rent! </div>
@@ -377,37 +325,6 @@
                     </div>
                 </div>
             </div>
-            <div class="your_rentals_past_grid_item">  
-                <img src="image4.png" alt = "" class="your_rentals_past_grid_item_image">
-                <div class="your_rentals_past_module">
-                    <div class="your_rentals_past_grid_item_title"> Waymo 5th Generation! </div>
-                    <div class="your_rentals_past_category_module">
-                        <div class="your_rentals_past_grid_item_category"> Category: </div>
-                        <div class="your_rentals_past_grid_item_category_name"> Automobile </div>
-                    </div>
-                    <div class="your_rentals_past_features_module">
-                        <div class="your_rentals_past_grid_item_features"> Features: </div>
-                        <div class="your_rentals_past_grid_item_features_name"> Self-driving, </div>
-                        <div class="your_rentals_past_grid_item_features_name"> Comfortable seats </div>
-                    </div>
-                    <div class="your_rentals_past_location_module">
-                        <div class="your_rentals_past_grid_item_location"> Location: </div>
-                        <div class="your_rentals_past_grid_item_location_name"> Mountain View, CA </div>
-                    </div>
-                    <div class="your_rentals_past_date_module">
-                        <div class="your_rentals_past_grid_item_date"> Date: </div>
-                        <div class="your_rentals_past_grid_item_date_name"> July 17th, 2024 </div>
-                    </div>
-                    <div class="your_rentals_past_duration_module">
-                        <div class="your_rentals_past_grid_item_duration"> Duration: </div>
-                        <div class="your_rentals_past_grid_item_duration_name"> 2 hours </div>
-                    </div>
-                    <div class="your_rentals_past_price_module">
-                        <div class="your_rentals_past_grid_item_price"> Price: </div>
-                        <div class="your_rentals_past_grid_item_price_name"> $40 </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div id="your_rentals_current_grid_container">
@@ -437,35 +354,6 @@
                         <div class="your_rentals_current_grid_item_price_name"> $8/hour, </div>
                         <div class="your_rentals_current_grid_item_price_name"> $20/week, </div>
                         <div class="your_rentals_current_grid_item_price_name"> $75/month </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="your_rentals_current_grid_item">  
-                <img src="image5.png" alt = "" class="your_rentals_current_grid_item_image">
-                <div class="your_rentals_current_module">
-                    <div class="your_rentals_current_grid_item_title"> Gotrax Scooter Rent $1/hour! </div>
-                    <div class="your_rentals_current_category_module">
-                        <div class="your_rentals_current_grid_item_category"> Category: </div>
-                        <div class="your_rentals_current_grid_item_category_name"> Scooter </div>
-                    </div>
-                    <div class="your_rentals_current_features_module">
-                        <div class="your_rentals_current_grid_item_features"> Features: </div>
-                        <div class="your_rentals_current_grid_item_features_name"> Speakers, </div>
-                        <div class="your_rentals_current_grid_item_features_name"> Auto-stop </div>
-                    </div>
-                    <div class="your_rentals_current_location_module">
-                        <div class="your_rentals_current_grid_item_location"> Location: </div>
-                        <div class="your_rentals_current_grid_item_location_name"> Hayward, CA </div>
-                    </div>
-                    <div class="your_rentals_current_date_module">
-                        <div class="your_rentals_current_grid_item_date"> Date created: </div>
-                        <div class="your_rentals_current_grid_item_date_name"> July 16th, 2024 </div>
-                    </div>
-                    <div class="your_rentals_current_price_module">
-                        <div class="your_rentals_current_grid_item_price"> Price: </div>
-                        <div class="your_rentals_current_grid_item_price_name"> $5/hour, </div>
-                        <div class="your_rentals_current_grid_item_price_name"> $25/week </div>
                     </div>
                 </div>
             </div>
@@ -511,37 +399,6 @@
                     </div>
                 </div>
             </div>
-            <div class="your_rentings_past_grid_item">  
-                <img src="image6.png" alt = "" class="your_rentings_past_grid_item_image">
-                <div class="your_rentings_past_module">
-                    <div class="your_rentings_past_grid_item_title"> Yarsca 24in Beach Cruiser Bike! </div>
-                    <div class="your_rentings_past_category_module">
-                        <div class="your_rentings_past_grid_item_category"> Category: </div>
-                        <div class="your_rentings_past_grid_item_category_name"> Bike </div>
-                    </div>
-                    <div class="your_rentings_past_features_module">
-                        <div class="your_rentings_past_grid_item_features"> Features: </div>
-                        <div class="your_rentings_past_grid_item_features_name"> Multiple colors, </div>
-                        <div class="your_rentings_past_grid_item_features_name"> Adjustable seats </div>
-                    </div>
-                    <div class="your_rentings_past_location_module">
-                        <div class="your_rentings_past_grid_item_location"> Location: </div>
-                        <div class="your_rentings_past_grid_item_location_name"> Santa Cruz, CA </div>
-                    </div>
-                    <div class="your_rentings_past_date_module">
-                        <div class="your_rentings_past_grid_item_date"> Date: </div>
-                        <div class="your_rentings_past_grid_item_date_name"> July 20th, 2024 </div>
-                    </div>
-                    <div class="your_rentings_past_duration_module">
-                        <div class="your_rentings_past_grid_item_duration"> Duration: </div>
-                        <div class="your_rentings_past_grid_item_duration_name"> 20 hours </div>
-                    </div>
-                    <div class="your_rentings_past_price_module">
-                        <div class="your_rentings_past_grid_item_price"> Price: </div>
-                        <div class="your_rentings_past_grid_item_price_name"> $8 </div>
-                    </div>
-                </div>
-            </div>
         </div>
     
         <div id="your_rentings_current_grid_container">
@@ -573,38 +430,6 @@
                     <div class="your_rentings_current_price_module">
                         <div class="your_rentings_current_grid_item_price"> Price: </div>
                         <div class="your_rentings_current_grid_item_price_name"> $14 </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="your_rentings_current_grid_item">  
-                <img src="image5.png" alt = "" class="your_rentings_current_grid_item_image">
-                <div class="your_rentings_current_module">
-                    <div class="your_rentings_current_grid_item_title"> Gotrax Scooter Rent $1/hour </div>
-                    <div class="your_rentings_current_category_module">
-                        <div class="your_rentings_current_grid_item_category"> Category: </div>
-                        <div class="your_rentings_current_grid_item_category_name"> Scooter </div>
-                    </div>
-                    <div class="your_rentings_current_features_module">
-                        <div class="your_rentings_current_grid_item_features"> Features: </div>
-                        <div class="your_rentings_current_grid_item_features_name"> Multiple colors, </div>
-                        <div class="your_rentings_current_grid_item_features_name"> Adjustable seats </div>
-                    </div>
-                    <div class="your_rentings_current_location_module">
-                        <div class="your_rentings_current_grid_item_location"> Location: </div>
-                        <div class="your_rentings_current_grid_item_location_name"> Santa Cruz, CA </div>
-                    </div>
-                    <div class="your_rentings_current_date_module">
-                        <div class="your_rentings_current_grid_item_date"> Date: </div>
-                        <div class="your_rentings_current_grid_item_date_name"> July 23th, 2024 </div>
-                    </div>
-                    <div class="your_rentings_current_duration_module">
-                        <div class="your_rentings_current_grid_item_duration"> Duration: </div>
-                        <div class="your_rentings_current_grid_item_duration_name"> 20 hours </div>
-                    </div>
-                    <div class="your_rentings_current_price_module">
-                        <div class="your_rentings_current_grid_item_price"> Price: </div>
-                        <div class="your_rentings_current_grid_item_price_name"> $8 </div>
                     </div>
                 </div>
             </div>
@@ -731,8 +556,6 @@
             <div class="add_item_cancel"> Cancel </div>
             <div class="add_item_add"> Add </div>
         </div>
-
-        <div class="space"></div>
     </div>
 
     <div class="view_item_module">
@@ -795,36 +618,182 @@
     </div>
 
     <div class="view_user_profile">
-        <img src="profilepic1.png" alt="" class="profile_picture">
+        <div class="view_user_profile_1">
+            <img src="profilepic1.png" alt="" class="profile_picture">
+            <div class="view_user_profile_2_asterisk">
+                <div class="view_user_profile_2">
+                    <div class="view_user_profile_3">
+                        <div class="email_icon"></div>
+                        <div class="phone_number_icon"></div>
+                    </div>
+                    <div class="view_user_profile_4">
+                        <div class="email">drgenius2003@gmail.com</div>
+                        <div class="phone_number"> (510) 240-0454</div>
+                    </div>
+                </div>
+                <div class="view_user_profile_module">
+                    <div class="view_user_profile_module_add_friend"></div>
+                    <div class="view_user_profile_module_message">Message</div>
+                    <div class="view_user_profile_module_see_rentals">Rentals</div>
+                </div>
+            </div>
+        </div>
         <div class="user_full_name"> Phuc Thinh Nguyen </div>
         <div class="member_date"> Member since June 1st, 2024 </div>
         <div class="current_location"> Currently at Santa Cruz, CA </div>
-        <div class="email"> Email:  </div>
-        <div class="phone_number"> Phone number:  </div>
-        <div class="renter_reviews"> Renter reviews (4.5) </div>
-        <div class="renter_reviews_list">
-            <div class="renter_reviews_list_item">
-                <div class="renter_review_full_name"> Alicia Shi </div>
-                <div class="renter_review_stars"> 5 </div>
-                <div class="renter_review_description"> Awesome experience with Phuc, keep his bike clean and everything well! </div>
-            </div>
-            <div class="renter_reviews_list_item">
-                <div class="renter_review_full_name"> Shashhank Seethula </div>
-                <div class="renter_review_stars"> 4 </div>
-                <div class="renter_review_description"> Nice guy, a bit talkative, overall cool experience. </div>
+        <div class="view_user_profile_line"></div>
+        <div class="renter_reviews_module">
+            <div class="renter_reviews_name"> Renter reviews</div>
+            <div class="renter_reviews"> 4.5 <i class="fas fa-star" id="renter_review_star_icon"></i></div>
+        </div>
+        <div class="renter_reviews_list_module">
+            <div class="renter_reviews_list">
+                <div class="renter_reviews_list_item">
+                    <div class="renter_reviews_list_item_1">
+                        <div class="renter_reviews_list_item_1_module">
+                            <div class="renter_review_full_name"> Alicia Shi </div>
+                            <div class="renter_review_stars"> 5.0 <i class="fas fa-star" id="renter_review_star_icon_1"></i></div>
+                        </div>
+                    </div>
+                    <div class="renter_review_description"> Awesome experience with Phuc, keep his bike clean and everything well! Woohoo! </div>
+                </div>
+
+                <div class="renter_reviews_list_item">
+                    <div class="renter_reviews_list_item_1">
+                        <div class="renter_reviews_list_item_1_module">
+                            <div class="renter_review_full_name"> Shashhank Seethula </div>
+                            <div class="renter_review_stars"> 4.0 <i class="fas fa-star" id="renter_review_star_icon_1"></i></div>
+                        </div>
+                    </div>
+                    <div class="renter_review_description"> Nice guy, a bit talkative. Still a good choice. </div>
+                </div>
+    
+    
+                <div class="renter_reviews_list_item">
+                    <div class="renter_reviews_list_item_1">
+                        <div class="renter_reviews_list_item_1_module">
+                            <div class="renter_review_full_name"> Mike Wu </div>
+                            <div class="renter_review_stars"> 4.5 <i class="fas fa-star" id="renter_review_star_icon_1"></i></div>
+                        </div>
+                    </div>
+                    <div class="renter_review_description"> My CS157A student is now letting me rent one of his bikes! I love it! </div>
+                </div>
             </div>
         </div>
-        <div class="renting_reviews"> Renting reviews (4.2) </div>
-        <div class="renting_reviews_list">
-            <div class="renting_reviews_list_item">
-                <div class="renting_review_full_name"> Mike Wu </div>
-                <div class="renting_review_stars"> 4.2 </div>
-                <div class="renting_review_description"> Having a decent experience with him on a Waymo ride. However, I wish there were more Japanese food on the car. </div>
+
+        <div class="view_user_profile_line_1"></div>
+
+        <div class="renting_reviews_module">
+            <div class="renting_reviews_name"> Renting reviews</div>
+            <div class="renting_reviews"> 4.3 <i class="fas fa-star" id="renting_review_star_icon"></i></div>
+        </div>
+
+        <div class="renting_reviews_list_module">
+            <div class="renting_reviews_list">
+                <div class="renting_reviews_list_item">
+                    <div class="renting_reviews_list_item_1">
+                        <div class="renting_reviews_list_item_1_module">
+                            <div class="renting_review_full_name"> Lionel Messi </div>
+                            <div class="renting_review_stars"> 5.0 <i class="fas fa-star" id="renting_review_star_icon_1"></i></div>
+                        </div>
+                    </div>
+                    <div class="renting_review_description"> Fantastic visit to San Jose thanks to the help of this guy! Best referral to my homies in Miami! </div>
+                </div>
+            
+                <div class="renting_reviews_list_item">
+                    <div class="renting_reviews_list_item_1">
+                        <div class="renting_reviews_list_item_1_module">
+                            <div class="renting_review_full_name"> Mike Wu </div>
+                            <div class="renting_review_stars"> 3.5 <i class="fas fa-star" id="renting_review_star_icon_1"></i></div>
+                        </div>
+                    </div>
+                    <div class="renting_review_description"> Good talk with him, but at the end, he did not give me more Japanese food!</div>
+                </div>
             </div>
         </div>
     </div>
+    <div class="view_user_profile_close"></div>
 
-      <script>
+    <script>
+
+        $(document).ready(function() {
+            $('.duration_dropdown_arrow').click(function() {
+                var currentCategoryDropdownRotation = $('.duration_dropdown_arrow').css('transform');
+                if (currentCategoryDropdownRotation === 'matrix(-1, 0, 0, -1, 0, 0)') {
+                    $('.duration_dropdown_arrow').css({
+                        'transform': 'rotate(0deg)',
+                        'color': 'black'
+                    });
+                    $('.duration-dropdown-module').css({
+                        'font-size': '15px',
+                        'border': '3px solid rgb(31, 93, 30)',
+                        'color': 'black'
+                    });
+                }
+                else {
+                    $('.duration_dropdown_arrow').css({
+                        'transform': 'rotate(180deg)',
+                        'color': 'rgb(31, 93, 30)'
+                    });
+                    $('.duration-dropdown-module').css({
+                        'font-size': '16.5px',
+                        'border': '3px solid rgb(70, 169, 68)',
+                        'color': 'green'
+                    });
+                }
+                if ($('.duration-dropdown-content').css('display') === 'block') {
+                    $('.duration-dropdown-content').css('display', 'none');
+                }
+                else {
+                    $('.duration-dropdown-content').css('display', 'block');
+                }
+            });
+        });
+
+        $(document).mousedown(function(event) {
+            if (!$(event.target).closest('.duration_dropdown_arrow, .duration-dropdown-content').length) {
+                $('.duration_dropdown_arrow').css({
+                    'transform': 'rotate(0deg)',
+                    'color': 'black',
+                });
+                $('.duration-dropdown-module').css({
+                    'font-size': '15px',
+                    'border': '3px solid rgb(31, 93, 30)',
+                    'color': 'black'
+                });
+                $('.duration-dropdown-content').css('display', 'none');
+            }
+        }); 
+
+        $('.duration-dropdown-content li').click(function() {
+            var selectedText = $(this).text();
+            $(this).toggleClass('active');
+            $('.duration-dropdown-content li').not(this).removeClass('active');
+            $('.duration-dropdown-module').text(selectedText);
+            $('.duration-dropdown-content').css('display', 'none');
+            $('.duration-dropdown-module').css({
+                'font-size': '15px',
+                'border': '3px solid rgb(31, 93, 30)',
+                'color': 'black'
+            });
+            $('.duration_dropdown_arrow').css({
+                'transform': 'rotate(0deg)',
+                'color': 'black',
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            let item_id = 0;
+            $('.grid_container .grid_item').click(function() {
+                item_id = $(this).index() + 1;
+            });
+        });
+    </script>
+
+
+    <script>
         $(document).ready(function() {
             $("#photo_front_button").hover(
                 function() {
@@ -869,6 +838,14 @@
             );
         });
       </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#location_slider').on('input', function() {
+                $('.location_value').text(`${this.value} miles`);
+            });
+        });
+    </script>
 
     <script>
         const imageFilenames = [
@@ -1089,17 +1066,16 @@
             $('.add_item').click(function() {
                 if ($('.add_item_module').css('display') === 'block') {
                     $('.add_item_module').css('display', 'none');
-                }
-                else {
-                    if ($('.view_item_module').css('display') === 'block') {
-                        $('.view_item_module').css('display', 'none');
-                    } 
+                    $('.blur_background').css('display', 'none');
+                } else {
                     $('.add_item_module').css('display', 'block');
+                    $('.blur_background').css('display', 'block');
                 }
             });
 
             $('.add_item_cancel').click(function() {
                 $('.add_item_module').css('display', 'none');
+                $('.blur_background').css('display', 'none');
             });
         });
     </script>
@@ -1109,17 +1085,52 @@
             $('.grid_item').click(function() {
                 if ($('.view_item_module').css('display') === 'block') {
                     $('.view_item_module').css('display', 'none');
+                    $('.blur_background').css('display', 'none');
                 }
                 else {
-                    if ($('.add_item_module').css('display') === 'block') {
-                        $('.add_item_module').css('display', 'none');
-                    }
                     $('.view_item_module').css('display', 'block');
+                    $('.blur_background').css('display', 'block');
                 }
             });
 
             $('.view_item_close').click(function() {
                 $('.view_item_module').css('display', 'none');
+                $('.blur_background').css('display', 'none');
+                $('.view_user_profile').css('display', 'none');
+                $('.view_user_profile_close').css('display', 'none');
+            });
+
+            $('.view_user_profile_close').click(function() {
+                $('.view_user_profile').css('display', 'none');
+                $('.view_user_profile_close').css('display', 'none');
+                $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(0)');
+                $('.view_item_view_user_profile').text('SEE INFO');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.view_user_profile_module_message').click(function() {
+                $('.view_item_module').css('display', 'none');
+                $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(0)');
+                $('.view_user_profile').css('display', 'none');
+                $('.view_user_profile_close').css('display', 'none');
+                $('.view_item_view_user_profile').text('SEE INFO');
+                $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(0)');
+                $('.blur_background').css('display', 'none');
+                $('#messages_view').css('display', 'block');
+            });
+
+            $('.view_user_profile_module_add_friend').click(function() {
+                $('.view_item_module').css('display', 'none');
+                $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(0)');
+                $('.view_user_profile').css('display', 'none');
+                $('.view_user_profile_close').css('display', 'none');
+                $('.view_item_view_user_profile').text('SEE INFO');
+                $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(0)');
+                $('.blur_background').css('display', 'none');
+                $('#friends_view').css('display', 'block');
             });
         });
     </script>
@@ -1128,9 +1139,28 @@
         $(document).ready(function() {
             $('.view_item_view_user_profile, .view_item_user_name').click(function() {
                 if ($('.view_user_profile').css('display') === 'none') {
-                    $('.view_user_profile').show();
-                    $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(-12.5vw)');
+                    $('.view_user_profile').css('display', 'block');
+                    $('.view_user_profile_close').css('display', 'flex');
+                    $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(-14vw)');
+                    $('.view_item_view_user_profile').text('CLOSE');
                 }
+                else {
+                    if ($('.view_user_profile').css('display') === 'block') {
+                        $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(0)');
+                    }
+                    $('.view_user_profile').css('display', 'none');
+                    $('.view_user_profile_close').css('display', 'none');
+                    $('.view_item_view_user_profile').text('SEE INFO');
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $('.view_item_close').click(function() {
+                $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(0)');
+                $('.view_user_profile').css('display', 'none');
+                $('.view_user_profile_close').css('display', 'none');
+                $('.view_item_view_user_profile').text('SEE INFO');
             });
         });
     </script>
@@ -1392,8 +1422,8 @@
             });
 
             $('.category-dropdown-content li').click(function() {
-                $('.category-dropdown-content li').removeClass('active');
-                $(this).addClass('active');
+                $(this).toggleClass('active');
+                $('.category-dropdown-content li').not(this).removeClass('active');
             });
 
             $('.features_dropdown_arrow').click(function() {
@@ -1435,8 +1465,8 @@
             });
 
             $('.features-dropdown-content li').click(function() {
-                $('.features-dropdown-content li').removeClass('active');
-                $(this).addClass('active');
+                $(this).toggleClass('active');
+                $('.features-dropdown-content li').not(this).removeClass('active');
             });
         });
 
