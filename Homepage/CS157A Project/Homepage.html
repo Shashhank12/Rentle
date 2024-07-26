@@ -837,15 +837,17 @@
                 }
             );
         });
-      </script>
+    </script>
 
     <script>
         $(document).ready(function() {
             $('#location_slider').on('input', function() {
-                $('.location_value').text(`${this.value} miles`);
+                var value = $(this).val();
+                $('.location_value').text(value + ' miles');
             });
         });
     </script>
+
 
     <script>
         const imageFilenames = [
