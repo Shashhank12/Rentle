@@ -9,7 +9,9 @@
     <%
         String userID = "0";
         try {
-            userID = session.getAttribute("userID").toString();
+            if (session.getAttribute("userID") != null) {
+                userID = session.getAttribute("userID").toString();
+            }
         } catch (IllegalStateException e) {
             out.println("IllegalStateException caught: " + e.getMessage());
         }
