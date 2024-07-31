@@ -248,19 +248,104 @@
 
     <div id="login-module">
         <div class="login-background">
-            <div class="username"> Username </div>
+            <%
+            if (userID.equals("0")) {
+            %>
+            <form id="login-form">
+            <div class="username"> Email </div>
             <input type="text" id="username" name="searchbox" placeholder="Email, username, or phone number">
+                <%
+                    String myEmail = (String)request.getParameter("searchbox");
+                    Boolean emailInvalid = false;
+                    if (request.getParameter("submit") != null) {
+                        try {
+                            java.sql.Connection con;
+                            Class.forName("com.mysql.jdbc.Driver");
+                            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/RentalProj?autoReconnect=true&useSSL=false",user, password);
+
+                            Statement stmt = con.createStatement();
+
+                            String emailQuery = String.format("SELECT COUNT(email) FROM user WHERE email = '%s';", myEmail);
+                            ResultSet rs = stmt.executeQuery(emailQuery);
+                            rs.next();
+                            if (rs.getInt(1) == 0) {
+                                emailInvalid = true;
+                                %>
+                                <p id="email-error" style="color: red;">No account with this email</p>
+                                <%
+                            }
+                            
+                            stmt.close();
+                            con.close();
+                        } catch(SQLException e) {
+                            out.println("SQLException caught: " + e.getMessage());
+                        }
+                    }
+                %>
             <div class="password"> Password </div>
-            <input type="password" id="password" name="searchbox" placeholder="">
+            <input type="password" id="password" name="searchbox2" placeholder="">
+                <%
+                    String myPassword = (String)request.getParameter("searchbox2");
+                    if (request.getParameter("submit") != null) {
+                        try {
+                            java.sql.Connection con;
+                            Class.forName("com.mysql.jdbc.Driver");
+                            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
+
+                            Statement stmt = con.createStatement();
+
+                            String passwordQuery = String.format("SELECT user_id FROM user WHERE email='%s' AND password='%s' ORDER BY user_id DESC;", myEmail, myPassword);
+                            out.println(passwordQuery);
+                            ResultSet rs = stmt.executeQuery(passwordQuery);
+                            rs.next();
+
+                            if (rs.getInt("user_id") > 0) {
+                                String userID2 = String.valueOf(rs.getInt("user_id"));
+                                session.setAttribute("userID", userID2);
+                                rs.close();
+                                String redirectURL = "http://localhost:8080/home.jsp";
+                                response.sendRedirect(redirectURL);
+                            } else {
+                            %>
+                                <p id="password-error" style="color: red;">Password does not match</p>
+                            <%
+                            }
+                            rs.close();
+                            stmt.close();
+                            con.close();
+                        } catch(SQLException e) {
+                            out.println("SQLException caught: " + e.getMessage());
+                        }
+                    }
+                %>
             <div id="login-button-module">
                 <div class="login_button_background"></div>
-                <div class="login_text"> Login </div>
+                <input class="login_text" type="submit" value="Login" name="submit" id="submit-login-button">
             </div>
-            <div id="signup_notification_component">
-                <div class="not_a_member_text"> Not a member? </div>
-                <div class="signup_hyperlink"> Sign up</div>
+                <div id="signup_notification_component">
+                    <div class="not_a_member_text"> Not a member? </div>
+                    <a href="/sign-up.jsp"><div class="signup_hyperlink"> Sign up</div></a>
+                </div>
+            </form>
+        <%
+            } else {
+        %>
+            <div id="loggedin_notification_component">
+                <form id="loggedin_notification_form">
+                    <div class="view-profile-button">Profile</div>
+                    <input type="submit" value="Log out" name="logout">
+                    <%
+                        if (request.getParameter("logout") != null) {
+                            session.setAttribute("userID", "0");
+                        }
+                    %>
+                </form>
             </div>
+        <%
+            }
+        %>
         </div>
+        
     </div>
 
     <div id="wrapper">
@@ -593,7 +678,7 @@
 
     <div class="view_item_module" id="view_item_module" name="1">
         <%
-            // TODO: POPULATE ALL OF THIS USING THE SQL VALUES
+            // TODO: POPULATE ALL OF THIS USING THE SEARCH RESULTS
             // for now, i have hardcoded the id in here
             int id = 1;
         %>
@@ -657,10 +742,9 @@
         </div>
         <%
             // OPTIONAL TODO: FIX WEBSITE REFRESH ONCE ITEM IS ADDED TO CART
-            out.println("I can see you");
-            if (request.getParameter("addToCart") != null) {
+            if (request.getParameter("addToCart") != null && !userID.equals("0")) {
                 // add to cart(userId, itemId)
-                out.println("parameter not null, button has been clicked");
+                // out.println("parameter not null, button has been clicked");
                 try {
                     java.sql.Connection con;
                     Class.forName("com.mysql.jdbc.Driver");
@@ -669,10 +753,10 @@
                     Statement stmt = con.createStatement();
 
                     String addToCartQuery = String.format("INSERT INTO cart (UserID, ItemID) VALUES (%s, %s);", userID, id);
-                    out.println(addToCartQuery);
+                    // out.println(addToCartQuery);
 
                     int ri = stmt.executeUpdate(addToCartQuery);
-                    out.println("item added to cart");
+                    // out.println("item added to cart");
                     
                     stmt.close();
                     con.close();
