@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
+    <title>Rentle - CS157A Project</title>
     <link rel="stylesheet" href="home.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -20,18 +20,31 @@
         String db = "rentle";
         String user; // assumes database name is the same as username
         user = "root";
-        String password = "PASSWORD"; //enter your password
+        String password = "Hello1234!"; //enter your password
     %>
     <script src="Homepage.js"></script>
     <script src="jquery-3.7.1.min.js"></script>
 </head>
-<body style="overflow-x: hidden;">
+<body style="overflow-x: hidden;" onload="initMap()">
     <div class="blur_background"></div>
-    <img src="images/image1.png" alt = "" class="rectangle-image">
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFt-lS9JjEAzSssSrhYvAgzFMnmasayH0"></script>
+    <script>
+        function initMap() {
+            // Create a map object and specify the DOM element for display.
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 37.337, lng: -121.881},
+                zoom: 16
+            });
+        }
+    </script>
+
     <div class="leftbar">
         <div class="location_search_module">
-            <input type="text" id="location_search" name="searchbox" placeholder="Address, ZIP Code, ...">
-            <div class="search_icon"></div>
+            <div class="location_search_module_1">
+                <input type="text" id="location_search" name="searchbox" placeholder="Address, ZIP Code, ...">
+                <div class="search_icon"></div>
+            </div>
             <div class="icon_circle">
                 <div class="icon"></div>
             </div>
@@ -60,7 +73,7 @@
 
         <div class="searchrent_module">
             <input type="text" id="interested_rents" name="searchbox" placeholder="What's in your mind?...">
-            <div class="searchrent_icon"></div>
+            <div class="searchrent_icon" onclick="performSearch()"></div>
         </div>
 
         <div class="category_module">
@@ -132,8 +145,7 @@
             <div id="duration_container_2">
                 <input type="text" id="min_duration" name="min_duration" placeholder="Number">
                 <div id="duration_container_3">
-                    <div class="duration-dropdown-module"> Period 
-                    </div>
+                    <div class="duration-dropdown-module"> Period </div>
                     <div class="duration_dropdown_arrow"> </div>
                 </div>
                 <ul class="duration-dropdown-content">
@@ -153,25 +165,36 @@
             <div id="condition_module_2">
                 <div class="condition_text_2"> Excellent </div>
                 <div class="condition_checkbox_excellent"></div>
-                <div class="condition_check"></div>
+                <div class="condition_checkbox_excellent_module">
+                    <div class="condition_checkbox_excellent_icon"></div>
+                    <div class="condition_checkbox_excellent_square1"></div>
+                    <div class="condition_checkbox_excellent_square2"></div>
+                </div>
             </div>
             <div id="condition_module_2">
                 <div class="condition_text_2"> Good </div>
                 <div class="condition_checkbox_good"></div>
-                <div class="condition_check"></div>
+                <div class="condition_checkbox_good_module">
+                    <div class="condition_checkbox_good_icon"></div>
+                    <div class="condition_checkbox_good_square1"></div>
+                    <div class="condition_checkbox_good_square2"></div>
+                </div>
             </div>
             <div id="condition_module_2">
                 <div class="condition_text_2"> Fair </div>
                 <div class="condition_checkbox_fair"></div>
-                <div class="condition_check"></div>
+                <div class="condition_checkbox_fair_module">
+                    <div class="condition_checkbox_fair_icon"></div>
+                    <div class="condition_checkbox_fair_square1"></div>
+                    <div class="condition_checkbox_fair_square2"></div>
+                </div>
             </div>
         </div>
-
         <div class="leftbar_space"></div>
-
     </div>
+
     <div class="homepage_bar">
-        <img src="images/image2.png" alt = "" class="logo">
+        <img src="/images/image2.png" alt = "" class="logo">
         <div class="shopping_icon"></div>
         <div tabindex="0" id="signup_container">
             <div class="signup_login_button">
@@ -182,7 +205,7 @@
                 <% 
                     } else {
                 %>
-                <div class="signup_login_text">Welcome <%=userID%>!</div>
+                <div class="signup_login_text">Welcome, <%=userID%>!</div>
                 <%
                     }
                 %>
@@ -212,7 +235,6 @@
                     out.println("<div class='cart_item_title'>" + rs.getString("name") + "</div>");
                     int quantity = rs.getInt("quantity");
                     out.println("<div class='cart_item_quantity'> x" + String.valueOf(quantity) + "</div>");
-                    out.println("<div class='cart_item_price_module'>");
                     int price = rs.getInt("price_per_hour");
                     int priceXQuantity = quantity * price;
                     total += priceXQuantity;
@@ -252,6 +274,7 @@
             if (userID.equals("0")) {
             %>
             <form id="login-form">
+            <div class="error_module"> Incorrect email/password </div>
             <div class="username"> Email </div>
             <input type="text" id="username" name="searchbox" placeholder="Email, username, or phone number">
                 <%
@@ -261,7 +284,7 @@
                         try {
                             java.sql.Connection con;
                             Class.forName("com.mysql.jdbc.Driver");
-                            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/RentalProj?autoReconnect=true&useSSL=false",user, password);
+                            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
 
                             Statement stmt = con.createStatement();
 
@@ -271,7 +294,15 @@
                             if (rs.getInt(1) == 0) {
                                 emailInvalid = true;
                                 %>
-                                <p id="email-error" style="color: red;">No account with this email</p>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('.error_module').css('display', 'block');
+                                        $('#login-module').css({
+                                            'height': '29%',
+                                            'display': 'block'
+                                        });
+                                    });
+                                </script>
                                 <%
                             }
                             
@@ -295,7 +326,7 @@
                             Statement stmt = con.createStatement();
 
                             String passwordQuery = String.format("SELECT user_id FROM user WHERE email='%s' AND password='%s' ORDER BY user_id DESC;", myEmail, myPassword);
-                            out.println(passwordQuery);
+                            // out.println(passwordQuery);
                             ResultSet rs = stmt.executeQuery(passwordQuery);
                             rs.next();
 
@@ -303,18 +334,26 @@
                                 String userID2 = String.valueOf(rs.getInt("user_id"));
                                 session.setAttribute("userID", userID2);
                                 rs.close();
-                                String redirectURL = "http://localhost:8080/home.jsp";
+                                String redirectURL = "http://localhost:8080/JDBC/home.jsp";
                                 response.sendRedirect(redirectURL);
                             } else {
                             %>
-                                <p id="password-error" style="color: red;">Password does not match</p>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('.error_module').css('display', 'block');
+                                        $('#login-module').css({
+                                            'height': '29%',
+                                            'display': 'block'
+                                        });
+                                    });
+                                </script>
                             <%
                             }
                             rs.close();
                             stmt.close();
                             con.close();
                         } catch(SQLException e) {
-                            out.println("SQLException caught: " + e.getMessage());
+                            // out.println("SQLException caught: " + e.getMessage());
                         }
                     }
                 %>
@@ -368,37 +407,43 @@
             </ul>
         </div>
 
-        <div class="grid_container">
-            <div class="grid_item" id="1">
-                <img src="images/image4.png" alt = "" class="item_image">
-                <div class="grid_item_module_1">
-                    <div class="grid_item_module_2">
-                        <div class="item_name"> Bicycle for rent! </div>
-                        <div class="item_module_1">
-                            <div class="item_category"> Bike - </div>
-                            <div class="item_feature"> Multiple gears </div>
-                        </div>
-                        <div class="item_location"> San Jose, CA </div>
-                    </div>
-                    <div class="item_price"> $15 </div>
-                </div>
-            </div>
-            
-            <div class="grid_item" id="2">
-                <img src="images/image3.png" alt = "" class="item_image">
-                <div class="grid_item_module_1">
-                    <div class="grid_item_module_2">
-                        <div class="item_name"> Bicycle for rent! </div>
-                        <div class="item_module_1">
-                            <div class="item_category"> Bike - </div>
-                            <div class="item_feature"> Multiple gears </div>
-                        </div>
-                        <div class="item_location"> San Jose, CA </div>
-                    </div>
-                    <div class="item_price"> $15 </div>
-                </div>
-            </div>
-            
+        <div class="grid_container" id="results">
+            <script>
+                function performSearch() {
+                    var query = document.getElementById("interested_rents").value;
+                    var minPrice = document.getElementById("min_price").value;
+                    var maxPrice = document.getElementById("max_price").value;
+                    var duration = document.getElementById("min_duration").value;
+                    var durationCategory = "hours";
+                    var category = "all";
+                    var feature = "all";
+                    
+                    var activeItem = $('.category-dropdown-content li.active');
+                    if (activeItem.length > 0) {
+                        category = activeItem.text().trim();
+                    }
+                    
+                    activeItem = $('.features-dropdown-content li.active');
+                    if (activeItem.length > 0) {
+                        feature = activeItem.text().trim();
+                    }
+                    
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "/JDBC/results.jsp?query=" + encodeURIComponent(query) +
+                                    "&minPrice=" + encodeURIComponent(minPrice) +
+                                    "&maxPrice=" + encodeURIComponent(maxPrice) +
+                                    "&duration=" + encodeURIComponent(duration) +
+                                    "&durationCategory=" + encodeURIComponent(durationCategory) +
+                                    "&category=" + encodeURIComponent(category) +
+                                    "&feature=" + encodeURIComponent(feature), true);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            document.getElementById("results").innerHTML = xhr.responseText;
+                        }
+                    };
+                    xhr.send();
+                }
+            </script>
         </div>
 
         
@@ -413,7 +458,7 @@
 
         <div id="your_rentals_past_grid_container">
             <div class="your_rentals_past_grid_item">  
-                <img src="images/image3.png" alt = "" class="your_rentals_past_grid_item_image">
+                <img src="image3.png" alt = "" class="your_rentals_past_grid_item_image">
                 <div class="your_rentals_past_module">
                     <div class="your_rentals_past_grid_item_title"> Bicycle for rent! </div>
                     <div class="your_rentals_past_category_module">
@@ -430,7 +475,7 @@
                         <div class="your_rentals_past_grid_item_location_name"> San Jose, CA </div>
                     </div>
                     <div class="your_rentals_past_date_module">
-                        <div class="your_rentals_past_grid_item_date"> Date: </div>
+                        <div class="your_rentals_past_grid_item_date"> Date rented: </div>
                         <div class="your_rentals_past_grid_item_date_name"> July 18th, 2024 </div>
                     </div>
                     <div class="your_rentals_past_duration_module">
@@ -447,7 +492,7 @@
 
         <div id="your_rentals_current_grid_container">
             <div class="your_rentals_current_grid_item">  
-                <img src="images/image4.png" alt = "" class="your_rentals_current_grid_item_image">
+                <img src="image4.png" alt = "" class="your_rentals_current_grid_item_image">
                 <div class="your_rentals_current_module">
                     <div class="your_rentals_current_grid_item_title"> Waymo 5th Generation! </div>
                     <div class="your_rentals_current_category_module">
@@ -475,6 +520,8 @@
                     </div>
                 </div>
             </div>
+
+            
         </div>
     </div>
 
@@ -487,7 +534,7 @@
     
         <div id="your_rentings_past_grid_container">
             <div class="your_rentings_past_grid_item">  
-                <img src="images/image5.png" alt = "" class="your_rentings_past_grid_item_image">
+                <img src="image5.png" alt = "" class="your_rentings_past_grid_item_image">
                 <div class="your_rentings_past_module">
                     <div class="your_rentings_past_grid_item_title"> Gotrax Scooter Rent $1/hour </div>
                     <div class="your_rentings_past_category_module">
@@ -504,7 +551,7 @@
                         <div class="your_rentings_past_grid_item_location_name"> Hayward, CA </div>
                     </div>
                     <div class="your_rentings_past_date_module">
-                        <div class="your_rentings_past_grid_item_date"> Date: </div>
+                        <div class="your_rentings_past_grid_item_date"> Date completed: </div>
                         <div class="your_rentings_past_grid_item_date_name"> July 21st, 2024 </div>
                     </div>
                     <div class="your_rentings_past_duration_module">
@@ -521,7 +568,7 @@
     
         <div id="your_rentings_current_grid_container">
             <div class="your_rentings_current_grid_item">  
-                <img src="images/image6.png" alt = "" class="your_rentings_current_grid_item_image">
+                <img src="image6.png" alt = "" class="your_rentings_current_grid_item_image">
                 <div class="your_rentings_current_module">
                     <div class="your_rentings_current_grid_item_title"> Yarsca 24in Beach Cruiser Bike! </div>
                     <div class="your_rentings_current_category_module">
@@ -543,16 +590,22 @@
                     </div>
                     <div class="your_rentings_current_duration_module">
                         <div class="your_rentings_current_grid_item_duration"> Duration: </div>
-                        <div class="your_rentings_current_grid_item_duration_name"> 5 hours </div>
+                        <div class="your_rentings_current_grid_item_duration_name"> 12600 </div>
                     </div>
                     <div class="your_rentings_current_price_module">
                         <div class="your_rentings_current_grid_item_price"> Price: </div>
                         <div class="your_rentings_current_grid_item_price_name"> $14 </div>
                     </div>
                 </div>
+                <div class="your_rentings_current_time_remaining_module">
+                    <div class="your_rentings_current_grid_item_time_remaining"> Time remaining </div>
+                    <div class="your_rentings_current_grid_item_time_remaining_name"></div>
+                </div>
             </div>
+
         </div>
     </div>
+
     
     <div id="messages_view">
         <div class="your_messages_text"> Messages </div>
@@ -587,8 +640,8 @@
 
 
     <div id="friends_view"></div>
-    <div class="add_item_module">
 
+    <div class="add_item_module">
         <div id="add_photos_grid">
             <div class="add_photo_module">
                 <label for="file-upload" id="add_photo_background"> + </label>
@@ -661,10 +714,10 @@
                 <div class="add_item_price">
                     <div class="add_item_price_title"> Item Price </div>
                     <div class="item_price_input_module">
-                        <input type="text" id="item_price_input_address" placeholder="Price per hour">
-                        <input type="text" id="item_price_input_city" placeholder="Price per day">
-                        <input type="text" id="item_price_input_state" placeholder="Price per week">
-                        <input type="text" id="item_price_input_zip_code" placeholder="Price per month">
+                        <input type="text" id="item_price_hour" placeholder="Price per hour">
+                        <input type="text" id="item_price_day" placeholder="Price per day">
+                        <input type="text" id="item_price_week" placeholder="Price per week">
+                        <input type="text" id="item_price_month" placeholder="Price per month">
                     </div>
                 </div>
             </div>
@@ -672,9 +725,93 @@
 
         <div class="add_item_cancel_add_module">
             <div class="add_item_cancel"> Cancel </div>
-            <div class="add_item_add"> Add </div>
+            <div class="add_item_add" onclick="addItem()"> Add </div>
         </div>
     </div>
+
+    <script>
+        function addItem() {
+            var title = document.getElementById("add_item_title_input").value;
+            var category = document.getElementsByClassName("add_item_category_module")[0].textContent.trim();
+            var condition = document.getElementsByClassName("add_item_condition_module")[0].textContent.trim();
+            var features = [];
+            var featureItems = document.getElementsByClassName("add_item_features_list")[0].children;
+            for (var i = 0; i < featureItems.length; i++) {
+                features.push(featureItems[i].textContent.trim());
+            }
+            var description = document.getElementById("add_item_description_input").value;
+            var address = document.getElementById("item_location_input_address").value;
+            var city = document.getElementById("item_location_input_city").value;
+            var state = document.getElementById("item_location_input_state").value;
+            var zipCode = document.getElementById("item_location_input_zip_code").value;
+            
+            var priceHour = document.getElementById("item_price_hour").value;
+            var priceDay = document.getElementById("item_price_day").value;
+            var priceWeek = document.getElementById("item_price_week").value;
+            var priceMonth = document.getElementById("item_price_month").value;
+
+            console.log(title, category, condition, features, description, address, city, state, zipCode, priceHour, priceDay, priceWeek, priceMonth);
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/JDBC/additem.jsp?title=" + encodeURIComponent(title) +
+                            "&category=" + encodeURIComponent(category) +
+                            "&condition=" + encodeURIComponent(condition) +
+                            "&features=" + encodeURIComponent(JSON.stringify(features)) +
+                            "&description=" + encodeURIComponent(description) +
+                            "&address=" + encodeURIComponent(address) +
+                            "&city=" + encodeURIComponent(city) +
+                            "&state=" + encodeURIComponent(state) +
+                            "&zipCode=" + encodeURIComponent(zipCode) +
+                            "&priceHour=" + encodeURIComponent(priceHour) +
+                            "&priceDay=" + encodeURIComponent(priceDay) +
+                            "&priceWeek=" + encodeURIComponent(priceWeek) +
+                            "&priceMonth=" + encodeURIComponent(priceMonth), true);
+            console.log(xhr);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("additem").innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+
+    <script>
+        function performSearch() {
+            var query = document.getElementById("interested_rents").value;
+            var minPrice = document.getElementById("min_price").value;
+            var maxPrice = document.getElementById("max_price").value;
+            var duration = document.getElementById("min_duration").value;
+            var durationCategory = "hours";
+            var category = "all";
+            var feature = "all";
+            
+            var activeItem = $('.category-dropdown-content li.active');
+            if (activeItem.length > 0) {
+                category = activeItem.text().trim();
+            }
+            
+            activeItem = $('.features-dropdown-content li.active');
+            if (activeItem.length > 0) {
+                feature = activeItem.text().trim();
+            }
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/JDBC/results.jsp?query=" + encodeURIComponent(query) +
+                            "&minPrice=" + encodeURIComponent(minPrice) +
+                            "&maxPrice=" + encodeURIComponent(maxPrice) +
+                            "&duration=" + encodeURIComponent(duration) +
+                            "&durationCategory=" + encodeURIComponent(durationCategory) +
+                            "&category=" + encodeURIComponent(category) +
+                            "&feature=" + encodeURIComponent(feature), true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("results").innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+    </script>
 
     <div class="view_item_module" id="view_item_module" name="1">
         <%
@@ -688,7 +825,7 @@
             <div id="photo_front_button"></div>
         </div>
         <div class="view_item_information_module">
-            <div class="view_item_title"> Yarsca 24in Beach Cruiser Bike! </div>
+            <div class="view_item_title"> <strong>Yarsca 24in Beach Cruiser Bike! </strong></div>
             <div class="view_item_prices_list">
                 <div class="view_item_prices_per_hour"> $8/hour </div> -
                 <div class="view_item_prices_per_day"> $12/day </div> -
@@ -696,26 +833,26 @@
                 <div class="view_item_prices_per_month"> $35/month </div>
             </div>
             <div class="view_item_listed_date_module">
-                <div class="view_item_listed_date_name"> Listed date: </div>
+                <div class="view_item_listed_date_name"> <strong>Listed date:</strong> </div>
                 <div class="view_item_listed_date"> 20th July, 2024, </div>
                 <div class="view_item_listed_date_count"> 7 days ago </div>
             </div>
             <div class="view_item_location_module">
-                <div class="view_item_location_name"> Location: </div>
+                <div class="view_item_location_name"> <strong>Location:</strong></div>
                 <div class="view_item_location"> Santa Cruz, CA </div>
             </div>
             <div class="view_item_category_module">
-                <div class="view_item_category_name"> Category: </div>
+                <div class="view_item_category_name"> <strong>Category:</strong> </div>
                 <div class="view_item_category"> Bike </div>
             </div>
             <div class="view_item_features_module">
-                <div class="view_item_features_name"> Features: </div>
+                <div class="view_item_features_name"> <strong>Features:</strong></div>
                 <div class="view_item_features"> Multiple colors - </div> 
                 <div class="view_item_features"> Adjustable seats - </div>
                 <div class="view_item_features"> Anti-lock system </div>
             </div>
             <div class="view_item_description_module">
-                <div class="view_item_description_name"> Description</div>
+                <div class="view_item_description_name"> <strong>Description</strong></div>
                 <div class="view_item_description">Lorem ipsum odor amet, consectetuer adipiscing elit. Pulvinar est dui sem velit curae duis! Adipiscing orci aliquet blandit habitant aptent lorem. Placerat vestibulum scelerisque primis natoque fames scelerisque laoreet. Placerat mi natoque mattis ridiculus nisl curabitur consequat. Vulputate nec praesent suspendisse conubia ac feugiat turpis finibus magna. Venenatis orci condimentum eleifend sagittis per elementum. Porttitor leo fames porttitor habitasse mi nisi.
 
                     Lorem ipsum odor amet, consectetuer adipiscing elit. Pulvinar est dui sem velit curae duis! Adipiscing orci aliquet blandit habitant aptent lorem. Placerat vestibulum scelerisque primis natoque fames scelerisque laoreet. Placerat mi natoque mattis ridiculus nisl curabitur consequat. Vulputate nec praesent suspendisse conubia ac feugiat turpis finibus magna. Venenatis orci condimentum eleifend sagittis per elementum. Porttitor leo fames porttitor habitasse mi nisi.
@@ -735,9 +872,7 @@
         </div>
         
         <div class="view_item_cancel_add_module">
-            <form>
-                <input type="submit" name="addToCart" value="Add to Cart" class="view_item_add_to_cart_module">
-            </form>
+            <div class="view_item_add_to_cart_module"> Add to cart </div>
             <div class="view_item_close"> Close </div>
         </div>
         <%
@@ -789,7 +924,7 @@
             </div>
         </div>
         <div class="user_full_name"> Phuc Thinh Nguyen </div>
-        <div class="member_date"> Member since June 1st, 2024 </div>
+        <div class="member_date"> Member since November 21st, 2023 </div>
         <div class="current_location"> Currently at Santa Cruz, CA </div>
         <div class="view_user_profile_line"></div>
         <div class="renter_reviews_module">
@@ -864,18 +999,53 @@
     </div>
     <div class="view_user_profile_close"></div>
 
-    <script>
+     <script>
+        function conditionCheckbox(x, y, z, t) {
+            let count = 0;
+            $(document).ready(function() {
+                $(t).click(function() {
+                    count++;
+                    if (count === 1) {
+                        $(x).css('transform', 'translateX(35px)');
+                    }
+                    if (count === 2) {
+                        $(z).css('opacity', '1');
+                        $(z).css('transform', 'translateX(35px)');
+                        $(x).css('opacity', '0');
+                        $(x).css('transform', 'translateX(0px)');
+                    }
+                    if (count === 3) {
+                        $(z).css('opacity', '0');
+                        $(z).css('transform', 'translateX(0px)');
+                        $(x).css('opacity', '1');
+                        $(x).css('transform', 'translateX(35px)');
+                        count = 1;
+                    }
+                });
+            });
+        }
 
+        conditionCheckbox('.condition_checkbox_excellent_square1','.condition_checkbox_excellent_icon','.condition_checkbox_excellent_square2', '.condition_checkbox_excellent');
+
+        conditionCheckbox('.condition_checkbox_good_square1','.condition_checkbox_good_icon','.condition_checkbox_good_square2', '.condition_checkbox_good');
+
+        conditionCheckbox('.condition_checkbox_fair_square1','.condition_checkbox_fair_icon','.condition_checkbox_fair_square2', '.condition_checkbox_fair');
+
+
+    </script>
+
+    <script>
         $(document).ready(function() {
             $('.duration_dropdown_arrow').click(function() {
                 var currentCategoryDropdownRotation = $('.duration_dropdown_arrow').css('transform');
                 if (currentCategoryDropdownRotation === 'matrix(-1, 0, 0, -1, 0, 0)') {
                     $('.duration_dropdown_arrow').css({
                         'transform': 'rotate(0deg)',
-                        'color': 'black'
+                        'color': 'black',
+                        'top': '0px'
                     });
                     $('.duration-dropdown-module').css({
-                        'font-size': '15px',
+                        'font-size': '80%',
                         'border': '3px solid rgb(31, 93, 30)',
                         'color': 'black'
                     });
@@ -883,10 +1053,11 @@
                 else {
                     $('.duration_dropdown_arrow').css({
                         'transform': 'rotate(180deg)',
-                        'color': 'rgb(31, 93, 30)'
+                        'color': 'rgb(31, 93, 30)',
+                        'top': '1.75px'
                     });
                     $('.duration-dropdown-module').css({
-                        'font-size': '16.5px',
+                        'font-size': '90%',
                         'border': '3px solid rgb(70, 169, 68)',
                         'color': 'green'
                     });
@@ -905,9 +1076,10 @@
                 $('.duration_dropdown_arrow').css({
                     'transform': 'rotate(0deg)',
                     'color': 'black',
+                    'top': '0px'
                 });
                 $('.duration-dropdown-module').css({
-                    'font-size': '15px',
+                    'font-size': '80%',
                     'border': '3px solid rgb(31, 93, 30)',
                     'color': 'black'
                 });
@@ -922,25 +1094,43 @@
             $('.duration-dropdown-module').text(selectedText);
             $('.duration-dropdown-content').css('display', 'none');
             $('.duration-dropdown-module').css({
-                'font-size': '15px',
+                'font-size': '80%',
                 'border': '3px solid rgb(31, 93, 30)',
                 'color': 'black'
             });
             $('.duration_dropdown_arrow').css({
                 'transform': 'rotate(0deg)',
                 'color': 'black',
+                'top': '0px'
             });
         });
+
+        $('.add_item_category_dropdown_content li').click(function() {
+            var selectedText = $(this).text();
+            // $(this).toggleClass('active');
+            // $('.duration-dropdown-content li').not(this).removeClass('active');
+            $('.add_item_category_module').text(selectedText);
+            $('.add_item_category_dropdown_content').css('display', 'none');
+        });
+
+        $('.add_item_condition_dropdown_content li').click(function() {
+            var selectedText = $(this).text();
+            // $(this).toggleClass('active');
+            // $('.duration-dropdown-content li').not(this).removeClass('active');
+            $('.add_item_condition_module').text(selectedText);
+            $('.add_item_condition_dropdown_content').css('display', 'none');
+        });
+            
     </script>
 
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             let item_id = 0;
             $('.grid_container .grid_item').click(function() {
                 item_id = $(this).index() + 1;
             });
         });
-    </script>
+    </script> -->
 
 
     <script>
@@ -987,7 +1177,7 @@
                 }
             );
         });
-      </script>
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -997,6 +1187,63 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            function formatTimeWithS(timeVar) {
+                return (timeVar > 1 ? 's ': '');
+            }
+
+            function formatTime(seconds) {
+                if (seconds <= 59) return seconds + ' second' + formatTimeWithS(seconds);
+                if (60 <= seconds && seconds < 3600) {
+                    var minutes = Math.floor(seconds/60);
+                    var second = seconds - minutes * 60;
+                    return minutes + ' minute' + formatTimeWithS(minutes) + (second != 0 ? (second + ' second' + formatTimeWithS(second)) : '');
+                }
+                if (3600 <= seconds && seconds < 86400) {
+                    var hours = Math.floor(seconds/3600);
+                    var minutes = Math.floor((seconds - hours * 3600)/60);
+                    return hours + ' hour' + formatTimeWithS(hours) + (minutes > 0 ? minutes + ' minute' + formatTimeWithS(minutes) : '');
+                }
+                if (86400 <= seconds && seconds < 604800) {
+                    var days = Math.floor(seconds/86400);
+                    var hours = Math.floor((seconds - days * 86400)/3600);
+                    return days + ' day' + formatTimeWithS(days) + (hours > 0 ? hours + ' hour' + formatTimeWithS(hours) : '');
+                }
+                if (604800 <= seconds && seconds < 2592000) {
+                    var weeks = Math.floor(seconds/604800);
+                    var days = Math.floor((seconds - days * 604800)/86400);
+                    return weeks + ' week' + formatTimeWithS(weeks) + (days > 0 ? days + ' day' + formatTimeWithS(days) : '');
+                }
+                if (2592000 <= seconds && seconds < 31536000) {
+                    var months = Math.floor(seconds/2592000);
+                    var weeks = Math.floor((seconds - days * 2592000)/604800);
+                    return months + ' month' + formatTimeWithS(months) + (weeks > 0 ? weeks + ' week' + formatTimeWithS(weeks) : '');
+                }
+            }
+
+            $('.your_rentings_current_grid_item').each(function() {
+                var divText = $(this).find('.your_rentings_current_grid_item_duration_name').text().trim();
+                var seconds = parseFloat(divText);
+                
+                $(this).find('.your_rentings_current_grid_item_duration_name').text(formatTime(seconds));
+
+                var $timeRemainingDiv = $(this).find('.your_rentings_current_grid_item_time_remaining_name');
+                $timeRemainingDiv.text(formatTime(seconds));
+
+                setInterval(function() {
+                    if (seconds > 0) {
+                        seconds--;
+                        $timeRemainingDiv.text(formatTime(seconds));
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 1000);
+            });
+        });
+    </script>
+
 
     <script>
         const imageFilenames = [
@@ -1064,26 +1311,35 @@
                     newFeature.textContent = inputValue;
                     var randomColor = getRandomColor();
                     newFeature.style.backgroundColor = randomColor;
+                    newFeature.setAttribute('contenteditable', 'true');
                     featuresList.insertBefore(newFeature, document.querySelector('.add_item_features_plus_icon'));
                     this.value = ''; 
                 }
             }
         });
 
-        document.querySelector('.add_items_features_icon').addEventListener('click', function() {
+        $('.add_items_features_icon').click(function() {
             var inputField = document.getElementById('add_items_features_input');
             var inputValue = inputField.value.trim(); 
             if (inputValue) {
                 var featuresList = document.querySelector('.add_item_features_list');
                 var newFeature = document.createElement('div');
                 newFeature.className = 'add_item_features';
-                newFeature.textContent = inputValue; 
+
+                var innerDiv = document.createElement('div');
+                innerDiv.textContent = inputValue;
+                innerDiv.setAttribute('contenteditable');
+
                 var randomColor = getRandomColor();
                 newFeature.style.backgroundColor = randomColor;
+
+                newFeature.appendChild(innerDiv);
+
                 featuresList.insertBefore(newFeature, document.querySelector('.add_item_features_plus_icon')); 
                 inputField.value = '';
             }
         });
+
 
     </script>
 
@@ -1244,7 +1500,7 @@
                 }
             });
 
-            $('.view_item_close').click(function() {
+            $('.view_item_close, .view_item_add_to_cart_module').click(function() {
                 $('.view_item_module').css('display', 'none');
                 $('.blur_background').css('display', 'none');
                 $('.view_user_profile').css('display', 'none');
@@ -1314,6 +1570,14 @@
                 $('.view_item_view_user_profile').text('SEE INFO');
             });
         });
+
+        $('.blur_background').click(function(event) {
+            $('.view_item_module').css('display', 'none');
+            $('.view_user_profile').css('display', 'none');
+            $('.add_item_module').css('display', 'none');
+            $('.blur_background').css('display', 'none');
+        });
+
     </script>
 
     <script>
@@ -1400,11 +1664,31 @@
             $('#past_rentals').click(function() {
                 $('#your_rentals_past_grid_container').css('display', 'grid');
                 $('#your_rentals_current_grid_container').css('display', 'none');
+                $('#past_rentals').css({
+                    'border': '3px solid rgb(13, 0, 255)',
+                    'background': 'rgba(169, 194, 247, 0.46)',
+                    'color': 'rgb(88, 83, 83)'
+                });
+                $('#current_rentals').css({
+                    'border': '3px solid rgb(33, 95, 95)',
+                    'background': 'rgba(123, 241, 241, 0.429)',
+                    'color': 'rgb(5, 23, 23)'
+                });
             });
 
             $('#current_rentals').click(function() {
                 $('#your_rentals_current_grid_container').css('display', 'grid');
                 $('#your_rentals_past_grid_container').css('display', 'none');
+                $('#current_rentals').css({
+                    'border': '3px solid rgb(13, 0, 255)',
+                    'background': 'rgba(169, 194, 247, 0.46)',
+                    'color': 'rgb(88, 83, 83)'
+                });
+                $('#past_rentals').css({
+                    'border': '3px solid rgb(33, 95, 95)',
+                    'background': 'rgba(123, 241, 241, 0.429)',
+                    'color': 'rgb(5, 23, 23)'
+                });
             });
         });
 
@@ -1445,11 +1729,31 @@
             $('#past_rentings').click(function() {
                 $('#your_rentings_past_grid_container').css('display', 'grid');
                 $('#your_rentings_current_grid_container').css('display', 'none');
+                $('#past_rentings').css({
+                    'border': '3px solid rgb(241, 109, 86)',
+                    'background': 'rgba(243, 219, 186, 0.46)',
+                    'color': 'rgb(88, 83, 83)'
+                });
+                $('#current_rentings').css({
+                    'border': '3px solid rgb(116, 76, 40)',
+                    'background': 'rgba(215, 181, 137, 0.429)',
+                    'color': 'rgb(5, 23, 23)'
+                });
             });
 
             $('#current_rentings').click(function() {
                 $('#your_rentings_current_grid_container').css('display', 'grid');
                 $('#your_rentings_past_grid_container').css('display', 'none');
+                $('#past_rentings').css({
+                    'border': '3px solid rgb(116, 76, 40)',
+                    'background': 'rgba(215, 181, 137, 0.429)',
+                    'color': 'rgb(5, 23, 23)'
+                });
+                $('#current_rentings').css({
+                    'border': '3px solid rgb(241, 109, 86)',
+                    'background': 'rgba(243, 219, 186, 0.46)',
+                    'color': 'rgb(88, 83, 83)'
+                });
             });
         });
 
@@ -1644,7 +1948,6 @@
             });
         });
     </script>
-
 
 
 </body>

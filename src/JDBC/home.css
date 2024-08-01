@@ -1,3 +1,16 @@
+body {
+    overflow: hidden;
+}
+#map {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -4;
+}
+
 .blur_background {
     width: 100%;
     height: 100%;
@@ -99,6 +112,16 @@
     height: 22.5%;
     display: none;
 }
+.error_module {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: red;
+    left: 5.5%;
+    top: 2%;
+    position: relative;
+    display: none;
+}
 .login-background {
     width: 100%;
     height: 100%;
@@ -116,6 +139,10 @@
 .login-background:hover {
     border: 2px solid rgb(129, 124, 124);
     background: rgba(228, 241, 247, 0.999);
+}
+#login-form {
+    height: 100%;
+    position: relative;
 }
 .username {
     font-family: 'Montserrat', sans-serif;
@@ -202,6 +229,8 @@
     height: 13.5%;
     width: 40%;
     top: 19.25%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .login_button_background {
     width: 100%;
@@ -228,12 +257,15 @@
     position: absolute;
     left: 50%;
     top: 45%;
+    outline: none;
+    background: none;
+    width: 100%;
+    border: none;
     transform: translate(-50%, -45%);
 }
 #login-button-module:hover .login_text{
     color: rgb(232, 230, 230);
 }
-
 #signup_notification_component {
     display: flex;
     position: relative;
@@ -305,7 +337,7 @@
     font-weight: 600;
     color: blue;
 }
-.cart_item_price_module {
+.cart_item_price {
     display: flex;
     flex-direction: column;
     margin-left: auto;
@@ -425,50 +457,57 @@
     bottom: 0px;
     overflow-x: hidden;
     overflow-y: auto;
+    scrollbar-width: thin;
 }
 .leftbar:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
-
-.rectangle-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -4;
-}
-
 .location_search_module {
     display: flex;
     flex-direction: row;
-    left: 8.5%;
+    left: 5%;
     top: 3%;
     position: relative;
+    width: 93%;
 }
-
+.location_search_module_1 {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 85%;
+}
 #location_search {
     position: relative;
-    width: 63%;
-    height: 2.5%;
     font-family: 'Montserrat', sans-serif;
     border-top: none;
     border-left: none;
     border-right: none;
     border-bottom: 2px solid rgb(133, 133, 134);
     transition: border-bottom 0.3s ease;
-    background-color: transparent; 
-    padding-right: 9%;
+    position: relative;
+    width: 80%;
+    padding-right: 20%;
+    background-color: transparent;
     font-size: 15px;
 }
-#location_search:hover {
+#location_search:hover, #location_search:focus {
     border-bottom: 2px solid rgb(148, 190, 216);
     outline: none;
 }
-#location_search:focus {
-    border-bottom: 2px solid rgb(148, 190, 216);
-    outline: none;
+.search_icon {
+    align-self: center;
+    font-size: 17px;
+    color: rgba(29, 20, 20, 0.836);
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}
+.search_icon::before {
+    content: "\f002";
+    font-family: FontAwesome;
+}
+.search_icon:hover {
+    color: rgb(96, 164, 240);
 }
 
 .icon_circle {
@@ -478,10 +517,11 @@
     background: rgb(193, 215, 240);
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: absolute;
     display: flex;
-    margin-top: -2%;
-    right: 2%;
+    cursor: pointer;
+    right: 0;
+    align-self: center;
 }
 .icon {
     align-self: center;
@@ -500,22 +540,6 @@
     color: red;
 }
 
-.search_icon {
-    align-self: center;
-    font-size: 17px;
-    color: rgba(29, 20, 20, 0.836);
-    position: relative;
-    right: 6%;
-    margin-top: -1%;
-}
-.search_icon::before {
-    content: "\f002";
-    font-family: FontAwesome;
-}
-.search_icon:hover {
-    color: rgb(96, 164, 240);
-}
-
 
 #your_rentals {
     position: absolute;
@@ -532,7 +556,7 @@
     transition: all 0.2s ease;
 }
 .your_rentals_icon::before {
-    content: "\f0f3";
+    content: "\f206";
     font-family: FontAwesome;
 }
 .your_rentals_text {
@@ -543,7 +567,7 @@
     transition: all 0.2s ease;
     white-space: nowrap;
     position: absolute;
-    left: 30%;
+    left: 45px;
 }
 #your_rentals:hover .your_rentals_icon {
     color: rgba(26, 121, 150, 0.901)!important;
@@ -569,7 +593,7 @@
     transition: all 0.2s ease;
 }
 .your_rentings_icon::before {
-    content: "\f0e0";
+    content: "\f84a";
     font-family: FontAwesome;
 }
 .your_rentings_text {
@@ -580,7 +604,7 @@
     transition: all 0.2s ease;
     white-space: nowrap; 
     position: absolute;
-    left: 30%;
+    left: 45px;
 }
 #your_rentings:hover .your_rentings_icon {
     color: rgba(193, 75, 12, 0.901)!important;
@@ -606,7 +630,7 @@
     transition: all 0.2s ease;
 }
 .messages_icon::before {
-    content: "\f206";
+    content: "\f0e0";
     font-family: FontAwesome;
 }
 .messages_text {
@@ -616,7 +640,7 @@
     color: rgba(6, 14, 19, 0.988);
     transition: all 0.2s ease;
     position: absolute;
-    left: 37.5%;   
+    left: 45px;   
 }
 #messages:hover .messages_icon {
     color: rgba(120, 16, 145, 0.901)!important;
@@ -652,7 +676,7 @@
     color: rgba(6, 14, 19, 0.988);
     transition: all 0.2s ease;  
     position: absolute;
-    left: 37.5%;
+    left: 45px;
 }
 #friends:hover .friends_icon {
     color: rgba(163, 10, 10, 0.901)!important;
@@ -670,21 +694,21 @@
     background: rgba(80, 83, 86, 0.5);
     left: 50%;
     transform: translateX(-50%);
-    top: 21.5%;
+    top: 22%;
 }
 
 .searchrent_module {
     display: flex;
     flex-direction: row;
     position: relative;
-    left: 8.5%;
+    width: 83%;
     top: 23.5%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 #interested_rents {
     align-self: center;
     position: relative;
-    width: 73.5%;
-    height: 2.5%;
     font-family: 'Montserrat', sans-serif;
     border-top: none;
     border-left: none;
@@ -692,14 +716,11 @@
     border-bottom: 2px solid rgb(133, 133, 134);
     transition: border-bottom 0.3s ease;
     background-color: transparent; 
-    padding-right: 9%;
     font-size: 15px;
+    padding-right: 15%;
+    width: 85%;
 }
-#interested_rents:hover {
-    border-bottom: 2px solid rgb(241, 112, 236);
-    outline: none;
-}
-#interested_rents:focus {
+#interested_rents:hover, #interested_rents:focus{
     border-bottom: 2px solid rgb(241, 112, 236);
     outline: none;
 }
@@ -707,8 +728,9 @@
     align-self: center;
     font-size: 17px;
     color: rgba(29, 20, 20, 0.836);
-    position: relative;
-    right: 6%;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
 }
 .searchrent_icon::before {
     content: "\f002";
@@ -1081,7 +1103,7 @@
 #location_slider {
     -webkit-appearance: none;
     appearance: none;
-    width: 65%;
+    width: 55%;
     height: 5px;
     background: #d3d3cf;
     transition: background-color 0.2s ease;
@@ -1148,6 +1170,8 @@
     display: flex;
     flex-direction: row;
     height: 100%;
+    position: relative;
+    top: 2.5%;
 }
 #min_duration {
     width: 27.5%;
@@ -1172,36 +1196,31 @@
 }
 #duration_container_3 {
     display: flex;
-    flex-direction: row;
-    width: 45%;
+    width: 38.5%;
     height: 30%;
+    position: relative;
 }
 .duration-dropdown-module {
     width: 100%;
     height: 100%;
-    background: rgb(255,255,255);
+    background: white;
     padding-left: 10px;
-    position: relative;
     border-radius: 7.5px;
     border: 3px solid rgb(31, 93, 30);
-    font-size: 15px;
     display: flex;
     align-items: center;
     font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
+    font-size: 80%;
     transition: all 0.2s ease;
 }
 .duration_dropdown_arrow {
-    position: relative;
-    right: 22.5%;
-    margin-top: 1px;
+    position: absolute;
     transition: all 0.2s ease;
     font-size: 30px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    top: 5%;
-
+    right: 7.5%;
 }
 .duration_dropdown_arrow::before {
     content: "\f0d7";
@@ -1222,9 +1241,8 @@
     z-index: 3;
     display: none;
 }
-
 #duration_container_3:hover .duration-dropdown-module{
-    font-size: 16.5px!important;
+    font-size: 90%!important;
     border: 3px solid rgb(70, 169, 68)!important;
     color: green!important;
 }
@@ -1312,11 +1330,44 @@
 .condition_checkbox_excellent, .condition_checkbox_good, .condition_checkbox_fair {
     width: 20px;
     height: 20px;
-    background: white;
+    background: transparent;
     position: absolute;
-    border: 2px solid black;
     right: 20%;
     cursor: pointer;
+    border: 2px solid black;
+    z-index: 1;
+}
+.condition_checkbox_excellent_module, .condition_checkbox_good_module, .condition_checkbox_fair_module{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    right: 17.5%;
+    align-self: center;
+    margin-top: 6px;
+}
+.condition_checkbox_excellent_icon::before, .condition_checkbox_good_icon::before, .condition_checkbox_fair_icon::before{
+    content: '\f00c';
+    font-family: FontAwesome;
+    font-size: 35px;
+    position: absolute;
+}
+.condition_checkbox_excellent_square1, .condition_checkbox_good_square1, .condition_checkbox_fair_square1 {
+    width: 35px;
+    height: 35px;
+    left: 0;
+    background: white;
+    position: absolute;
+    transition: transform 0.3s ease;
+}
+.condition_checkbox_excellent_square2, .condition_checkbox_good_square2, .condition_checkbox_fair_square2 {
+    width: 35px;
+    height: 35px;
+    left: -35px;
+    background: white;
+    position: absolute;
+    transition: transform 0.3s ease;
 }
 .leftbar_space {
     width: 100%;
@@ -1331,6 +1382,7 @@
     position: absolute;
     right: 20%;
     bottom: 0%;
+    z-index: 1;
 }
 .rectangle {
     display: flex;
@@ -1352,7 +1404,7 @@
 }
 
 .rightbar {
-    width: 20%;
+    width: 20.4%;
     height: calc(100vh - 50px);
     background: rgb(245, 247, 249);
     position: fixed;
@@ -1362,6 +1414,7 @@
     justify-content: center;
     overflow-y: auto;
     scrollbar-width: none;
+    z-index: 0;
 }
 
 .add_item {
@@ -1767,6 +1820,7 @@
 .add_item_features_list {
     display: flex;
     flex-direction: row;
+    align-items: center;
     border: 2px solid black;
     width: 92.5%;
     height: 100%;
@@ -1787,15 +1841,11 @@
     border-radius: 7.5px;
 }
 .add_item_features {
-    background: green;
     border: 2px solid black;
     margin-right: 2%;
     height: 70%;
-    top: 50%;
-    transform: translateY(-50%);
     position: relative;
     border-radius: 7.5px;
-    justify-content: center;
     align-items: center;
     display: flex;
     padding-left: 2%;
@@ -1803,6 +1853,9 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     font-weight: 700;
+}
+.add_item_features[contenteditable="true"]:focus {
+    outline: none;
 }
 .add_item_features_plus_icon {
     position: absolute;
@@ -2043,8 +2096,7 @@
 }
 .view_item_title {
     font-family: 'Montserrat', sans-serif;
-    font-size: 30px;
-    font-weight: 600;
+    font-size: 200%;
     position: relative;
 }
 .view_item_prices_list {
@@ -2053,64 +2105,49 @@
     position: relative;
     gap: 5px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
+    font-size: 92.5%;
     font-weight: 700;
     color: gray;
+    margin-bottom: 10px;
 }
-.view_item_listed_date_module {
+.view_item_location_module {
     display: flex;
     flex-direction: row;
+    position: relative;
+    font-size: 100%;
+    font-family: 'Montserrat', sans-serif;
     gap: 5px;
 }
-.view_item_listed_date_name {
+.view_item_listed_date_module {
     font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-.view_item_listed_date, .view_item_listed_date_count {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    font-size: 100%;
+    gap: 5px;
     white-space: nowrap;
 }
 .view_item_category_module, .view_item_features_module {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 100%;
     display: flex;
     flex-direction: row;
     position: relative;
     width: 100%;
     display: block;
-}
-.view_item_category_name, .view_item_features_name {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    float: left;
-    margin-right: 5px;
-}
-.view_item_category, .view_item_features {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
     white-space: nowrap;
+}
+.view_item_category_name, .view_item_features_name, .view_item_category, .view_item_features {
     float: left;
     margin-right: 5px;
-    
 }
 .view_item_description_module {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 100%;
     height: 40%;
     display: flex;
     flex-direction: column;
 }
-.view_item_description_name {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-}
 .view_item_description {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 17px;
-    font-weight: 500;
     position: relative;
     white-space: pre-line;
     word-wrap: break-word;
@@ -2127,22 +2164,6 @@
 .view_item_description::-webkit-scrollbar-thumb {
     background: #dfdddd;
     border-radius: 7.5px;
-}
-.view_item_location_module {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    gap: 5px;
-}
-.view_item_location_name {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-}
-.view_item_location {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
 }
 .view_item_user_module, .view_item_user_module_2 {
     display: flex;
@@ -2381,7 +2402,7 @@
 }
 .email, .phone_number {
     font-family: 'Montserrat', sans-serif;
-    font-size: 17.5px;
+    font-size: 100%;
     font-weight: 500;
     left: 2.5%;
     position: relative;
@@ -2814,7 +2835,7 @@
     width: 10%;
     height: 90%;
     border: 3px solid rgb(33, 95, 95);
-    transition: border 0.1s ease, background-color 0.1s ease, color 0.1s ease;
+    transition: all 0.1s ease;
     background: rgba(123, 241, 241, 0.429);
     border-radius: 15px;
     display: flex;
@@ -2833,22 +2854,27 @@
 #current_rentals {
     margin-left: 1%;
 }
-#past_rentals:hover {
-    border: 3px solid rgb(13, 0, 255);
-    background: rgba(169, 194, 247, 0.46);
-    color: rgb(88, 83, 83);
-}
-#current_rentals:hover {
-    border: 3px solid rgb(13, 0, 255);
-    background: rgba(169, 194, 247, 0.46);
-    color: rgb(88, 83, 83);
+#past_rentals:hover, #current_rentals:hover {
+    border: 3px solid rgb(13, 0, 255)!important;
+    background: rgba(169, 194, 247, 0.46)!important;
+    color: rgb(88, 83, 83)!important;
 }
 #your_rentals_past_grid_container, #your_rentals_current_grid_container {
     display: grid;
     position: relative;
     top: 7%;
     justify-items: center;
-    gap: 3%;
+    gap: 10px;
+    max-height: 85%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    width: 97.5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+#your_rentals_past_grid_container::before,
+#your_rentals_current_grid_container::before, #your_rentals_current_grid_container::after, #your_rentals_past_grid_container::after {
+    content: "";
 }
 #your_rentals_current_grid_container {
     display: none;
@@ -2856,7 +2882,7 @@
 .your_rentals_past_grid_item, .your_rentals_current_grid_item {
     background: rgb(255, 255, 255);
     transition: box-shadow 0.3s ease;
-    width: 95.5%;
+    width: 98%;
     height: 25vh;
     border-radius: 20px;
     gap: 1.25%;
@@ -3100,8 +3126,7 @@
     top: 50px;
     left: 16.75%;
     display: none;
-    overflow-y: auto;
-    scrollbar-width: none;
+    overflow: hidden;
 }
 #your_rentings_top_component {
     display: flex;
@@ -3135,7 +3160,7 @@
     width: 10%;
     height: 90%;
     border: 3px solid rgb(116, 76, 40);
-    transition: border 0.1s ease, background-color 0.1s ease, color 0.1s ease;
+    transition: all 0.1s ease;
     background: rgba(215, 181, 137, 0.429);
     border-radius: 15px;
     display: flex;
@@ -3154,22 +3179,27 @@
 #current_rentings {
     margin-left: 1%;
 }
-#past_rentings:hover {
-    border: 3px solid rgb(241, 109, 86);
-    background: rgba(243, 219, 186, 0.46);
-    color: rgb(88, 83, 83);
-}
-#current_rentings:hover {
-    border: 3px solid rgb(241, 109, 86);
-    background: rgba(243, 219, 186, 0.46);
-    color: rgb(88, 83, 83);
+#past_rentings:hover, #current_rentings:hover {
+    border: 3px solid rgb(241, 109, 86)!important;
+    background: rgba(243, 219, 186, 0.46)!important;
+    color: rgb(88, 83, 83)!important;
 }
 #your_rentings_past_grid_container, #your_rentings_current_grid_container {
     display: grid;
     position: relative;
     top: 7%;
     justify-items: center;
-    gap: 3%;
+    gap: 10px;
+    max-height: 85%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    width: 97.5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+#your_rentings_past_grid_container::before,
+#your_rentings_current_grid_container::before, #your_rentings_current_grid_container::after, #your_rentings_past_grid_container::after {
+    content: "";
 }
 #your_rentings_current_grid_container {
     display: none;
@@ -3177,9 +3207,10 @@
 .your_rentings_past_grid_item, .your_rentings_current_grid_item {
     background: rgb(255, 255, 255);
     transition: box-shadow 0.3s ease;
-    width: 95.5%;
+    position: relative;
+    width: 98%;
     height: 25vh;
-    border-radius: 20px 20px 20px 20px;
+    border-radius: 20px;    
     gap: 1.25%;
     display: flex;
     flex-direction: row;
@@ -3349,6 +3380,35 @@
     transition: font-size 0.1s ease;
     bottom: 0%;
 }
+.your_rentings_current_time_remaining_module {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    position: absolute;
+    text-align: right;
+    right: 2%;
+    bottom: 4.5%;
+}
+.your_rentings_current_grid_item_time_remaining {
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(0, 0, 0, 0.571);
+    font-size: 140%;
+    font-weight: 900;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    position: relative;
+}
+.your_rentings_current_grid_item_time_remaining_name{
+    font-family: 'Montserrat', sans-serif;
+    color: rgb(135, 132, 132);
+    font-size: 140%;
+    position: relative;
+    transition: color 0.3s ease;
+    transition: font-size 0.1s ease;
+    bottom: 0%;
+}
+
+
 .your_rentings_past_grid_item:hover .your_rentings_past_grid_item_title {
     color: rgb(149, 98, 10);
     font-size: 200%;
@@ -3410,6 +3470,15 @@
     height: 25vh;
 }
 
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_time_remaining {
+    color: rgb(97, 172, 69);
+    font-size: 150%;
+}
+
+.your_rentings_current_grid_item:hover .your_rentings_current_grid_item_time_remaining_name {
+    color: rgb(97, 172, 69);
+    font-size: 150%;
+}
 
 
 #messages_view {
