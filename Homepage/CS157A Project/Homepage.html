@@ -623,12 +623,39 @@
                 </div>
             </div>
         </div>
+
+        <div class="view_item_duration_module">
+            <input type="text" class="view_item_duration_months" placeholder="Months">
+            <input type="text" class="view_item_duration_weeks" placeholder="Weeks">
+            <input type="text" class="view_item_duration_days" placeholder="Days">
+            <input type="text" class="view_item_duration_hours" placeholder="Hours">
+            <input type="text" class="view_item_duration_hours" placeholder="Minutes">
+        </div>
         
         <div class="view_item_cancel_add_module">
+            <div class="view_item_quantity_module">
+                <div class="view_item_quantity_deduct"> - </div>
+                <div class="view_item_quantity_number"> 1 </div>
+                <div class="view_item_quantity_add"> + </div>
+            </div>
             <div class="view_item_add_to_cart_module"> Add to cart </div>
             <div class="view_item_close"> Close </div>
         </div>
     </div>
+
+    <script>
+        $('.view_item_quantity_deduct').click(function() {
+            var value = parseInt($('.view_item_quantity_number').text(), 10);
+            value = value - 1;
+            value = Math.max(value, 1);
+            $('.view_item_quantity_number').text(String(value));
+        });
+        $('.view_item_quantity_add').click(function() {
+            var value = parseInt($('.view_item_quantity_number').text(), 10);
+            value = value + 1;
+            $('.view_item_quantity_number').text(String(value));
+        });
+    </script>
 
     <div class="view_user_profile">
         <div class="view_user_profile_1">
