@@ -1234,6 +1234,9 @@
             $('.view_item_duration_module input').each(function(index) {
                 var $input = $(this);
                 var value = parseFloat($input.val().split(" ")[0]);
+                if (isNaN(value)) {
+                    value = 0;
+                }
                 total += value * timeInSeconds[index];
             });
         });
