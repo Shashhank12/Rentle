@@ -1228,6 +1228,16 @@
     </script>
 
     <script>
+        $('.view_item_add_to_cart_module').click(function() {
+            var timeInSeconds = [2592000, 604800, 86400, 3600, 60];
+            var total = 0;
+            $('.view_item_duration_module input').each(function(index) {
+                var $input = $(this);
+                var value = parseFloat($input.val().split(" ")[0]);
+                total += value * timeInSeconds[index];
+            });
+        });
+
         $(document).ready(function() {
             let item_id = 0;
             $('.grid_container .grid_item').click(function() {
