@@ -1,8 +1,8 @@
-<%@ page import="java.sql.*"%>
+<%@ page import="java.sql.*,java.util.ArrayList,java.time.*"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Rentle - CS157A Project</title>
+    <title>Home</title>
     <link rel="stylesheet" href="home.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
         String db = "rentle";
         String user; // assumes database name is the same as username
         user = "root";
-        String password = "Hello1234!"; //enter your password
+        String password = "PASSWORD"; //enter your password
     %>
     <script src="Homepage.js"></script>
     <script src="jquery-3.7.1.min.js"></script>
@@ -197,18 +197,35 @@
     </div>
 
     <div class="homepage_bar">
-        <img src="image2.png" alt = "" class="logo">
+        <img src="images/image2.png" alt = "" class="logo">
         <div class="shopping_icon"></div>
         <div tabindex="0" id="signup_container">
             <div class="signup_login_button">
                 <%
+                    String name = "";
                     if (userID.equals("0")) {
                 %>
                 <div class="signup_login_text"> Signup / login</div>
                 <% 
                     } else {
+                        try {
+                            java.sql.Connection con;
+                            Class.forName("com.mysql.jdbc.Driver");
+                            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
+                
+                            Statement stmt = con.createStatement();
+
+                            String getName = String.format("SELECT first_name FROM rentle.user WHERE user_id = %s", userID);
+                            ResultSet rs = stmt.executeQuery(getName);
+                            
+                            rs.next();
+                            name = rs.getString(1);
+
+                        } catch(SQLException e) {
+                            out.println("SQLException caught: " + e.getMessage());
+                        }
                 %>
-                <div class="signup_login_text">Welcome, <%=userID%>!</div>
+                <div class="signup_login_text"><%=name%></div>
                 <%
                     }
                 %>
@@ -219,7 +236,7 @@
 
     <!-- Shopping cart -->
     <div class="cart_module">
-        <div class="cart_list">
+        <!-- <div class="cart_list">
             <div class="cart_item">
                 <div class="cart_item_module">
                     <div class="cart_item_title"> Waymo 5th Generation for Rent! Funny isn't it? </div>
@@ -241,8 +258,8 @@
                 </div>
                 <div class="cart_item_quantity"> 23 </div>
                 <div class="cart_item_price"> $46 </div>
-            </div>
-            <!-- <%
+            </div> -->
+            <%
             int total = 0;
             try {
                 java.sql.Connection con;
@@ -251,21 +268,28 @@
 
                 Statement stmt = con.createStatement();
 
-                String getCartQuery = String.format("SELECT item_id, name, quantity, price_per_hour FROM cart, items, rentsfor, prices WHERE cart.ItemID = items.item_id AND UserID=%s AND cart.ItemID = rentsfor.ItemID AND prices.prices_id = rentsfor.ItemID;",userID);
+                String getCartQuery = String.format("SELECT item_id, name, quantity, duration, price_per_hour, price_per_day, price_per_week, price_per_month FROM cart, items, rentsfor, prices WHERE cart.ItemID = items.item_id AND UserID=%s AND cart.ItemID = rentsfor.ItemID AND prices.prices_id = rentsfor.ItemID;",userID);
                 ResultSet rs = stmt.executeQuery(getCartQuery);
 
                 
                 out.println("<div class='cart_list'>");
                 while(rs.next()) {
                     out.println("<div class='cart_item'>");
+                    out.println("<div class='cart_item_module'>");
                     out.println("<div class='cart_item_title'>" + rs.getString("name") + "</div>");
+                    int duration = rs.getInt("duration");
+
+                    out.println("<div class='cart_item_module_2'>");
+                    out.println("<div class='cart_item_duration_icon'></div>");
+                    out.println("<div class='cart_item_duration'> " + String.valueOf(duration) + " </div>");
+                    out.println("</div>");
+                    out.println("</div>");
                     int quantity = rs.getInt("quantity");
                     out.println("<div class='cart_item_quantity'> x" + String.valueOf(quantity) + "</div>");
                     int price = rs.getInt("price_per_hour");
                     int priceXQuantity = quantity * price;
                     total += priceXQuantity;
                     out.println("<div class='cart_item_price'> $" + String.valueOf(priceXQuantity) + "</div>");
-                    out.println("</div>");
                     out.println("</div>");
                 }
                 out.println("</div>");
@@ -275,25 +299,90 @@
             } catch(SQLException e) {
                 out.println("SQLException caught: " + e.getMessage());
             }
-        %> -->
-
-        </div>
+        %>
+        <!-- </div> -->
 
         <div class="cart_module_line"></div>
         <div class="cart_total_module">
             <div class="cart_total_text"> Total </div>
-            <div class="cart_total_price"> $49.5 </div>
+            <div class="cart_total_price"> $<%=total%> </div>
         </div>
         <div class="rent_now"> Rent now </div>
     </div>
 
     <div class="cart_payment_module">
-        <input type="text" id="card_full_name" placeholder="Full Name">
-        <input type="text" id="credit_card_number" placeholder="Credit Card Number">
-        <input type="text" class="card_expiration_date" placeholder="MM/YY">
-        <input type="text" id="card_cvv" placeholder="CVV">
-        <div class="cart_payment_back"> Back </div>
-        <div class="cart_payment_submit"> Submit </div>
+            <input type="text" id="card_full_name" placeholder="Full Name">
+            <input type="text" id="credit_card_number" placeholder="Credit Card Number">
+            <input type="text" class="card_expiration_date" placeholder="MM/YY">
+            <input type="text" id="card_cvv" placeholder="CVV">
+            <div class="cart_payment_back"> Back </div>
+            <form>
+                <input type="submit" name="card_submit" value="Checkout" class="cart_payment_submit">
+            </form>
+
+        <%
+            if (request.getParameter("card_submit") != null && !userID.equals("0")) {
+                try {
+                    java.sql.Connection con;
+                    Class.forName("com.mysql.jdbc.Driver");
+                    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
+        
+                    Statement stmt = con.createStatement();
+
+                    // add to rent history
+                    String getCartQuery = String.format("SELECT * FROM cart WHERE UserID=%s;",userID);
+                    ResultSet rs = stmt.executeQuery(getCartQuery);
+
+                    ArrayList<int[]> cart = new ArrayList<int[]>();
+                    while(rs.next()) {
+                        int[] cartItem = new int[3];
+                        cartItem[0] = rs.getInt("UserID");
+                        cartItem[1] = rs.getInt("ItemID");
+                        cartItem[2] = rs.getInt("duration");
+                        cart.add(cartItem);
+                    }
+
+                    for (int i = 0; i < cart.size(); i++) {
+                        int[] cartItem = cart.get(i);
+                        out.println(cartItem[1]);
+                    }
+
+                    // probably can remove this whole loop and combine with while loop
+                    for (int i = 0; i < cart.size(); i++) {
+                        int[] cartItem = cart.get(i);
+                        
+                        String getLastRentID = "SELECT history_id FROM rent_history ORDER BY history_id DESC LIMIT 1";
+                        ResultSet rs2 = stmt.executeQuery(getLastRentID);
+                        rs2.next();
+                        int newID = rs2.getInt(1) + 1;
+                        out.println(newID);
+
+                        String setSavesQuery = String.format("INSERT INTO rentle.saves (UserID, RentHistoryID) VALUES (%s, %s)", userID, newID);
+                        int ri = stmt.executeUpdate(setSavesQuery);
+                        
+
+                        LocalDateTime now = LocalDateTime.now();
+                        int duration = cartItem[2];
+                        LocalDateTime expirationDate = now.plusSeconds(duration);
+
+                        int itemID = cartItem[1];
+                        String setRentHistoryQuery = String.format("INSERT INTO rentle.rent_history (history_id, rentdate, ItemID, rentexpiration) VALUES (%s, '%s', %s, '%s');", String.valueOf(newID), now.toString(), String.valueOf(itemID), expirationDate.toString());     
+                        
+                        out.println(setRentHistoryQuery);
+                        ri = stmt.executeUpdate(setRentHistoryQuery);
+                    }
+
+                    //remove from cart
+                    String removeFromCartQuery = String.format("DELETE FROM rentle.cart WHERE UserID=%s",userID);
+                    int ri = stmt.executeUpdate(removeFromCartQuery);
+
+                } catch(SQLException e) {
+                    out.println("SQLException caught: " + e.getMessage());
+                }
+            }
+        %>
+
+
     </div>
 
     <div id="login-module">
@@ -362,7 +451,7 @@
                                 String userID2 = String.valueOf(rs.getInt("user_id"));
                                 session.setAttribute("userID", userID2);
                                 rs.close();
-                                String redirectURL = "http://localhost:8080/JDBC/home.jsp";
+                                String redirectURL = "http://localhost:8080/home.jsp";
                                 response.sendRedirect(redirectURL);
                             } else {
                             %>
@@ -436,7 +525,22 @@
         </div>
 
         <div class="grid_container" id="results">
-            <script>
+            <div class="grid_item">
+                <img src="images/image4.png" alt = "" class="item_image">
+                <div class="grid_item_module_1">
+                    <div class="grid_item_module_2">
+                        <div class="item_name"> Bicycle for rent! </div>
+                        <div class="item_module_1">
+                            <div class="item_category"> Bike - </div>
+                            <div class="item_feature"> Multiple gears </div>
+                        </div>
+                        <div class="item_location"> San Jose, CA </div>
+                    </div>
+                    <div class="item_price"> $15 </div>
+                </div>
+            </div>
+            
+            <!-- <script>
                 function performSearch() {
                     var query = document.getElementById("interested_rents").value;
                     var minPrice = document.getElementById("min_price").value;
@@ -471,7 +575,7 @@
                     };
                     xhr.send();
                 }
-            </script>
+            </script> -->
         </div>
 
         
@@ -486,7 +590,7 @@
 
         <div id="your_rentals_past_grid_container">
             <div class="your_rentals_past_grid_item">  
-                <img src="image3.png" alt = "" class="your_rentals_past_grid_item_image">
+                <img src="images/image3.png" alt = "" class="your_rentals_past_grid_item_image">
                 <div class="your_rentals_past_module">
                     <div class="your_rentals_past_grid_item_title"> Bicycle for rent! </div>
                     <div class="your_rentals_past_category_module">
@@ -520,7 +624,7 @@
 
         <div id="your_rentals_current_grid_container">
             <div class="your_rentals_current_grid_item">  
-                <img src="image4.png" alt = "" class="your_rentals_current_grid_item_image">
+                <img src="images/image4.png" alt = "" class="your_rentals_current_grid_item_image">
                 <div class="your_rentals_current_module">
                     <div class="your_rentals_current_grid_item_title"> Waymo 5th Generation! </div>
                     <div class="your_rentals_current_category_module">
@@ -562,7 +666,7 @@
     
         <div id="your_rentings_past_grid_container">
             <div class="your_rentings_past_grid_item">  
-                <img src="image5.png" alt = "" class="your_rentings_past_grid_item_image">
+                <img src="images/image5.png" alt = "" class="your_rentings_past_grid_item_image">
                 <div class="your_rentings_past_module">
                     <div class="your_rentings_past_grid_item_title"> Gotrax Scooter Rent $1/hour </div>
                     <div class="your_rentings_past_category_module">
@@ -596,7 +700,7 @@
     
         <div id="your_rentings_current_grid_container">
             <div class="your_rentings_current_grid_item">  
-                <img src="image6.png" alt = "" class="your_rentings_current_grid_item_image">
+                <img src="images/image6.png" alt = "" class="your_rentings_current_grid_item_image">
                 <div class="your_rentings_current_module">
                     <div class="your_rentings_current_grid_item_title"> Yarsca 24in Beach Cruiser Bike! </div>
                     <div class="your_rentings_current_category_module">
