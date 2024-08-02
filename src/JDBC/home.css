@@ -2218,7 +2218,7 @@ body {
     transform: scale(1, 1);
     transform-origin: 0% -100%;
     transition: all 0.2s ease;
-    width: 19%;
+    width: 25%;
 }
 .view_item_description_see_more:hover {
     color: rgb(122, 198, 208);
@@ -3657,7 +3657,7 @@ body {
     position: absolute;
     top: 50px;
     left: 16.75%;
-    display: none;
+    display: block;
     transition: display 0.3s ease;
     overflow-y: auto;
     scrollbar-width: none;
