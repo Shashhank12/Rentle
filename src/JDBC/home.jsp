@@ -25,7 +25,7 @@
     <script src="Homepage.js"></script>
     <script src="jquery-3.7.1.min.js"></script>
 </head>
-<body style="overflow-x: hidden;" onload="initMap()">
+<body style="overflow-x: hidden;">
     <div class="blur_background"></div>
     <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFt-lS9JjEAzSssSrhYvAgzFMnmasayH0"></script>
@@ -38,6 +38,8 @@
             });
         }
     </script>
+
+
 
     <div class="leftbar">
         <div class="location_search_module">
@@ -145,7 +147,8 @@
             <div id="duration_container_2">
                 <input type="text" id="min_duration" name="min_duration" placeholder="Number">
                 <div id="duration_container_3">
-                    <div class="duration-dropdown-module"> Period </div>
+                    <div class="duration-dropdown-module"> Period 
+                    </div>
                     <div class="duration_dropdown_arrow"> </div>
                 </div>
                 <ul class="duration-dropdown-content">
@@ -194,7 +197,7 @@
     </div>
 
     <div class="homepage_bar">
-        <img src="/images/image2.png" alt = "" class="logo">
+        <img src="image2.png" alt = "" class="logo">
         <div class="shopping_icon"></div>
         <div tabindex="0" id="signup_container">
             <div class="signup_login_button">
@@ -216,7 +219,30 @@
 
     <!-- Shopping cart -->
     <div class="cart_module">
-        <%
+        <div class="cart_list">
+            <div class="cart_item">
+                <div class="cart_item_module">
+                    <div class="cart_item_title"> Waymo 5th Generation for Rent! Funny isn't it? </div>
+                    <div class="cart_item_module_2">
+                        <div class="cart_item_duration_icon"></div>
+                        <div class="cart_item_duration"> 126000 </div>
+                    </div>
+                </div>
+                <div class="cart_item_quantity"> x15 </div>
+                <div class="cart_item_price"> $30 </div>
+            </div>
+            <div class="cart_item">
+                <div class="cart_item_module">
+                    <div class="cart_item_title"> Bicycle for Sale! </div>
+                    <div class="cart_item_module_2">
+                        <div class="cart_item_duration_icon"></div>
+                        <div class="cart_item_duration"> 43800 </div>
+                    </div>
+                </div>
+                <div class="cart_item_quantity"> 23 </div>
+                <div class="cart_item_price"> $46 </div>
+            </div>
+            <!-- <%
             int total = 0;
             try {
                 java.sql.Connection con;
@@ -249,12 +275,14 @@
             } catch(SQLException e) {
                 out.println("SQLException caught: " + e.getMessage());
             }
-        %>
+        %> -->
+
+        </div>
 
         <div class="cart_module_line"></div>
         <div class="cart_total_module">
             <div class="cart_total_text"> Total </div>
-            <div class="cart_total_price"> $<%=total%> </div>
+            <div class="cart_total_price"> $49.5 </div>
         </div>
         <div class="rent_now"> Rent now </div>
     </div>
@@ -597,7 +625,7 @@
                         <div class="your_rentings_current_grid_item_price_name"> $14 </div>
                     </div>
                 </div>
-                <div class="your_rentings_current_time_remaining_module">
+                 <div class="your_rentings_current_time_remaining_module">
                     <div class="your_rentings_current_grid_item_time_remaining"> Time remaining </div>
                     <div class="your_rentings_current_grid_item_time_remaining_name"></div>
                 </div>
@@ -714,10 +742,10 @@
                 <div class="add_item_price">
                     <div class="add_item_price_title"> Item Price </div>
                     <div class="item_price_input_module">
-                        <input type="text" id="item_price_hour" placeholder="Price per hour">
-                        <input type="text" id="item_price_day" placeholder="Price per day">
-                        <input type="text" id="item_price_week" placeholder="Price per week">
-                        <input type="text" id="item_price_month" placeholder="Price per month">
+                        <input type="text" id="item_price_input_address" placeholder="Price per hour">
+                        <input type="text" id="item_price_input_city" placeholder="Price per day">
+                        <input type="text" id="item_price_input_state" placeholder="Price per week">
+                        <input type="text" id="item_price_input_zip_code" placeholder="Price per month">
                     </div>
                 </div>
             </div>
@@ -857,6 +885,7 @@
 
                     Lorem ipsum odor amet, consectetuer adipiscing elit. Pulvinar est dui sem velit curae duis! Adipiscing orci aliquet blandit habitant aptent lorem. Placerat vestibulum scelerisque primis natoque fames scelerisque laoreet. Placerat mi natoque mattis ridiculus nisl curabitur consequat. Vulputate nec praesent suspendisse conubia ac feugiat turpis finibus magna. Venenatis orci condimentum eleifend sagittis per elementum. Porttitor leo fames porttitor habitasse mi nisi.
                 </div>
+                <div class="view_item_description_see_more"> See more </div>
             </div>
             <div class="view_item_user_module">
                 <img src="profilepic1.png" class="view_item_user_profile_picture">
@@ -870,8 +899,23 @@
                 </div>
             </div>
         </div>
+
+        <div class="view_item_line"></div>
+
+        <div class="view_item_duration_module">
+            <input type="text" class="view_item_duration_months" placeholder="Months">
+            <input type="text" class="view_item_duration_weeks" placeholder="Weeks">
+            <input type="text" class="view_item_duration_days" placeholder="Days">
+            <input type="text" class="view_item_duration_hours" placeholder="Hours">
+            <input type="text" class="view_item_duration_minutes" placeholder="Minutes">
+        </div>
         
         <div class="view_item_cancel_add_module">
+            <div class="view_item_quantity_module">
+                <div class="view_item_quantity_deduct"> - </div>
+                <div class="view_item_quantity_number"> 1 </div>
+                <div class="view_item_quantity_add"> + </div>
+            </div>
             <div class="view_item_add_to_cart_module"> Add to cart </div>
             <div class="view_item_close"> Close </div>
         </div>
@@ -999,6 +1043,85 @@
     </div>
     <div class="view_user_profile_close"></div>
 
+    <script>
+        var bool = 0;
+
+        $('.view_item_description_see_more').click(function () {
+            var $descriptionModule = $('.view_item_description_module');
+            var $seeMoreButton = $('.view_item_description_see_more');
+            var descriptionModuleHeight1, descriptionModuleHeight2;
+            if (bool === 0) {
+                descriptionModuleHeight1 = parseFloat($descriptionModule.css('height'));
+                descriptionModuleHeight2 = parseFloat($descriptionModule.css('height')) * 2.5;
+                $seeMoreButton.text("See less");
+            }
+            else {
+                descriptionModuleHeight1 = parseFloat($descriptionModule.css('height'));
+                descriptionModuleHeight2 = parseFloat($descriptionModule.css('height')) * 0.4;
+                $seeMoreButton.text("See more");
+            }
+
+            console.log(descriptionModuleHeight1, descriptionModuleHeight2, bool);
+
+            $descriptionModule.css('height', descriptionModuleHeight2 + 'px');
+            bool = (bool + 1) % 2;
+        });
+        $('.view_item_quantity_deduct').click(function() {
+            var value = parseInt($('.view_item_quantity_number').text(), 10);
+            value = value - 1;
+            value = Math.max(value, 1);
+            $('.view_item_quantity_number').text(String(value));
+        });
+        $('.view_item_quantity_add').click(function() {
+            var value = parseInt($('.view_item_quantity_number').text(), 10);
+            value = value + 1;
+            $('.view_item_quantity_number').text(String(value));
+        });
+
+        function checkDurationViewItem(x, y, z, t) {
+            $(x)
+                .on('input', function() {
+                    var $this = $(this);
+                    var content = $this.val().trim();
+
+                    // Validate the current input
+                    if (content !== "" && (isNaN(content) || content < y || content > z)) {
+                        $this.css('border-bottom', '2px solid red');
+                    } else {
+                        $this.css('border-bottom', '');
+                    }
+                })
+                .on('focusout', function() {
+                    var $this = $(this);
+                    var content = $this.val().trim();
+
+                    if (/^\s*$/.test(content) || isNaN(content) || content < y || content > z) {
+                        $this.val("");
+                        $this.css('border-bottom', '');
+                    } else {
+                        if (content !== "" && !content.endsWith(t)) {
+                            $this.val(content + t);
+                        }
+                    }
+                })
+                .on('focus', function() {
+                    var $this = $(this);
+                    var content = $this.val().trim();
+
+                    if (content.endsWith(t)) {
+                        var lengthOfT= t.length;
+                        content = content.slice(0, -lengthOfT);
+                        $this.val(content);
+                    }
+                });
+        }
+        checkDurationViewItem('.view_item_duration_months', 1, 11, ' months');
+        checkDurationViewItem('.view_item_duration_weeks', 1, 3, ' weeks');
+        checkDurationViewItem('.view_item_duration_days', 1, 6, ' days');
+        checkDurationViewItem('.view_item_duration_hours', 1, 23, ' hours');
+        checkDurationViewItem('.view_item_duration_minutes', 1, 59, ' minutes');
+    </script>
+
      <script>
         function conditionCheckbox(x, y, z, t) {
             let count = 0;
@@ -1030,8 +1153,6 @@
         conditionCheckbox('.condition_checkbox_good_square1','.condition_checkbox_good_icon','.condition_checkbox_good_square2', '.condition_checkbox_good');
 
         conditionCheckbox('.condition_checkbox_fair_square1','.condition_checkbox_fair_icon','.condition_checkbox_fair_square2', '.condition_checkbox_fair');
-
-
     </script>
 
     <script>
@@ -1104,33 +1225,16 @@
                 'top': '0px'
             });
         });
-
-        $('.add_item_category_dropdown_content li').click(function() {
-            var selectedText = $(this).text();
-            // $(this).toggleClass('active');
-            // $('.duration-dropdown-content li').not(this).removeClass('active');
-            $('.add_item_category_module').text(selectedText);
-            $('.add_item_category_dropdown_content').css('display', 'none');
-        });
-
-        $('.add_item_condition_dropdown_content li').click(function() {
-            var selectedText = $(this).text();
-            // $(this).toggleClass('active');
-            // $('.duration-dropdown-content li').not(this).removeClass('active');
-            $('.add_item_condition_module').text(selectedText);
-            $('.add_item_condition_dropdown_content').css('display', 'none');
-        });
-            
     </script>
 
-    <!-- <script>
+    <script>
         $(document).ready(function() {
             let item_id = 0;
             $('.grid_container .grid_item').click(function() {
                 item_id = $(this).index() + 1;
             });
         });
-    </script> -->
+    </script>
 
 
     <script>
@@ -1191,7 +1295,7 @@
     <script>
         $(document).ready(function() {
             function formatTimeWithS(timeVar) {
-                return (timeVar > 1 ? 's ': '');
+                return (timeVar > 1 ? 's ': ' ');
             }
 
             function formatTime(seconds) {
@@ -1241,6 +1345,14 @@
                     }
                 }, 1000);
             });
+
+            $('.cart_item').each(function() {
+                var text = $(this).find('.cart_item_duration').text().trim();
+                var textToSeconds = parseFloat(text);
+                $(this).find('.cart_item_duration').text(formatTime(textToSeconds));
+            });
+
+
         });
     </script>
 
@@ -1340,7 +1452,32 @@
             }
         });
 
+        $('.add_item_features_list').on('click', '.add_item_features', function() {
+            $(this).css({
+                'border': '2px solid gray',
+                'box-shadow': '0 0 8px gray'
+            });
+        }).on('blur', '.add_item_features', function() {
+            $(this).css({
+                'border': '',
+                'box-shadow': ''
+            });
+            $(this).blur();
+        });
 
+        // Ensure the element gets focus when clicked
+        $('.add_item_features_list').on('focus', '.add_item_features', function() {
+            $(this).css({
+                'border': '2px solid gray',
+                'box-shadow': '0 0 8px gray'
+            });
+        }).on('blur', '.add_item_features', function() {
+            $(this).css({
+                'border': '',
+                'box-shadow': ''
+            });
+            $(this).blur();
+        });
     </script>
 
     <script>
@@ -1361,6 +1498,10 @@
             }
         });
     </script>
+
+    <!-- if(box.text().trim().length == 0){
+            box.blur().focus();
+        } -->
 
     <script>
         $(document).ready(function() {
