@@ -116,7 +116,9 @@
                     out.println(newID);
                     rs.close(); 
 
-                    String SALT = "ZZdD";
+                    int random = (int)(Math.random() * 999999 + 1);
+
+                    String SALT = String.valueOf(random);
                     String query = String.format("INSERT INTO user (user_id, email, first_name, last_name, password, salt) VALUES (%s, '%s', '%s', '%s', '%s', '%s');", String.valueOf(newID), myEmail, myFName, myLName, myPassword, SALT);
 
                     int ri = stmt.executeUpdate(query);
