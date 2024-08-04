@@ -1065,15 +1065,35 @@
                 <div class="view_item_description_see_more"> See more </div>
             </div>
             <div class="view_item_user_module">
-                <img src="profilepic1.png" class="view_item_user_profile_picture">
+                <%
+                    try {
+                        java.sql.Connection con;
+                        Class.forName("com.mysql.jdbc.Driver");
+                        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
+
+                        Statement stmt = con.createStatement();
+
+                        // TODO: userID is hardcoded, will need to be connected when items are displayed from search
+                        String getUserInfoQuery = String.format("SELECT * FROM rentle.user WHERE user_id = %s", 1);
+                        ResultSet rs = stmt.executeQuery(getUserInfoQuery);
+                        rs.next();
+                        String fullname = rs.getString("first_name") + " " + rs.getString("last_name");
+                        String pfp = "images/" + rs.getString("profile_picture");
+                %>
+                <img src=<%=pfp%> class="view_item_user_profile_picture">
                 <div class="view_item_view_user_profile"> SEE INFO </div>
                 <div class="view_item_user_module_1">
-                    <div class="view_item_user_name"> Phuc Thinh Nguyen </div>
+                    <div class="view_item_user_name"><%=fullname%></div>
                     <div class="view_item_user_module_2">
                         <div class="view_item_reviews"> 4.5 </div>
                         <div class="view_item_reviews_count"> - 144 reviews </div>
                     </div>
                 </div>
+                <%
+                    } catch(SQLException e) {
+                        out.println("SQLException caught: " + e.getMessage());
+                    }
+                %>
             </div>
         </div>
 
@@ -1097,7 +1117,6 @@
             <div class="view_item_close"> Close </div>
         </div>
         <%
-            // OPTIONAL TODO: FIX WEBSITE REFRESH ONCE ITEM IS ADDED TO CART
             if (request.getParameter("addToCart") != null && !userID.equals("0")) {
                 // add to cart(userId, itemId)
                 // out.println("parameter not null, button has been clicked");
@@ -1124,8 +1143,27 @@
     </div>
 
     <div class="view_user_profile">
+        <%
+            try {
+                java.sql.Connection con;
+                Class.forName("com.mysql.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
+
+                Statement stmt = con.createStatement();
+
+                // TODO: userID is hardcoded, will need to be connected when items are displayed from search
+                String getUserInfoQuery = String.format("SELECT * FROM rentle.user WHERE user_id = %s", 1);
+                ResultSet rs = stmt.executeQuery(getUserInfoQuery);
+                rs.next();
+                String fullname = rs.getString("first_name") + " " + rs.getString("last_name");
+                String email = rs.getString("email");
+                String number = rs.getString("phone_number");
+                String pfp = "images/" + rs.getString("profile_picture");
+                String date = LocalDateTime.parse(rs.getString("creation_date").replace(" ","T")).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+
+        %>
         <div class="view_user_profile_1">
-            <img src="profilepic1.png" alt="" class="profile_picture">
+            <img src=<%=pfp%> alt="" class="profile_picture">
             <div class="view_user_profile_2_asterisk">
                 <div class="view_user_profile_2">
                     <div class="view_user_profile_3">
@@ -1133,8 +1171,8 @@
                         <div class="phone_number_icon"></div>
                     </div>
                     <div class="view_user_profile_4">
-                        <div class="email">drgenius2003@gmail.com</div>
-                        <div class="phone_number"> (510) 240-0454</div>
+                        <div class="email"><%=email%></div>
+                        <div class="phone_number"><%=number%></div>
                     </div>
                 </div>
                 <div class="view_user_profile_module">
@@ -1144,14 +1182,19 @@
                 </div>
             </div>
         </div>
-        <div class="user_full_name"> Phuc Thinh Nguyen </div>
-        <div class="member_date"> Member since November 21st, 2023 </div>
-        <div class="current_location"> Currently at Santa Cruz, CA </div>
+        <div class="user_full_name"><%=fullname%></div>
+        <div class="member_date"> Member since <%=date%></div>
+        <!-- <div class="current_location"> Currently at Santa Cruz, CA </div> -->
         <div class="view_user_profile_line"></div>
         <div class="renter_reviews_module">
             <div class="renter_reviews_name"> Renter reviews</div>
             <div class="renter_reviews"> 4.5 <i class="fas fa-star" id="renter_review_star_icon"></i></div>
         </div>
+        <%
+            } catch(SQLException e) {
+                out.println("SQLException caught: " + e.getMessage());
+            }
+        %>
         <div class="renter_reviews_list_module">
             <div class="renter_reviews_list">
                 <div class="renter_reviews_list_item">

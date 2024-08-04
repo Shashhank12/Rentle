@@ -1,4 +1,4 @@
-<%@ page import="java.sql.*"%>
+<%@ page import="java.sql.*,java.time.*,java.time.temporal.ChronoUnit,java.time.format.DateTimeFormatter,java.time.format.*,java.util.Locale"%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -117,9 +117,11 @@
                     rs.close(); 
 
                     int random = (int)(Math.random() * 999999 + 1);
-
                     String SALT = String.valueOf(random);
-                    String query = String.format("INSERT INTO user (user_id, email, first_name, last_name, password, salt) VALUES (%s, '%s', '%s', '%s', '%s', '%s');", String.valueOf(newID), myEmail, myFName, myLName, myPassword, SALT);
+
+                    LocalDateTime now = LocalDateTime.now();
+
+                    String query = String.format("INSERT INTO user (user_id, email, first_name, last_name, password, salt, creation_date) VALUES (%s, '%s', '%s', '%s', '%s', '%s', '%s');", String.valueOf(newID), myEmail, myFName, myLName, myPassword, SALT, now.toString());
 
                     int ri = stmt.executeUpdate(query);
                     
