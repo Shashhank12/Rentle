@@ -1,4 +1,4 @@
-<%@ page import="java.sql.*,java.util.ArrayList,java.time.*"%>
+<%@ page import="java.sql.*,java.util.ArrayList,java.time.*,java.time.temporal.ChronoUnit,java.time.format.DateTimeFormatter,java.time.format.*,java.util.Locale"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -664,77 +664,150 @@
             <div id="current_rentings"> Current</div>
         </div>
     
+        <%
+            ArrayList<int[]> pastInts = new ArrayList<int[]>();
+            ArrayList<String[]> pastStrs = new ArrayList<String[]>();
+            ArrayList<int[]> currentInts = new ArrayList<int[]>();
+            ArrayList<String[]> currentStrs = new ArrayList<String[]>();
+            try {
+                java.sql.Connection con;
+                Class.forName("com.mysql.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false&maxReconnects=10",user, password);
+
+                Statement stmt = con.createStatement();
+
+                String getRentingsQuery = String.format("SELECT item_id, name, description, location, quantity, rentdate, rentexpiration, price_per_hour, photo_id, photo, category_name FROM items, rent_history, saves, prices, rentsfor, contains, photos, has, category WHERE UserID=%s AND RentHistoryID=history_id AND rent_history.ItemID=item_id AND rentsfor.ItemID=item_id AND prices_id=PricesID AND items.item_id = contains.ItemID AND contains.PhotoID = photos.photo_id AND items.item_id = has.ItemID AND has.CategoryID = category.category_id;", userID);
+                ResultSet rs = stmt.executeQuery(getRentingsQuery);
+                
+                while(rs.next()) {
+                    int[] itemInts = new int[5];
+                    String[] itemStrs = new String[7];
+                    String expirationString = rs.getString("rentexpiration").replace(" ","T");
+                    // out.println(expirationString);
+                    LocalDateTime now = LocalDateTime.now();
+                    LocalDateTime expirationDate = LocalDateTime.parse(expirationString);
+
+                    String returnDateString = expirationDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+                    String checkoutDateString = now.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM));
+
+                    itemInts[0] = rs.getInt("item_id");
+                    itemStrs[0] = rs.getString("name");
+                    itemStrs[1] = rs.getString("description");
+                    itemStrs[2] = rs.getString("location");
+                    itemInts[1] = rs.getInt("quantity");
+                    itemStrs[3] = checkoutDateString;
+                    itemStrs[4] = returnDateString;
+                    itemInts[2] = rs.getInt("price_per_hour");
+                    itemInts[3] = rs.getInt("photo_id");
+                    itemStrs[5] = rs.getString("photo");
+                    itemStrs[6] = rs.getString("category_name");
+
+                    if (now.isAfter(expirationDate)) {
+                        pastInts.add(itemInts);
+                        pastStrs.add(itemStrs);
+                    } else {
+                        //int timeRemaining = now.until(expirationDate, ChronoUnit.SECONDS);
+                        long timeRemaining = ChronoUnit.SECONDS.between(now, expirationDate);
+                        itemInts[4] = Math.toIntExact(timeRemaining);
+                        currentInts.add(itemInts);
+                        currentStrs.add(itemStrs);
+                    }
+                }
+
+            } catch(SQLException e) {
+                out.println("SQLException caught: " + e.getMessage());
+            }
+        %>
+
         <div id="your_rentings_past_grid_container">
+            <%
+                // cycle through past arraylists
+                for (int i = 0; i < pastInts.size(); i++) {
+                    int[] itemInts = pastInts.get(i);
+                    String[] itemStrs = pastStrs.get(i);
+                    String image = "images/"+itemStrs[5];
+            %>
             <div class="your_rentings_past_grid_item">  
-                <img src="images/image5.png" alt = "" class="your_rentings_past_grid_item_image">
+                <img src=<%=image%> alt = "" class="your_rentings_past_grid_item_image">
                 <div class="your_rentings_past_module">
-                    <div class="your_rentings_past_grid_item_title"> Gotrax Scooter Rent $1/hour </div>
+                    <div class="your_rentings_past_grid_item_title"> <%=itemStrs[0]%> </div>
                     <div class="your_rentings_past_category_module">
                         <div class="your_rentings_past_grid_item_category"> Category: </div>
-                        <div class="your_rentings_past_grid_item_category_name"> Scooter </div>
+                        <div class="your_rentings_past_grid_item_category_name"> <%=itemStrs[6]%> </div>
                     </div>
                     <div class="your_rentings_past_features_module">
-                        <div class="your_rentings_past_grid_item_features"> Features: </div>
-                        <div class="your_rentings_past_grid_item_features_name"> Speakers, </div>
-                        <div class="your_rentings_past_grid_item_features_name"> Auto-stop </div>
+                        <div class="your_rentings_past_grid_item_features"> Description: </div>
+                        <div class="your_rentings_past_grid_item_features_name"> <%=itemStrs[1]%> </div>
                     </div>
                     <div class="your_rentings_past_location_module">
                         <div class="your_rentings_past_grid_item_location"> Location: </div>
-                        <div class="your_rentings_past_grid_item_location_name"> Hayward, CA </div>
+                        <div class="your_rentings_past_grid_item_location_name"> <%=itemStrs[2]%> </div>
                     </div>
                     <div class="your_rentings_past_date_module">
-                        <div class="your_rentings_past_grid_item_date"> Date completed: </div>
-                        <div class="your_rentings_past_grid_item_date_name"> July 21st, 2024 </div>
+                        <div class="your_rentings_past_grid_item_date"> Returned Date: </div>
+                        <div class="your_rentings_past_grid_item_date_name"> <%=itemStrs[4]%> </div>
                     </div>
                     <div class="your_rentings_past_duration_module">
-                        <div class="your_rentings_past_grid_item_duration"> Duration: </div>
-                        <div class="your_rentings_past_grid_item_duration_name"> 1 hours </div>
+                        <div class="your_rentings_past_grid_item_duration"> Quantity: </div>
+                        <div class="your_rentings_past_grid_item_duration_name"> <%=itemInts[1]%> </div>
                     </div>
                     <div class="your_rentings_past_price_module">
                         <div class="your_rentings_past_grid_item_price"> Price: </div>
-                        <div class="your_rentings_past_grid_item_price_name"> $12.5 </div>
+                        <div class="your_rentings_past_grid_item_price_name"> $<%=itemInts[2]%> </div>
                     </div>
                 </div>
             </div>
+            <%
+                }
+            %>
         </div>
-    
+
         <div id="your_rentings_current_grid_container">
+            <%
+                // cycle through current arraylists
+                for (int i = 0; i < currentInts.size(); i++) {
+                    int[] itemInts = currentInts.get(i);
+                    String[] itemStrs = currentStrs.get(i);
+                    String image = "images/"+itemStrs[5];
+                    
+            %>
             <div class="your_rentings_current_grid_item">  
-                <img src="images/image6.png" alt = "" class="your_rentings_current_grid_item_image">
+                <img src=<%=image%> alt = "" class="your_rentings_current_grid_item_image">
                 <div class="your_rentings_current_module">
-                    <div class="your_rentings_current_grid_item_title"> Yarsca 24in Beach Cruiser Bike! </div>
+                    <div class="your_rentings_current_grid_item_title"> <%=itemStrs[0]%> </div>
                     <div class="your_rentings_current_category_module">
                         <div class="your_rentings_current_grid_item_category"> Category: </div>
-                        <div class="your_rentings_current_grid_item_category_name"> Bike </div>
+                        <div class="your_rentings_current_grid_item_category_name"> <%=itemStrs[6]%> </div>
                     </div>
                     <div class="your_rentings_current_features_module">
-                        <div class="your_rentings_current_grid_item_features"> Features: </div>
-                        <div class="your_rentings_current_grid_item_features_name"> Speakers, </div>
-                        <div class="your_rentings_current_grid_item_features_name"> Auto-stop </div>
+                        <div class="your_rentings_current_grid_item_features"> Description: </div>
+                        <div class="your_rentings_current_grid_item_features_name"> <%=itemStrs[1]%> </div>
                     </div>
                     <div class="your_rentings_current_location_module">
                         <div class="your_rentings_current_grid_item_location"> Location: </div>
-                        <div class="your_rentings_current_grid_item_location_name"> Hayward, CA </div>
+                        <div class="your_rentings_current_grid_item_location_name"> <%=itemStrs[2]%> </div>
                     </div>
                     <div class="your_rentings_current_date_module">
-                        <div class="your_rentings_current_grid_item_date"> Date: </div>
-                        <div class="your_rentings_current_grid_item_date_name"> July 22th, 2024 </div>
+                        <div class="your_rentings_current_grid_item_date"> Checkout Date: </div>
+                        <div class="your_rentings_current_grid_item_date_name"> <%=itemStrs[3]%> </div>
                     </div>
                     <div class="your_rentings_current_duration_module">
-                        <div class="your_rentings_current_grid_item_duration"> Duration: </div>
-                        <div class="your_rentings_current_grid_item_duration_name"> 12600 </div>
+                        <div class="your_rentings_current_grid_item_duration"> Quantity: </div>
+                        <div class="your_rentings_current_grid_item_duration_name"> <%=itemInts[1]%> </div>
                     </div>
                     <div class="your_rentings_current_price_module">
                         <div class="your_rentings_current_grid_item_price"> Price: </div>
-                        <div class="your_rentings_current_grid_item_price_name"> $14 </div>
+                        <div class="your_rentings_current_grid_item_price_name"> $<%=itemInts[2]%> </div>
                     </div>
                 </div>
                  <div class="your_rentings_current_time_remaining_module">
                     <div class="your_rentings_current_grid_item_time_remaining"> Time remaining </div>
-                    <div class="your_rentings_current_grid_item_time_remaining_name"></div>
+                    <div class="your_rentings_current_grid_item_time_remaining_name"><%=itemInts[4]%></div>
                 </div>
             </div>
-
+            <%
+                }
+            %>
         </div>
     </div>
 
@@ -1445,10 +1518,10 @@
             }
 
             $('.your_rentings_current_grid_item').each(function() {
-                var divText = $(this).find('.your_rentings_current_grid_item_duration_name').text().trim();
+                var divText = $(this).find('.your_rentings_current_grid_item_time_remaining_name').text().trim();
                 var seconds = parseFloat(divText);
                 
-                $(this).find('.your_rentings_current_grid_item_duration_name').text(formatTime(seconds));
+                $(this).find('.your_rentings_current_grid_item_time_remaining_name').text(formatTime(seconds));
 
                 var $timeRemainingDiv = $(this).find('.your_rentings_current_grid_item_time_remaining_name');
                 $timeRemainingDiv.text(formatTime(seconds));
