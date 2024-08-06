@@ -31,7 +31,13 @@ function login() {
     var uname = document.getElementById('username');
     var pw = document.getElementById('password');
     if (uname.value == '' || pw.value == '') {
-        alert('Please login to continue.');
+        $(document).ready(function () {
+            $('.error_module').css('display', 'block');
+            $('#login-module').css({
+                'height': '29%',
+                'display': 'block'
+            });
+        });
         return false;
     }
 
@@ -50,7 +56,7 @@ function login() {
                 console.log("False");
             } else {
                 console.log("True");
-                document.getElementsByClassName('signup_login_text')[0].textContent = xmlhttp.responseText;
+                location.reload(true);
             }
         }
     }
@@ -84,6 +90,10 @@ function addText() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
         {
             console.log("True");
+            var intervalId = setInterval(function() {
+                reloaddata();
+                clearInterval(intervalId);
+            }, 500);
             $('.your_messages_add_group_chat_people_grid').children().not(':last').remove();
             $('.your_messages_add_group_chat_module, .your_messages_add_group_chat_people_grid').css('display', 'none');
         }
@@ -144,65 +154,69 @@ function reloaddata() {
     xmlhttp.onreadystatechange = function()
     {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            var newMessages = JSON.parse(xmlhttp.responseText);
-            var allUserId = [];
-            var allMessageContents = [];
-            var allProfilePictures = [];
-            for (let i = 0; i < newMessages.length; i++) {
-                allUserId.push(newMessages[i].user_id);
-                allMessageContents.push(newMessages[i].message_content);
-                allProfilePictures.push(newMessages[i].profile_picture);
-            }
-            var oldLength = $('.messages_area_grid').children().length;
-            $('.messages_area_grid').empty();
-
-            for (let i = 0; i < allUserId.length; i++) {
-                var messageItem = $('<div class="messages_area_grid_item"></div>');
-                var profilePicture = $('<img>', {
-                    class: 'messages_area_grid_item_profile_picture'
-                });
-                var messageContent = $('<div class="messages_area_grid_item_message_content"></div>');
-
-                if (i === allUserId.length - 1) {
-                    profilePicture.attr('src', allProfilePictures[i]);
+            try {
+                var newMessages = JSON.parse(xmlhttp.responseText);
+                var allUserId = [];
+                var allMessageContents = [];
+                var allProfilePictures = [];
+                for (let i = 0; i < newMessages.length; i++) {
+                    allUserId.push(newMessages[i].user_id);
+                    allMessageContents.push(newMessages[i].message_content);
+                    allProfilePictures.push(newMessages[i].profile_picture);
                 }
-                else {
-                    if (allUserId[i] !== allUserId[i + 1]) {
+                var oldLength = $('.messages_area_grid').children().length;
+                $('.messages_area_grid').empty();
+
+                for (let i = 0; i < allUserId.length; i++) {
+                    var messageItem = $('<div class="messages_area_grid_item"></div>');
+                    var profilePicture = $('<img>', {
+                        class: 'messages_area_grid_item_profile_picture'
+                    });
+                    var messageContent = $('<div class="messages_area_grid_item_message_content"></div>');
+
+                    if (i === allUserId.length - 1) {
                         profilePicture.attr('src', allProfilePictures[i]);
                     }
                     else {
-                        profilePicture.css('opacity', '0')
+                        if (allUserId[i] !== allUserId[i + 1]) {
+                            profilePicture.attr('src', allProfilePictures[i]);
+                        }
+                        else {
+                            profilePicture.css('opacity', '0')
+                        }
                     }
-                }
-                messageContent.text(allMessageContents[i]);
+                    messageContent.text(allMessageContents[i]);
 
-                // Apply style if user_id matches currentUserId
-                if (allUserId[i] === currentUserId) {
-                    messageItem.append(messageContent);
-                    messageItem.append(profilePicture);
-                    messageItem.css('display', 'flex');
-                    messageItem.css('justify-content', 'flex-end');
-                    messageItem.css('margin-right', '10px');
-                    messageContent.css('background', 'rgb(248, 229, 250)');
+                    // Apply style if user_id matches currentUserId
+                    if (allUserId[i] === currentUserId) {
+                        messageItem.append(messageContent);
+                        messageItem.append(profilePicture);
+                        messageItem.css('display', 'flex');
+                        messageItem.css('justify-content', 'flex-end');
+                        messageItem.css('margin-right', '10px');
+                        messageContent.css('background', 'rgb(248, 229, 250)');
+                    }
+                    else {
+                        messageItem.append(profilePicture);
+                        messageItem.append(messageContent);
+                        messageContent.css('background', 'rgb(229, 249, 250)');
+                        messageItem.css('margin-left', '10px');
+                    }
+                    $('.messages_area_grid').append(messageItem);
                 }
-                else {
-                    messageItem.append(profilePicture);
-                    messageItem.append(messageContent);
-                    messageContent.css('background', 'rgb(229, 249, 250)');
-                    messageItem.css('margin-left', '10px');
+                var newLength = $('.messages_area_grid').children().length;
+                if (newLength > oldLength) {
+                    setTimeout(function() {
+                        var messagesArea = $('.messages_area_grid')[0];
+                        messagesArea.scrollTop = messagesArea.scrollHeight;
+                    }, 0);
+                    var intervalId = setInterval(function() {
+                        reloadDataGroup();
+                        clearInterval(intervalId);
+                    }, 500);
                 }
-                $('.messages_area_grid').append(messageItem);
-            }
-            var newLength = $('.messages_area_grid').children().length;
-            if (newLength > oldLength) {
-                setTimeout(function() {
-                    var messagesArea = $('.messages_area_grid')[0];
-                    messagesArea.scrollTop = messagesArea.scrollHeight;
-                }, 0);
-                var intervalId = setInterval(function() {
-                    reloadDataGroup();
-                    clearInterval(intervalId);
-                }, 500);
+            } catch (e) {
+                console.error(e);
             }
         }
         $('.message_enter, .people_messages_item').click(function() {
@@ -269,11 +283,6 @@ function reloadDataGroup() {
 
                 $('#people_messages_grid').append(messageItem);
             }
-
-            $('.people_messages_item').click(function() {
-                var newGroupId = $(this).find('.group_id').text().trim();
-                $('.currentGroupId').text(newGroupId); 
-            });
         }
     }
     xmlhttp.send(null);

@@ -2,38 +2,68 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class DeleteLastItem extends HttpServlet {
+
+   private static final String DB_URL = "jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false";
+   private static final String DB_USER = "root";
+   private static final String DB_PASSWORD = "Hello1234!";
+
    public DeleteLastItem() {
+      // Default constructor
    }
 
-   public void doPost(HttpServletRequest var1, HttpServletResponse var2) throws ServletException, IOException {
+   @Override
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      response.setContentType("text/html");
+
+      Connection connection = null;
+      PreparedStatement pstmt = null;
 
       try {
-         var2.setContentType("text/html");
-         String deletedGroupId = var1.getParameter("deletedGroupId");
+         // Load JDBC driver
          Class.forName("com.mysql.cj.jdbc.Driver");
-         Connection var4 = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
-         String var7 = "DELETE FROM group_chat WHERE group_id = ?";
-         PreparedStatement var8 = var4.prepareStatement(var7);
-         var8.setString(1, deletedGroupId);
-         var8.executeUpdate();
-         var8.close();
-         var4.close();
-      } catch (Exception var12) {
-         var12.printStackTrace();
-         System.out.println("Invalid User");
+
+         // Establish database connection
+         connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+         // Prepare SQL query
+         String sql = "DELETE FROM group_chat WHERE group_id = ?";
+         pstmt = connection.prepareStatement(sql);
+
+         // Get parameters
+         String deletedGroupId = request.getParameter("deletedGroupId");
+
+         // Set parameters in the prepared statement
+         pstmt.setString(1, deletedGroupId);
+
+         // Execute the update
+         pstmt.executeUpdate();
+         
+         response.getWriter().println("Group deleted successfully.");
+
+      } catch (Exception e) {
+         // Log the error and provide a user-friendly message
+         e.printStackTrace();
+         response.getWriter().println("An error occurred. Please try again later.");
+      } finally {
+         // Close resources
+         try {
+            if (pstmt != null) pstmt.close();
+            if (connection != null) connection.close();
+         } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().println("Error closing resources: " + e.getMessage());
+         }
       }
    }
 
-   public void doGet(HttpServletRequest var1, HttpServletResponse var2) throws ServletException, IOException {
-      this.doGet(var1, var2);
+   @Override
+   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "GET method is not supported.");
    }
 }

@@ -12,41 +12,74 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ReloadData extends HttpServlet {
+
+   private static final String DB_URL = "jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false";
+   private static final String DB_USER = "root";
+   private static final String DB_PASSWORD = "Hello1234!";
+
    public ReloadData() {
+      // Default constructor
    }
 
-   public void doPost(HttpServletRequest var1, HttpServletResponse var2) throws ServletException, IOException {
+   @Override
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      response.setContentType("application/json");
+
+      Connection connection = null;
+      PreparedStatement pstmt = null;
+      ResultSet resultSet = null;
+      PrintWriter out = null;
+
       try {
-         var2.setContentType("text/html");
-         String var9 = var1.getParameter("currentGroupIdElement");
+         // Load JDBC driver
          Class.forName("com.mysql.cj.jdbc.Driver");
-         Connection var3 = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
+
+         // Establish database connection
+         connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+         // Prepare and execute SQL query
+         String groupId = request.getParameter("currentGroupIdElement");
          String query = "SELECT m.message_content, m.group_id, m.user_id, u.profile_picture FROM rentle.messages m JOIN user u ON m.user_id = u.user_id WHERE m.group_id = ?";
-         PreparedStatement pstmt = var3.prepareStatement(query);
-         pstmt.setString(1, var9);
-         ResultSet var6 = pstmt.executeQuery();
+         pstmt = connection.prepareStatement(query);
+         pstmt.setString(1, groupId);
+         resultSet = pstmt.executeQuery();
 
+         // Create JSON array and populate with results
          JSONArray jsonArray = new JSONArray();
-         while (var6.next()) {
+         while (resultSet.next()) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("message_content", var6.getString(1));
-            jsonObject.put("group_id", var6.getString(2));
-            jsonObject.put("user_id", var6.getString(3));
-            jsonObject.put("profile_picture", var6.getString(4));
+            jsonObject.put("message_content", resultSet.getString(1));
+            jsonObject.put("group_id", resultSet.getString(2));
+            jsonObject.put("user_id", resultSet.getString(3));
+            jsonObject.put("profile_picture", resultSet.getString(4));
             jsonArray.put(jsonObject);
-
          }
-         PrintWriter out = var2.getWriter();
-         out.print(jsonArray.toString());
-         var3.close();
-      } catch (Exception var12) {
-         var12.printStackTrace();
-         System.out.println("Something went wrong");
-      }
 
+         // Write JSON response
+         out = response.getWriter();
+         out.print(jsonArray.toString());
+         out.flush();
+
+      } catch (Exception e) {
+         e.printStackTrace();
+         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+         response.getWriter().println("An error occurred. Please try again later.");
+      } finally {
+         // Close resources
+         try {
+            if (resultSet != null) resultSet.close();
+            if (pstmt != null) pstmt.close();
+            if (connection != null) connection.close();
+            if (out != null) out.close();
+         } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().println("Error closing resources: " + e.getMessage());
+         }
+      }
    }
 
-   public void doGet(HttpServletRequest var1, HttpServletResponse var2) throws ServletException, IOException {
-      this.doGet(var1, var2);
+   @Override
+   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "GET method is not supported.");
    }
 }

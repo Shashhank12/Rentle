@@ -7,47 +7,83 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class Chat extends HttpServlet {
+
+   private static final String DB_URL = "jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false";
+   private static final String DB_USER = "root";
+   private static final String DB_PASSWORD = "Hello1234!";
+
    public Chat() {
+      // Default constructor
    }
 
-   public void doPost(HttpServletRequest var1, HttpServletResponse var2) throws ServletException, IOException {
-      PrintWriter var3 = var2.getWriter();
+   @Override
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      response.setContentType("text/html");
+
+      Connection connection = null;
+      PreparedStatement statement = null;
+      ResultSet resultSet = null;
+      PrintWriter out = response.getWriter();
 
       try {
-         var2.setContentType("text/html");
+         // Load JDBC driver
          Class.forName("com.mysql.cj.jdbc.Driver");
-         Connection var4 = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
-         Statement var5 = var4.createStatement();
-         String var6 = var1.getParameter("uname");
-         System.out.println(var6);
-         String var7 = var1.getParameter("pw");
-         System.out.println(var7);
-         String var8 = "select * from user where email ='" + var6 + "' AND password='" + var7 + "'";
-         ResultSet var9 = var5.executeQuery(var8);
-         if (var9.next()) {
-            String var10 = var9.getString("first_name");
-            HttpSession var11 = var1.getSession();
-            var11.setAttribute("name", var10);
-            String var12 = var9.getString("user_id");
-            var11.setAttribute("user_id", var12);
-            var3.println("Welcome, " + var10.toUpperCase());
+
+         // Establish database connection
+         connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+         // Prepare SQL query
+         String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+         statement = connection.prepareStatement(sql);
+
+         // Retrieve parameters
+         String email = request.getParameter("uname");
+         String password = request.getParameter("pw");
+
+         // Set parameters in the prepared statement
+         statement.setString(1, email);
+         statement.setString(2, password);
+
+         // Execute query
+         resultSet = statement.executeQuery();
+
+         if (resultSet.next()) {
+            // User authenticated
+            String firstName = resultSet.getString("first_name");
+            HttpSession session = request.getSession();
+            session.setAttribute("name", firstName);
+            session.setAttribute("user_id", resultSet.getString("user_id"));
+            out.println("Welcome, " + firstName.toUpperCase());
+            response.sendRedirect("http://localhost:8080/Rentle");
          } else {
-            var3.println("Incorrect Username or Password.");
+            // Authentication failed
+            out.println("Incorrect Username or Password.");
          }
 
-         var4.close();
-      } catch (Exception var12) {
-         var12.printStackTrace();
-         System.out.println("Invalid User");
+      } catch (Exception e) {
+         // Log the error and provide a user-friendly message
+         e.printStackTrace();
+         response.getWriter().println("An error occurred. Please try again later.");
+      } finally {
+         // Close resources
+         try {
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+         } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().println("Error closing resources: " + e.getMessage());
+         }
       }
-
    }
 
-   public void doGet(HttpServletRequest var1, HttpServletResponse var2) throws ServletException, IOException {
-      this.doGet(var1, var2);
+   @Override
+   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      // Optionally handle GET requests or remove if not used
+      response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "GET method is not supported.");
    }
 }

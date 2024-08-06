@@ -66,6 +66,13 @@
     <servlet-class>DeleteLastItem</servlet-class>
   </servlet>
 
+   <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>FileUploadServlet</servlet-name>
+    <servlet-class>FileUploadServlet</servlet-class>
+  </servlet>
+
 
 
   <servlet-mapping>
@@ -96,6 +103,11 @@
     <servlet-mapping>
     <servlet-name>DeleteLastItem</servlet-name>
     <url-pattern>/deletelastitem</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>FileUploadServlet</servlet-name>
+    <url-pattern>/fileuploadservlet</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

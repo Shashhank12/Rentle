@@ -11,56 +11,90 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Group extends HttpServlet {
+
+   private static final String DB_URL = "jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false";
+   private static final String DB_USER = "root";
+   private static final String DB_PASSWORD = "Hello1234!";
+
    public Group() {
+      // Default constructor
    }
 
-   public void doPost(HttpServletRequest var1, HttpServletResponse var2) throws ServletException, IOException {
+   @Override
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      response.setContentType("text/html");
+
+      Connection connection = null;
+      Statement statement = null;
+      ResultSet resultSet = null;
+      PreparedStatement pstmt = null;
+      PreparedStatement pstmt2 = null;
 
       try {
-         var2.setContentType("text/html");
-         String groupUsers = var1.getParameter("groupUsers");
+         // Load JDBC driver
          Class.forName("com.mysql.cj.jdbc.Driver");
-         Connection var4 = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
-         String var7 = "SELECT group_id, group_chat_status FROM group_chat WHERE group_id = (SELECT MAX(group_id) FROM group_chat) LIMIT 1";
-         Statement var8 = var4.createStatement();
-         ResultSet rs = var8.executeQuery(var7);
-         int groupId = 0, groupChatStatus = 0;
-         while (rs.next()) {
-            groupId = rs.getInt(1);
-            groupChatStatus = rs.getInt(2);
+
+         // Establish database connection
+         connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+         // Prepare and execute SQL query
+         String selectQuery = "SELECT group_id, group_chat_status FROM group_chat WHERE group_id = (SELECT MAX(group_id) FROM group_chat) LIMIT 1";
+         statement = connection.createStatement();
+         resultSet = statement.executeQuery(selectQuery);
+
+         int groupId = 0;
+         int groupChatStatus = 0;
+
+         if (resultSet.next()) {
+            groupId = resultSet.getInt(1);
+            groupChatStatus = resultSet.getInt(2);
          }
+
+         String groupUsers = request.getParameter("groupUsers");
+
          if (groupChatStatus != 0) {
-            groupId = groupId + 1;
+            // Insert new group
+            groupId += 1;
             String insertQuery = "INSERT INTO group_chat (group_id, group_users, group_chat_status) VALUES (?, ?, ?)";
-            PreparedStatement pstmt = var4.prepareStatement(insertQuery);
+            pstmt = connection.prepareStatement(insertQuery);
             pstmt.setInt(1, groupId);
             pstmt.setString(2, groupUsers);
             pstmt.setInt(3, 0);
             pstmt.executeUpdate();
-            HttpSession var11 = var1.getSession();
-            var11.setAttribute("groupId", groupId);
-            pstmt.close();
-         }
-         else {
-            String insertQuery2 = "UPDATE group_chat "
-            + "JOIN (SELECT MAX(group_id) AS max_id FROM group_chat) AS max_group "
-            + "ON group_chat.group_id = max_group.max_id "
-            + "SET group_chat.group_users = ?";
-            PreparedStatement pstmt2 = var4.prepareStatement(insertQuery2);
+
+            HttpSession session = request.getSession();
+            session.setAttribute("groupId", groupId);
+         } else {
+            // Update existing group
+            String updateQuery = "UPDATE group_chat "
+                    + "JOIN (SELECT MAX(group_id) AS max_id FROM group_chat) AS max_group "
+                    + "ON group_chat.group_id = max_group.max_id "
+                    + "SET group_chat.group_users = ?";
+            pstmt2 = connection.prepareStatement(updateQuery);
             pstmt2.setString(1, groupUsers);
             pstmt2.executeUpdate();
-            pstmt2.close();
          }
-         var8.close();
-         var4.close();
-      } catch (Exception var12) {
-         var12.printStackTrace();
-         System.out.println("Invalid User");
-      }
 
+      } catch (Exception e) {
+         e.printStackTrace();
+         response.getWriter().println("An error occurred. Please try again later.");
+      } finally {
+         // Close resources
+         try {
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (pstmt != null) pstmt.close();
+            if (pstmt2 != null) pstmt2.close();
+            if (connection != null) connection.close();
+         } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().println("Error closing resources: " + e.getMessage());
+         }
+      }
    }
 
-   public void doGet(HttpServletRequest var1, HttpServletResponse var2) throws ServletException, IOException {
-      this.doGet(var1, var2);
+   @Override
+   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "GET method is not supported.");
    }
 }
