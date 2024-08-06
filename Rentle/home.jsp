@@ -1,4 +1,4 @@
-<%@ page import="java.sql.*,java.util.ArrayList,java.time.*,java.time.temporal.ChronoUnit,java.time.format.DateTimeFormatter,java.time.format.*,java.util.Locale"%>
+<%@ page import="java.sql.*,java.util.ArrayList,java.time.*,java.time.temporal.ChronoUnit,java.time.format.DateTimeFormatter,java.time.format.*,java.util.Locale, java.util.List, java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +15,12 @@
         String db = "rentle";
         String user; // assumes database name is the same as username
         user = "root";
-        String password = "Hello1234!"; //enter your password
+        String password = "1Wins4All"; //enter your password
         String currentGroupId = ""; 
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "1Wins4All");
             String query3 = "SELECT group_id FROM rentle.group_chat WHERE FIND_IN_SET(?, group_users) > 0 ORDER BY group_id DESC LIMIT 1";
             PreparedStatement pstmt3 = conn.prepareStatement(query3);
             pstmt3.setString(1, userId);
@@ -36,6 +36,8 @@
     <script src="jquery-3.7.1.min.js"></script>
 </head>
 <body style="overflow-x: hidden;" onload="initMap()">
+
+    <div id="user_id" style="display:none"> <%=userId%> </div>
     <div class="blur_background"></div>
 
     <!-- Shashhank Google Maps -->
@@ -302,7 +304,7 @@
         <div tabindex="0" id="signup_container">
             <div class="signup_login_button">
                 <div class="signup_login_text"> 
-                    <% if (uname != null) { %>
+                    <% if (uname != null && userId != null) { %>
                         Welcome, <%= uname %>
                     <% } else { %>
                         Signup / Login
@@ -335,10 +337,9 @@
 
                 Statement stmt = con.createStatement();
 
-                String getCartQuery = String.format("SELECT item_id, name, quantity, duration, price_per_hour, price_per_day, price_per_week, price_per_month FROM cart, items, rentsfor, prices WHERE cart.ItemID = items.item_id AND UserID=%s AND cart.ItemID = rentsfor.ItemID AND prices.prices_id = rentsfor.ItemID;",userId);
+                String getCartQuery = String.format("SELECT item_id, name, cart.quantity, duration, price_per_hour, price_per_day, price_per_week, price_per_month FROM cart, items, rentsfor, prices WHERE cart.ItemID = items.item_id AND UserID = %s AND cart.ItemID = rentsfor.ItemID AND prices.prices_id = rentsfor.ItemID;",userId);
                 ResultSet rs = stmt.executeQuery(getCartQuery);
 
-                
                 out.println("<div class='cart_list'>");
                 while(rs.next()) {
                     out.println("<div class='cart_item'>");
@@ -383,9 +384,7 @@
         <input type="text" class="card_expiration_date" placeholder="MM/YY">
         <input type="text" id="card_cvv" placeholder="CVV">
         <div class="cart_payment_back"> Back </div>
-        <form>
-            <input type="submit" name="card_submit" value="Checkout" class="cart_payment_submit">
-        </form>
+        <input type="submit" name="card_submit" value="Checkout" class="cart_payment_submit">
 
         <%
             if (request.getParameter("card_submit") != null && !userId.equals("0")) {
@@ -442,8 +441,7 @@
                     //remove from cart
                     String removeFromCartQuery = String.format("DELETE FROM rentle.cart WHERE UserID=%s",userId);
                     int ri = stmt.executeUpdate(removeFromCartQuery);
-
-                } catch(SQLException e) {
+                } catch(Exception e) {
                     out.println("3");
                 }
             }
@@ -463,11 +461,23 @@
             </div>
             <div id="signup_notification_component">
                 <div class="not_a_member_text"> Not a member? </div>
-                <div class="signup_hyperlink" onclick="window.location.href='/sign-up.jsp';">Sign up</div>
-
+                <div class="signup_hyperlink" onclick="window.location.href='/Rentle/sign-up.jsp'">Sign up</div>
             </div>
         </div>
     </div>
+    
+    <div id="loggedin_notification_component">
+        <div class="view-profile-button">Profile</div>
+        <div class="submit" onclick="logoutUser()"> Submit </div>
+    </div>
+
+    <script>
+        function logoutUser() {
+            $('#user_id').text(null); // Clear the user ID
+            location.reload(true);
+        }
+    </script>
+
 
     <div id="wrapper">
         <div class="rectangle">
@@ -488,77 +498,104 @@
                 <li class="sort-dropdown-content-date-listed"><a href="#">Date listed: newest to oldest</a></li>
             </ul>
         </div>
+        <div class="grid_container" id="results">
+            <%
+            Connection conGridContainer = null;
+            Statement stmtGridContainer = null;
+            ResultSet rsGridContainer = null;
+            List<String> photoArray = new ArrayList<>();
+            List<String> nameArray = new ArrayList<>();
+            List<String> locationArray = new ArrayList<>();
+            List<String> categoryArray = new ArrayList<>();
+            List<String> featuresArray = new ArrayList<>();
+            List<String> priceArray = new ArrayList<>();
+        
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                conGridContainer = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "1Wins4All");
+        
+                stmtGridContainer = conGridContainer.createStatement();
+                String photoString = "SELECT photo FROM photos " +
+                                     "JOIN (SELECT ItemID AS item_id, MIN(PhotoID) AS photo_id " +
+                                     "FROM rentle.contains GROUP BY ItemID) AS new_photos USING (photo_id)";
+                rsGridContainer = stmtGridContainer.executeQuery(photoString);
 
-        <%
-        try {
-            java.sql.Connection con;
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
-            Statement stmt = con.createStatement();
+                while (rsGridContainer.next()) {
+                    String newPhoto = rsGridContainer.getString(1).replace("./Images/", "images/");
+                    photoArray.add(newPhoto);
+                }
+                String nameAndLocationString = "SELECT name, location FROM items";
+                rsGridContainer = stmtGridContainer.executeQuery(nameAndLocationString);
 
-            String photoString = "SELECT photo from photos
-            JOIN (SELECT ItemID AS item_id, MIN(PhotoID) AS photo_id
-            FROM rentle.contains GROUP BY ItemID) AS new_photos USING (photo_id)";
+                while (rsGridContainer.next()) {
+                    nameArray.add(rsGridContainer.getString(1));
+                    locationArray.add(rsGridContainer.getString(2));
+                }
 
-            String categoryAndFeaturesString = "SELECT category_name, features_name from category
-            JOIN (SELECT ItemID AS item_id, MIN(CategoryID) AS category_id
-            FROM rentle.has GROUP BY ItemID) AS new_category USING (category_id)
-            JOIN (SELECT CategoryID AS category_id, MIN(FeaturesID) AS features_id
-            FROM rentle.consistsof GROUP BY CategoryID) AS new_features USING (category_id)
-            JOIN features USING (features_id)";
+                String categoryAndFeaturesString = "SELECT category_name, features_name FROM category " +
+                                                   "JOIN (SELECT ItemID AS item_id, MIN(CategoryID) AS category_id " +
+                                                   "FROM rentle.has GROUP BY ItemID) AS new_category USING (category_id) " +
+                                                   "JOIN (SELECT CategoryID AS category_id, MIN(FeaturesID) AS features_id " +
+                                                   "FROM rentle.consistsof GROUP BY CategoryID) AS new_features USING (category_id) " +
+                                                   "JOIN features USING (features_id)";
+                rsGridContainer = stmtGridContainer.executeQuery(categoryAndFeaturesString);
 
-            String priceString = "SELECT " +
-                     "    LEAST( " +
-                     "        COALESCE(p.price_per_hour, 9999999), " +
-                     "        COALESCE(p.price_per_day, 9999999), " +
-                     "        COALESCE(p.price_per_week, 9999999), " +
-                     "        COALESCE(p.price_per_month, 9999999) " +
-                     "    ) AS minimum_price " +
-                     "FROM (SELECT ItemID AS item_id, MAX(PricesID) AS prices_id " +
-                     "      FROM rentle.rentsfor " +
-                     "      GROUP BY ItemID) AS new_price " +
-                     "JOIN prices p ON new_price.prices_id = p.prices_id " +
-                     "WHERE p.price_per_hour IS NOT NULL " +
-                     "   OR p.price_per_day IS NOT NULL " +
-                     "   OR p.price_per_week IS NOT NULL " +
-                     "   OR p.price_per_month IS NOT NULL;";
+                while (rsGridContainer.next()) {
+                    categoryArray.add(rsGridContainer.getString(1));
+                    featuresArray.add(rsGridContainer.getString(2));
+                }
+        
+                String priceString = "SELECT " +
+                                     "    LEAST( " +
+                                     "        COALESCE(p.price_per_hour, 9999999), " +
+                                     "        COALESCE(p.price_per_day, 9999999), " +
+                                     "        COALESCE(p.price_per_week, 9999999), " +
+                                     "        COALESCE(p.price_per_month, 9999999) " +
+                                     "    ) AS minimum_price " +
+                                     "FROM (SELECT ItemID AS item_id, MAX(PricesID) AS prices_id " +
+                                     "      FROM rentle.rentsfor " +
+                                     "      GROUP BY ItemID) AS new_price " +
+                                     "JOIN prices p ON new_price.prices_id = p.prices_id " +
+                                     "WHERE p.price_per_hour IS NOT NULL " +
+                                     "   OR p.price_per_day IS NOT NULL " +
+                                     "   OR p.price_per_week IS NOT NULL " +
+                                     "   OR p.price_per_month IS NOT NULL";
+                rsGridContainer = stmtGridContainer.executeQuery(priceString);
 
-            String nameAndLocationString = "SELECT name, location FROM items";
-
-            ResultSet photo = stmt.executeQuery(photoString);
-            ResultSet nameAndLocation = stmt.executeQuery(nameAndLocationString);
-            ResultSet categoryAndFeatures = stmt.executeQuery(categoryAndFeaturesString);
-            ResultSet price = stmt.executeQuery(priceString);
-
-            var photoArray = [];
-            var nameAndLocationArray = [];
-
-            while (photo.next()) {
-                String photoUrl = photo.getString(1);
-                photoArray.add(photoUrl);
-            }
-            while nameAndLocation()
-
-
-        }
-        %>
-
-        <div class="grid_container">
+                while (rsGridContainer.next()) {
+                    priceArray.add(rsGridContainer.getString(1));
+                }
+                for (int i = 0; i < photoArray.size(); i++) {
+            %>
             <div class="grid_item">
-                <img src="image3.png" alt = "" class="item_image">
+                <img src="<%=photoArray.get(i)%>" alt="" class="item_image">
                 <div class="grid_item_module_1">
                     <div class="grid_item_module_2">
-                        <div class="item_name"> Bicycle for rent! </div>
+                        <div class="item_name"> <%= nameArray.get(i) %> </div>
                         <div class="item_module_1">
-                            <div class="item_category"> Bike - </div>
-                            <div class="item_feature"> Multiple gears </div>
+                            <div class="item_category"> <%= categoryArray.get(i) %> - </div>
+                            <div class="item_feature"> <%= featuresArray.get(i) %> </div>
                         </div>
-                        <div class="item_location"> San Jose, CA </div>
+                        <div class="item_location"> <%= locationArray.get(i) %> </div>
                     </div>
-                    <div class="item_price"> $15 </div>
+                    <div class="item_price"> $<%= priceArray.get(i) %> </div>
                 </div>
             </div>
-        </div>  
+            <%
+                }
+            } catch (SQLException e) {
+                out.println("Error: " + e.getMessage());
+            } finally {
+                try {
+                    if (rsGridContainer != null) rsGridContainer.close();
+                    if (stmtGridContainer != null) stmtGridContainer.close();
+                    if (conGridContainer != null) conGridContainer.close();
+                } catch (SQLException e) {
+                    out.println("Error closing resources: " + e.getMessage());
+                }
+            }
+            %>
+        </div>
     </div>
 
     <div id="your_rentals_view">
@@ -795,7 +832,6 @@
     
     <div id="messages_view">
         <div class="currentGroupId" style="display:none"> <%= currentGroupId %> </div> 
-        <div id="user_id" style="display:none" > <%=userId%> </div>
         <div class="messages_view_module_1">
             <div class="your_messages_text"> Messages </div>
             <div class="your_messages_add_group_chat" > + </div>
@@ -812,7 +848,7 @@
             <%
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "1Wins4All");
                 String query5 = "(SELECT DISTINCT u.user_id, u.profile_picture, u.first_name, u.last_name " +
                "FROM rentle.friends f " +
                "JOIN rentle.user u ON ((FriendUserID1 = ? AND u.user_id = FriendUserID2) " +
@@ -885,28 +921,22 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            function fetchNewGroupId() {
-                $.ajax({
-                    url: 'JSPMessageFiles/newGroupId.jsp',
-                    method: 'POST',
-                    success: function(data) {
-                        $('.your_messages_add_group_chat_new_group_id').text(data);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching group ID:', error);
-                    }
-                });
-            }
-            setInterval(fetchNewGroupId, 500);
-            var intervalId = setInterval(function() {
-                reloaddata();
-                clearInterval(intervalId);
-            }, 500);
-        });
+        function fetchNewGroupId() {
+            $.ajax({
+                url: 'JSPMessageFiles/newGroupId.jsp',
+                method: 'POST',
+                success: function(data) {
+                    $('.your_messages_add_group_chat_new_group_id').text(data);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching group ID:', error);
+                }
+            });
+        }
 
         $('.your_messages_add_group_chat').click(function() {
             addGroup();
+            fetchNewGroupId();
             var newGroupId1 = $('.your_messages_add_group_chat_new_group_id').text().trim();
             $('.currentGroupId').text(newGroupId1); 
 
@@ -922,10 +952,7 @@
             else {
                 $('.your_messages_add_group_chat_people_grid').css('display', 'none');
             }
-            var intervalId = setInterval(function() {
-                reloaddata();
-                clearInterval(intervalId);
-            }, 500);
+            reloaddata();
         });
 
         $('.your_messages_add_group_chat_grid').on('click', '.your_messages_add_group_chat_grid_item', function() {
@@ -961,14 +988,10 @@
             $gridItem.insertBefore($('.your_messages_add_group_chat_text'));
             addGroup();
             $(this).remove();
-            var intervalId = setInterval(function() {
-                reloadDataGroup();
-                clearInterval(intervalId);
-            }, 500);
-            intervalId = setInterval(function() {
-                reloaddata();
-                clearInterval(intervalId);
-            }, 500);
+            reloadDataGroup();
+            var newGroupId1 = $('.your_messages_add_group_chat_new_group_id').text().trim();
+            $('.currentGroupId').text(newGroupId1); 
+            reloaddata();
         });
 
         $('.your_messages_add_group_chat_people_grid').on('click', '.your_messages_add_group_chat_people_grid_item_remove', function() {
@@ -1000,14 +1023,8 @@
 
             $(this).closest('.your_messages_add_group_chat_people_grid_item').remove();
             addGroup();
-            var intervalId = setInterval(function() {
-                reloadDataGroup();
-                clearInterval(intervalId);
-            }, 500);
-            intervalId = setInterval(function() {
-                reloaddata();
-                clearInterval(intervalId);
-            }, 500);
+            reloadDataGroup();
+            reloaddata();
         });
 
         $('#people_messages_grid').on('click', '.people_messages_item', function() {
@@ -1017,25 +1034,19 @@
                 console.log("name is null");
                 deleteLastItem();
             }
-            var intervalId = setInterval(function() {
-                reloadDataGroup();
-                clearInterval(intervalId);
-            }, 500);
-            intervalId = setInterval(function() {
-                reloaddata();
-                clearInterval(intervalId);
-            }, 500);
+            var newGroupId = $(this).find('.group_id').text().trim();
+            $('.currentGroupId').text(newGroupId); 
+            console.log($('.currentGroupId').text())
+ 
         });
+
 
         $(document).click(function(event) {
             if (!$(event.target).closest('.your_messages_add_group_chat_module, .your_messages_add_group_chat_people_grid, .your_messages_add_group_chat, .your_messages_add_group_chat_grid_item, .your_messages_add_group_chat_people_grid_item_remove').length) {
                 $('.your_messages_add_group_chat_module').css('display', 'none');
                 $('.your_messages_add_group_chat_people_grid').css('display', 'none');
             }
-            var intervalId = setInterval(function() {
-                reloaddata();
-                clearInterval(intervalId);
-            }, 500);
+            reloaddata();
         });
 
     </script>
@@ -1143,10 +1154,10 @@
                 <div class="add_item_price">
                     <div class="add_item_price_title"> Item Price </div>
                     <div class="item_price_input_module">
-                        <input type="text" id="item_price_input_address" placeholder="Price per hour">
-                        <input type="text" id="item_price_input_city" placeholder="Price per day">
-                        <input type="text" id="item_price_input_state" placeholder="Price per week">
-                        <input type="text" id="item_price_input_zip_code" placeholder="Price per month">
+                        <input type="text" id="item_price_hour" placeholder="Price per hour">
+                        <input type="text" id="item_price_day" placeholder="Price per day">
+                        <input type="text" id="item_price_week" placeholder="Price per week">
+                        <input type="text" id="item_price_month" placeholder="Price per month">
                     </div>
                 </div>
             </div>
@@ -1154,7 +1165,7 @@
 
         <div class="add_item_cancel_add_module">
             <div class="add_item_cancel"> Cancel </div>
-            <div class="add_item_add" onclick="addItem()"> Add </div>
+            <div class="add_item_add"> Add </div>
         </div>
     </div>
 
@@ -1189,6 +1200,8 @@
             var priceDay = document.getElementById("item_price_day").value;
             var priceWeek = document.getElementById("item_price_week").value;
             var priceMonth = document.getElementById("item_price_month").value;
+
+            var currentUserId = document.getElementById("user_id").textContent.trim();
             
             var xhr = new XMLHttpRequest();
             xhr.open("GET", "additem.jsp?title=" + encodeURIComponent(title) +
@@ -1204,11 +1217,34 @@
                             "&priceHour=" + encodeURIComponent(priceHour) +
                             "&priceDay=" + encodeURIComponent(priceDay) +
                             "&priceWeek=" + encodeURIComponent(priceWeek) +
-                            "&priceMonth=" + encodeURIComponent(priceMonth), true);
+                            "&priceMonth=" + encodeURIComponent(priceMonth) + 
+                            "&currentUserId=" + encodeURIComponent(currentUserId), true);
                             
-            // Test Link: http://localhost:8080/rental/additem.jsp?title=Car&category=Car&condition=Excellent&features=["Good","Bad"]&description=This%20is%20a%20car&address=123%20Main%20St&city=San%20Jose&state=CA&zipCode=95134&priceHour=10&priceDay=50&priceWeek=100&priceMonth=300
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log("True");
+                    
+                } else {
+                    console.log("Failed");
+                }
+            };
+            xhr.send();
+        }
+    </script>
+
+    <script>
+        function viewItem() {
+            var currentItemId = $('.view_item_index').text().trim();
+            var currentUserId = $('#user_id').text().trim();
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("GET", "viewItem.jsp?currentItemId=" + encodeURIComponent(currentItemId) +
+                            "&currentUserId=" + encodeURIComponent(currentUserId), true);
+                            
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var existingElement = document.getElementsByClassName("view_item_module")[0];
+                    existingElement.insertAdjacentHTML('afterbegin', xhr.responseText);
                     console.log("Success");
                 } else {
                     console.log("Failed");
@@ -1367,86 +1403,11 @@
         }
     </script>
 
+    <div class="view_item_index" style="display:none"></div>
     <!-- Alicia view item user module  -->
-    <div class="view_item_module" id="view_item_module" name="1">
-        <%
-            // TODO: POPULATE ALL OF THIS USING THE SEARCH RESULTS
-            // for now, i have hardcoded the id in here
-            int id = 1;
-        %>
-        <div class="view_item_photo_module">
-            <div class="view_item_photo"></div>
-            <div id="photo_back_button"></div>
-            <div id="photo_front_button"></div>
-        </div>
-        <div class="view_item_information_module">
-            <div class="view_item_title"> <strong>Yarsca 24in Beach Cruiser Bike! </strong></div>
-            <div class="view_item_prices_list">
-                <div class="view_item_prices_per_hour"> $8/hour </div> -
-                <div class="view_item_prices_per_day"> $12/day </div> -
-                <div class="view_item_prices_per_week"> $20/week </div> -
-                <div class="view_item_prices_per_month"> $35/month </div>
-            </div>
-            <div class="view_item_listed_date_module">
-                <div class="view_item_listed_date_name"> <strong>Listed date:</strong> </div>
-                <div class="view_item_listed_date"> 20th July, 2024, </div>
-                <div class="view_item_listed_date_count"> 7 days ago </div>
-            </div>
-            <div class="view_item_location_module">
-                <div class="view_item_location_name"> <strong>Location:</strong></div>
-                <div class="view_item_location"> Santa Cruz, CA </div>
-            </div>
-            <div class="view_item_category_module">
-                <div class="view_item_category_name"> <strong>Category:</strong> </div>
-                <div class="view_item_category"> Bike </div>
-            </div>
-            <div class="view_item_features_module">
-                <div class="view_item_features_name"> <strong>Features:</strong></div>
-                <div class="view_item_features"> Multiple colors - </div> 
-                <div class="view_item_features"> Adjustable seats - </div>
-                <div class="view_item_features"> Anti-lock system </div>
-            </div>
-            <div class="view_item_description_module">
-                <div class="view_item_description_name"> <strong>Description</strong></div>
-                <div class="view_item_description">Lorem ipsum odor amet, consectetuer adipiscing elit. Pulvinar est dui sem velit curae duis! Adipiscing orci aliquet blandit habitant aptent lorem. Placerat vestibulum scelerisque primis natoque fames scelerisque laoreet. Placerat mi natoque mattis ridiculus nisl curabitur consequat. Vulputate nec praesent suspendisse conubia ac feugiat turpis finibus magna. Venenatis orci condimentum eleifend sagittis per elementum. Porttitor leo fames porttitor habitasse mi nisi.
+    <div class="view_item_module">
 
-                    Lorem ipsum odor amet, consectetuer adipiscing elit. Pulvinar est dui sem velit curae duis! Adipiscing orci aliquet blandit habitant aptent lorem. Placerat vestibulum scelerisque primis natoque fames scelerisque laoreet. Placerat mi natoque mattis ridiculus nisl curabitur consequat. Vulputate nec praesent suspendisse conubia ac feugiat turpis finibus magna. Venenatis orci condimentum eleifend sagittis per elementum. Porttitor leo fames porttitor habitasse mi nisi.
-                </div>
-                <div class="view_item_description_see_more"> See more </div>
-            </div>
-            <div class="view_item_user_module">
-                <%
-                    try {
-                        java.sql.Connection con;
-                        Class.forName("com.mysql.jdbc.Driver");
-                        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
-
-                        Statement stmt = con.createStatement();
-
-                        // TODO: userId is hardcoded, will need to be connected when items are displayed from search
-                        String getUserInfoQuery = String.format("SELECT * FROM rentle.user WHERE user_id = %s", 1);
-                        ResultSet rs = stmt.executeQuery(getUserInfoQuery);
-                        rs.next();
-                        String fullname = rs.getString("first_name") + " " + rs.getString("last_name");
-                        String pfp = "images/" + rs.getString("profile_picture");
-                %>
-                <img src=<%=pfp%> class="view_item_user_profile_picture">
-                <div class="view_item_view_user_profile"> SEE INFO </div>
-                <div class="view_item_user_module_1">
-                    <div class="view_item_user_name"><%=fullname%></div>
-                    <div class="view_item_user_module_2">
-                        <div class="view_item_reviews"> 4.5 </div>
-                        <div class="view_item_reviews_count"> - 144 reviews </div>
-                    </div>
-                </div>
-                <%
-                    } catch(SQLException e) {
-                        out.println("6");
-                    }
-                %>
-            </div>
-        </div>
-
+        <div class="view_item_module_1"></div>
 
         <div class="view_item_line"></div>
 
@@ -1457,7 +1418,6 @@
             <input type="text" class="view_item_duration_hours" placeholder="Hours">
             <input type="text" class="view_item_duration_minutes" placeholder="Minutes">
         </div>
-        
         <!-- Alicia addToCart -->
         <div class="view_item_cancel_add_module">
             <div class="view_item_quantity_module">
@@ -1468,30 +1428,6 @@
             <div class="view_item_add_to_cart_module"> Add to cart </div>
             <div class="view_item_close"> Close </div>
         </div>
-        <%
-            if (request.getParameter("addToCart") != null && !userId.equals("0")) {
-                // add to cart(userId, itemId)
-                // out.println("parameter not null, button has been clicked");
-                try {
-                    java.sql.Connection con;
-                    Class.forName("com.mysql.jdbc.Driver");
-                    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false",user, password);
-        
-                    Statement stmt = con.createStatement();
-
-                    String addToCartQuery = String.format("INSERT INTO cart (UserID, ItemID) VALUES (%s, %s);", userId, id);
-                    // out.println(addToCartQuery);
-
-                    int ri = stmt.executeUpdate(addToCartQuery);
-                    // out.println("item added to cart");
-                    
-                    stmt.close();
-                    con.close();
-                } catch(SQLException e) {
-                    out.println("7");
-                }
-            }
-        %>
     </div>
 
     <!-- Alicia basic information besides reviews -->
@@ -1801,7 +1737,7 @@
     </script>
 
     <script>
-        $('.view_item_add_to_cart_module').click(function() {
+        function calculateSeconds() {
             var timeInSeconds = [2592000, 604800, 86400, 3600, 60];
             var total = 0;
             $('.view_item_duration_module input').each(function(index) {
@@ -1812,13 +1748,40 @@
                 }
                 total += value * timeInSeconds[index];
             });
-        });
+            return total;
+        }
 
-        $(document).ready(function() {
-            let item_id = 0;
-            $('.grid_container .grid_item').click(function() {
-                item_id = $(this).index() + 1;
-            });
+        function addToCart() {
+            var currentItemId = $('.view_item_index').text().trim();
+            var currentUserId = $('#user_id').text().trim();
+            console.log(currentUserId);
+            console.log(currentItemId);
+            var duration = calculateSeconds();
+
+            console.log(duration);
+            var viewItemQuantity = document.getElementsByClassName('view_item_quantity_number')[0].textContent.trim();
+
+            console.log(viewItemQuantity);
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("GET", "addToCart.jsp?currentItemId=" + encodeURIComponent(currentItemId) +
+                            "&currentUserId=" + encodeURIComponent(currentUserId) +
+                            "&duration=" + encodeURIComponent(duration) +
+                            "&viewItemQuantity=" + encodeURIComponent(viewItemQuantity), true);
+                            
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log("Success");
+                } else {
+                    console.log("Failed");
+                }
+            };
+            xhr.send();
+        }
+
+        $('.view_item_add_to_cart_module').click(function() {
+            addToCart();
+            // location.reload(true);
         });
     </script>
 
@@ -2211,12 +2174,29 @@
                 $('.add_item_module').css('display', 'none');
                 $('.blur_background').css('display', 'none');
             });
+
+            $('.add_item_add').click(function() {
+                var currentUserId = $('#user_id').text().trim();
+                if (isNaN(currentUserId)) {
+                    $('.add_item_module').css('display', 'none');
+                    $('.blur_background').css('display', 'none');
+                    if ($('#login-module').css('display') === 'none') {
+                        console.log(true);
+                        $('#login-module').css('display', 'block');
+                        $('.signup_login_button').addClass('active');
+                    }
+                }
+                else {
+                    addItem();
+                    location.reload(true);
+                }
+            });
         });
     </script>
 
     <script>
         $(document).ready(function() {
-            $('.grid_item').click(function() {
+            $('.grid_container').on('click', '.grid_item', function() {
                 if ($('.view_item_module').css('display') === 'block') {
                     $('.view_item_module').css('display', 'none');
                     $('.blur_background').css('display', 'none');
@@ -2225,6 +2205,13 @@
                     $('.view_item_module').css('display', 'block');
                     $('.blur_background').css('display', 'block');
                 }
+                var category = $('.grid_item').find('.item_name').text().trim();
+                var feature = $('.grid_item').find('.item_feature').text().trim();
+                var location = $('.grid_item').find('.item_location').text().trim();
+                $('.view_item_index').empty();
+                $('.view_item_index').text($(this).index() + 1);
+                console.log($('.view_item_index').text());
+                viewItem();
             });
 
             $('.view_item_close, .view_item_add_to_cart_module').click(function() {
@@ -2516,10 +2503,8 @@
                         'font-size': '17.5px'
                     });
                 }
-                var intervalId = setInterval(function() {
-                    reloaddata();
-                    clearInterval(intervalId);
-                }, 500);
+                reloadDataGroup();
+                reloaddata();
             });
         });
 
@@ -2661,23 +2646,41 @@
     <script>
         $(document).ready(function() {
             $('.signup_login_button').click(function() {
-                if ($('#login-module').css('display') === 'block') {
+                var userId = $('#user_id').text().trim();
+                console.log("User ID: ", userId); // Debugging info
+
+                if (isNaN(userId) || userId === "") {
+                    console.log("Not logged in or invalid user ID"); // Debugging info
+                    $('#loggedin_notification_component').css('display', 'none');
+                    if ($('#login-module').css('display') === 'block') {
+                        $('#login-module').css('display', 'none');
+                        $('.signup_login_button').removeClass('active');
+                    } else {
+                        $('#login-module').css('display', 'block');
+                        $('.signup_login_button').addClass('active');
+                    }
+                } else {
+                    console.log("Logged in with user ID: ", userId); // Debugging info
                     $('#login-module').css('display', 'none');
-                    $('.signup_login_button').removeClass('active');
-                }
-                else {
-                    $('#login-module').css('display', 'block');
-                    $('.signup_login_button').addClass('active');
+                    if ($('#loggedin_notification_component').css('display') === 'none') {
+                        $('#loggedin_notification_component').css('display', 'block');
+                    } else {
+                        $('#loggedin_notification_component').css('display', 'none');
+                    }
                 }
             });
 
-            $(document).click(function(event) {
-                if (!$(event.target).closest('.signup_login_button, #login-module').length) {
-                    $('#login-module').css('display', 'none');
-                    $('.signup_login_button').removeClass('active');
-                }
-            });
+            // if ($('#login-module').css('display') === 'block') {
+            //     $(document).click(function(event) {
+            //         if (!$(event.target).closest('.signup_login_button, #login-module').length) {
+            //             $('#login-module').css('display', 'none');
+            //             $('.signup_login_button').removeClass('active');
+            //         }
+            //     });
+            // }
+
         });
+
     </script>
 
 

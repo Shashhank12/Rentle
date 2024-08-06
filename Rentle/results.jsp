@@ -5,6 +5,7 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="com.google.gson.JsonObject" %>
 <%@ page import="com.google.gson.JsonParser" %>
+<%@ page import="java.sql.*, java.util.*" %>
 
 <%! 
     public double getDistance(String origin, String destination, String apiKey) throws IOException {
@@ -51,7 +52,6 @@
     }
 %>
 
-<%@ page import="java.sql.*, java.util.*" %>
 <%
     String query = request.getParameter("query");
     String minPriceStr = request.getParameter("minPrice");
@@ -91,7 +91,7 @@
 
     String db = "rentle";
     String user = "root";
-    String password = "Hello1234!";
+    String password = "1Wins4All";
 
     if ((query != null && !query.trim().isEmpty()) || minPriceStr != null || maxPriceStr != null) {
         try {
@@ -133,7 +133,6 @@
                 sql += " ORDER BY items.posted_date";
             }
             
-             
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, "%" + query + "%");
             ps.setString(2, "%" + query + "%");
@@ -141,8 +140,12 @@
                 ps.setString (3, "%" + category + "%");
             }
             
+            int parameterIndex = 3;
+            if (category != null && !category.equals("all")) {
+                parameterIndex++;
+            }
             if (feature != null && !feature.equals("all")) {
-                ps.setString(category != null && !category.equals("all") ? 4 : 3, "%" + feature + "%");
+                ps.setString(parameterIndex, "%" + feature + "%");
             }
             ResultSet rs = ps.executeQuery();
             
@@ -192,10 +195,10 @@
                     out.println(e);
                 }
                 
-                Double pricePerHour = rs.getDouble("priceperhour") == 0.0 ? Double.MAX_VALUE : rs.getDouble("priceperhour");
-                Double pricePerDay = rs.getDouble("priceperday") == 0.0 ? Double.MAX_VALUE : rs.getDouble("priceperday") / 24;
-                Double pricePerWeek = rs.getDouble("priceperweek") == 0.0 ? Double.MAX_VALUE : rs.getDouble("priceperweek") / 24 / 7;
-                Double pricePerMonth = rs.getDouble("pricepermonth") == 0.0 ? Double.MAX_VALUE : rs.getDouble("pricepermonth") / 24 / 30;
+                Double pricePerHour = rs.getDouble("price_per_hour") == 0.0 ? Double.MAX_VALUE : rs.getDouble("price_per_hour");
+                Double pricePerDay = rs.getDouble("price_per_day") == 0.0 ? Double.MAX_VALUE : rs.getDouble("price_per_day") / 24;
+                Double pricePerWeek = rs.getDouble("price_per_week") == 0.0 ? Double.MAX_VALUE : rs.getDouble("price_per_week") / 24 / 7;
+                Double pricePerMonth = rs.getDouble("price_per_month") == 0.0 ? Double.MAX_VALUE : rs.getDouble("price_per_month") / 24 / 30;
                 
                 Double price = null;
                 if (durationCategory.equals("Hour(s)")) {
@@ -256,20 +259,20 @@
                 if (location != null && !location.isEmpty()) {
                     distance = (double) it.get("distance");
                 }
-                out.println("<div class=\"grid_item\">");
-                out.println("    <img src=\"" + itemImage + "\" alt=\"\" class=\"item_image\">");
-                out.println("    <div class=\"grid_item_module_1\">");
-                out.println("        <div class=\"grid_item_module_2\">");
-                out.println("            <div class=\"item_name\">" + itemName + "</div>");
-                out.println("            <div class=\"item_module_1\">");
-                out.println("                <div class=\"item_category\">" + itemCategory + " - </div>");
-                out.println("                <div class=\"item_feature\">" + itemFeature + "</div>");
-                out.println("            </div>");
-                out.println("            <div class=\"item_location\">" + itemLocation + "</div>");
-                out.println("        </div>");
-                out.println("        <div class=\"item_price\">$" + String.format("%,.2f", price) + "</div>");
-                out.println("    </div>");
-                out.println("</div>");   
+                <div class="grid_item">
+                    <img src="<%=itemName%>" alt="" class="item_image">
+                    <div class="grid_item_module_1">
+                        <div class="grid_item_module_2">
+                            <div class="item_name"><%=itemName%></div>
+                            <div class="item_module_1">
+                                <div class="item_category"><%=itemCategory%></div>
+                                <div class="item_feature"><%=itemFeature%></div>
+                            </div>"
+                            <div class="item_location"><%=itemLocation%></div>
+                        </div>
+                        <div class="item_price"><%=String.format("%,.2f", price)%></div>
+                    </div>
+                </div>
             }
 
             con.close();

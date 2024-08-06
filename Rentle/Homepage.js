@@ -56,6 +56,7 @@ function login() {
                 console.log("False");
             } else {
                 console.log("True");
+                location.reload(true);
             }
         }
     }
@@ -215,7 +216,7 @@ function reloaddata() {
                     }, 500);
                 }
             } catch (e) {
-                console.log("Max connections");
+                console.error(e);
             }
         }
         $('.message_enter, .people_messages_item').click(function() {
@@ -282,11 +283,6 @@ function reloadDataGroup() {
 
                 $('#people_messages_grid').append(messageItem);
             }
-
-            $('.people_messages_item').click(function() {
-                var newGroupId = $(this).find('.group_id').text().trim();
-                $('.currentGroupId').text(newGroupId); 
-            });
         }
     }
     xmlhttp.send(null);

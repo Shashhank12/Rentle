@@ -3,6 +3,7 @@
 <%@ page import="com.google.gson.reflect.TypeToken" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.net.URLDecoder" %>
+<%@ page import="java.io.PrintWriter" %>
 
 <%
     String itemTitle = request.getParameter("title");
@@ -16,6 +17,7 @@
     Double pricePerDay = request.getParameter("priceDay").equals("") ? null : Double.parseDouble(request.getParameter("priceDay"));
     Double pricePerWeek = request.getParameter("priceWeek").equals("") ? null : Double.parseDouble(request.getParameter("priceWeek"));
     Double pricePerMonth = request.getParameter("priceMonth").equals("") ? null : Double.parseDouble(request.getParameter("priceMonth"));
+    String currentUserId = request.getParameter("currentUserId");
 
     String decodedFeatures = URLDecoder.decode(encodedFeatures, "UTF-8");
     String decodedFilePaths = URLDecoder.decode(encodedFilePaths, "UTF-8");
@@ -26,7 +28,7 @@
     // Connect to the database
     String db = "rentle";
     String user = "root";
-    String password = "Hello1234!";
+    String password = "1Wins4All";
     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db + "?autoReconnect=true&useSSL=false", user, password);
 
     // Prepare the SQL statement
@@ -178,7 +180,12 @@
         // Execute the SQL statement
         statement.executeUpdate();
     }
-    
+
+    sql = "INSERT INTO rent (UserID, ItemID) VALUES (?, ?)";
+    statement = con.prepareStatement(sql);
+    statement.setString(1, currentUserId);
+    statement.setInt(2, item_id);
+    statement.executeUpdate();
     
     // Close the database connection
     sql_stmt.close();

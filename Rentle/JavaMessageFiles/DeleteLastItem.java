@@ -11,7 +11,7 @@ public class DeleteLastItem extends HttpServlet {
 
    private static final String DB_URL = "jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false";
    private static final String DB_USER = "root";
-   private static final String DB_PASSWORD = "Hello1234!";
+   private static final String DB_PASSWORD = "1Wins4All";
 
    public DeleteLastItem() {
       // Default constructor
