@@ -214,7 +214,7 @@
                 price = price * duration * durationMap.get(durationCategory);
                 
                 String itemLocation = rs.getString("location");
-                String googleAPIKey = "AIzaSyA_GU7VS69C7Q8uwrRAjI8bMzpc-gtLImo";
+                String googleAPIKey = "";
 
                 //TODO: ADD API KEY
                 double distance = getDistance(location, itemLocation, googleAPIKey);
