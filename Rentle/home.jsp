@@ -43,7 +43,7 @@
     <!-- Shashhank Google Maps -->
     <div id="map"></div>
     <!-- TODO: ADD API KEY -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_GU7VS69C7Q8uwrRAjI8bMzpc-gtLImo"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key="></script>
     <script>
         var globalZoomLevel = 13;
         var map = new google.maps.Map(document.getElementById('map'), {
