@@ -1,4 +1,4 @@
-<%@ page import="java.sql.*,java.util.ArrayList,java.time.*,java.time.temporal.ChronoUnit,java.time.format.DateTimeFormatter,java.time.format.*,java.util.Locale, java.util.List, java.util.ArrayList"%>
+<%@ page import="java.sql.*,java.util.ArrayList,java.time.*,java.time.temporal.ChronoUnit,java.time.format.DateTimeFormatter,java.time.format.*,java.util.Locale, java.util.List, java.util.ArrayList, org.json.JSONArray, org.json.JSONObject"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +15,12 @@
         String db = "rentle";
         String user; // assumes database name is the same as username
         user = "root";
-        String password = "1Wins4All"; //enter your password
+        String password = "Hello1234!"; //enter your password
         String currentGroupId = ""; 
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "1Wins4All");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
             String query3 = "SELECT group_id FROM rentle.group_chat WHERE FIND_IN_SET(?, group_users) > 0 ORDER BY group_id DESC LIMIT 1";
             PreparedStatement pstmt3 = conn.prepareStatement(query3);
             pstmt3.setString(1, userId);
@@ -29,7 +29,7 @@
                 currentGroupId = rs3.getString("group_id");
             }
         } catch (SQLException e) {
-            out.println("1");
+            e.printStackTrace(); 
         }
     %>
     <script src="Homepage.js"></script>
@@ -42,7 +42,8 @@
 
     <!-- Shashhank Google Maps -->
     <div id="map"></div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAla6MgiiNI_NQnyWQu1hqVTUhvD8wV-x8"></script>
+    <!-- TODO: ADD API KEY -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_GU7VS69C7Q8uwrRAjI8bMzpc-gtLImo"></script>
     <script>
         var globalZoomLevel = 13;
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -365,7 +366,7 @@
                 stmt.close();
                 con.close();
             } catch(SQLException e) {
-                out.println("2");
+                e.printStackTrace(); 
             }
         %>
 
@@ -442,7 +443,7 @@
                     String removeFromCartQuery = String.format("DELETE FROM rentle.cart WHERE UserID=%s",userId);
                     int ri = stmt.executeUpdate(removeFromCartQuery);
                 } catch(Exception e) {
-                    out.println("3");
+                    e.printStackTrace(); 
                 }
             }
         %>
@@ -512,7 +513,7 @@
         
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-                conGridContainer = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "1Wins4All");
+                conGridContainer = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
         
                 stmtGridContainer = conGridContainer.createStatement();
                 String photoString = "SELECT photo FROM photos " +
@@ -584,14 +585,14 @@
             <%
                 }
             } catch (SQLException e) {
-                out.println("Error: " + e.getMessage());
+                e.printStackTrace(); 
             } finally {
                 try {
                     if (rsGridContainer != null) rsGridContainer.close();
                     if (stmtGridContainer != null) stmtGridContainer.close();
                     if (conGridContainer != null) conGridContainer.close();
                 } catch (SQLException e) {
-                    out.println("Error closing resources: " + e.getMessage());
+                    e.printStackTrace(); 
                 }
             }
             %>
@@ -733,7 +734,7 @@
                 }
 
             } catch(SQLException e) {
-                out.println("4");
+                e.printStackTrace(); 
             }
         %>
 
@@ -848,7 +849,7 @@
             <%
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "1Wins4All");
+                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
                 String query5 = "(SELECT DISTINCT u.user_id, u.profile_picture, u.first_name, u.last_name " +
                "FROM rentle.friends f " +
                "JOIN rentle.user u ON ((FriendUserID1 = ? AND u.user_id = FriendUserID2) " +
@@ -890,7 +891,7 @@
                 }
 
             } catch (SQLException e) {
-                out.println("5");
+                e.printStackTrace(); 
             }
             %>
             </div>
@@ -1243,11 +1244,13 @@
                             
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    var existingElement = document.getElementsByClassName("view_item_module")[0];
-                    existingElement.insertAdjacentHTML('afterbegin', xhr.responseText);
-                    console.log("Success");
-                } else {
-                    console.log("Failed");
+                    try {
+                        var existingElement = document.getElementsByClassName("view_item_module")[0];
+                        existingElement.insertAdjacentHTML('afterbegin', xhr.responseText);
+                        console.log("Success");
+                    } catch (e) {
+                        console.log("Nothing to worry!")
+                    }
                 }
             };
             xhr.send();
@@ -1317,10 +1320,10 @@
                             "&goodCondition=" + encodeURIComponent(goodCondition) +
                             "&fairCondition=" + encodeURIComponent(fairCondition) +
                             "&sortBy=" + encodeURIComponent(sortBy), true);
+
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     document.getElementById("results").innerHTML = xhr.responseText;
-                    console.log(xhr.responseText);
                 }
             };
             xhr.send();
@@ -1404,10 +1407,16 @@
     </script>
 
     <div class="view_item_index" style="display:none"></div>
+    
     <!-- Alicia view item user module  -->
     <div class="view_item_module">
+        <div class="view_item_photo_module">
+            <div class="view_item_photo"></div>
+            <div id="photo_back_button"></div>
+            <div id="photo_front_button"></div>
+        </div>
 
-        <div class="view_item_module_1"></div>
+        <!-- Space between -->
 
         <div class="view_item_line"></div>
 
@@ -1440,19 +1449,18 @@
 
                 Statement stmt = con.createStatement();
 
-                // TODO: userId is hardcoded, will need to be connected when items are displayed from search
                 String getUserInfoQuery = String.format("SELECT * FROM rentle.user WHERE user_id = %s", 1);
                 ResultSet rs = stmt.executeQuery(getUserInfoQuery);
                 rs.next();
                 String fullname = rs.getString("first_name") + " " + rs.getString("last_name");
                 String email = rs.getString("email");
                 String number = rs.getString("phone_number");
-                String pfp = "images/" + rs.getString("profile_picture");
+                String pfp = rs.getString("profile_picture");
                 String date = LocalDateTime.parse(rs.getString("creation_date").replace(" ","T")).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
 
         %>
         <div class="view_user_profile_1">
-            <img src=<%=pfp%> alt="" class="profile_picture">
+            <img src="<%=pfp%>" alt="" class="profile_picture">
             <div class="view_user_profile_2_asterisk">
                 <div class="view_user_profile_2">
                     <div class="view_user_profile_3">
@@ -1781,7 +1789,7 @@
 
         $('.view_item_add_to_cart_module').click(function() {
             addToCart();
-            // location.reload(true);
+            location.reload(true);
         });
     </script>
 
@@ -1903,51 +1911,6 @@
 
 
         });
-    </script>
-
-
-    <script>
-        const imageFilenames = [
-            'test_add_image_1.png',
-            'test_add_image_2.png',
-            'test_add_image_3.png',
-            'test_add_image_4.png',
-            'test_add_image_5.png'
-        ];
-
-        let currentImageIndex = 0;
-
-        function updateImage() {
-            const testPhotoDiv = document.querySelector('.view_item_photo');
-            testPhotoDiv.innerHTML = '';
-            const imgElement = document.createElement('img');
-            imgElement.src = imagesPath + imageFilenames[currentImageIndex];
-            testPhotoDiv.appendChild(imgElement);
-
-        }
-
-        const imagesPath = 'C:/Users/Admin/Downloads/PDVProject-main/CS157A Project/';
-
-        document.getElementById('photo_back_button').addEventListener('click', () => {
-            if (currentImageIndex === 0) {
-                currentImageIndex = imageFilenames.length - 1;
-            }
-            else {
-                currentImageIndex = currentImageIndex - 1;
-            }
-            updateImage();
-        });
-
-        document.getElementById('photo_front_button').addEventListener('click', () => {
-            if (currentImageIndex === imageFilenames.length - 1) {
-                currentImageIndex = 0;
-            }
-            else {
-                currentImageIndex = currentImageIndex + 1;
-            }
-            updateImage();
-        });
-        updateImage();
     </script>
 
     <script>
@@ -2197,21 +2160,60 @@
     <script>
         $(document).ready(function() {
             $('.grid_container').on('click', '.grid_item', function() {
-                if ($('.view_item_module').css('display') === 'block') {
-                    $('.view_item_module').css('display', 'none');
-                    $('.blur_background').css('display', 'none');
-                }
-                else {
-                    $('.view_item_module').css('display', 'block');
-                    $('.blur_background').css('display', 'block');
-                }
-                var category = $('.grid_item').find('.item_name').text().trim();
-                var feature = $('.grid_item').find('.item_feature').text().trim();
-                var location = $('.grid_item').find('.item_location').text().trim();
                 $('.view_item_index').empty();
+                $('.view_item_information_module').children().empty();
                 $('.view_item_index').text($(this).index() + 1);
-                console.log($('.view_item_index').text());
                 viewItem();
+
+                setTimeout(function() {
+                    if ($('.view_item_module').css('display') === 'block') {
+                        $('.view_item_module').css('display', 'none');
+                        $('.blur_background').css('display', 'none');
+                    }
+                    else {
+                        $('.view_item_module').css('display', 'block');
+                        $('.blur_background').css('display', 'block');
+                    }
+
+                    let photos = $('.view_item_store_information').attr('data-photos');
+                    photos = JSON.parse(photos);
+
+                    let currentImageIndex = 0;
+
+                    function updateImage() {
+                        var testPhotoDiv = $('.view_item_photo');
+                        testPhotoDiv.empty();
+
+                        // Create a new image element
+                        var imgElement = $('<img>');
+                        imgElement.attr('src', photos[currentImageIndex].replace("./Images/", "images/"));
+
+                        // Append the image to the div
+                        testPhotoDiv.append(imgElement);
+
+                    }
+
+                    $('#photo_back_button').click(function () {
+                        if (currentImageIndex === 0) {
+                            currentImageIndex = photos.length - 1;
+                        }
+                        else {
+                            currentImageIndex = currentImageIndex - 1;
+                        }
+                        updateImage();
+                    });
+
+                    $('#photo_front_button').click(function () {
+                        if (currentImageIndex === photos.length - 1) {
+                            currentImageIndex = 0;
+                        }
+                        else {
+                            currentImageIndex = currentImageIndex + 1;
+                        }
+                        updateImage();
+                    });
+                    updateImage();
+                }, 100);
             });
 
             $('.view_item_close, .view_item_add_to_cart_module').click(function() {

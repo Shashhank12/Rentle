@@ -1,5 +1,16 @@
 <%@ page import="java.sql.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.format.TextStyle" %>
+<%@ page import="java.util.Locale" %>
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="org.json.JSONArray" %>
+<%@ page import="org.json.JSONObject" %>
+<%@ page import="java.time.Duration" %>
+<%@ page import="java.time.temporal.ChronoUnit" %>
+<%@ page import="java.time.temporal.TemporalAmount" %>
+<%@ page import="java.time.temporal.ChronoUnit" %>
 
 <%
     Connection con = null;
@@ -8,7 +19,7 @@
 
     try {
         Class.forName("com.mysql.cj.jdbc.Driver"); // Updated driver class
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "1Wins4All");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
 
         String currentItemId = request.getParameter("currentItemId");
         String currentUserId = request.getParameter("currentUserId");
@@ -42,6 +53,59 @@
             location = rs.getString(5);
             postedDate = rs.getString(9);
         }
+
+        // Define the formatter for the input date string
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
+        // Parse the input string to a LocalDateTime object
+        LocalDateTime dateTime = LocalDateTime.parse(postedDate, inputFormatter);
+        
+        // Calculate the duration between the input date and the current date
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        Duration duration = Duration.between(dateTime, currentDateTime);
+        long totalSeconds = duration.getSeconds();
+        
+        // Determine the appropriate time unit and format
+        String timeCount;
+        
+        if (totalSeconds < 60) {
+            timeCount = totalSeconds + " seconds ago";
+        } else if (totalSeconds < 3600) {
+            long minutes = totalSeconds / 60;
+            timeCount = minutes + " minutes ago";
+        } else if (totalSeconds < 86400) {
+            long hours = totalSeconds / 3600;
+            timeCount = hours + " hours ago";
+        } else if (totalSeconds < 2592000) { // Approximately 30 days
+            long days = totalSeconds / 86400;
+            timeCount = days + " days ago";
+        } else if (totalSeconds < 31536000) { // Approximately 365 days
+            long months = totalSeconds / 2592000; // 30 days approx.
+            timeCount = months + " months ago";
+        } else {
+            long years = totalSeconds / 31536000; // 365 days approx.
+            timeCount = years + " years ago";
+        }
+        
+        // Format the date for display
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMMM d'th', yyyy", Locale.ENGLISH);
+        postedDate = outputFormatter.format(dateTime);
+        
+        // Adjust the suffix
+        int day = dateTime.getDayOfMonth();
+        String suffix;
+        if (day >= 11 && day <= 13) {
+            suffix = "th";
+        } else {
+            switch (day % 10) {
+                case 1: suffix = "st"; break;
+                case 2: suffix = "nd"; break;
+                case 3: suffix = "rd"; break;
+                default: suffix = "th"; break;
+            }
+        }
+        postedDate = postedDate.replace("th", suffix);
+
         rs.close();
         pstmt.close();
 
@@ -70,6 +134,8 @@
                 price += "$" + priceMonth + "/month - ";
             }
         }
+        price = price.trim();
+        price = price.substring(0, price.length() - 1);
         rs.close();
         pstmt.close();
 
@@ -110,23 +176,34 @@
             name = rs.getString(1) + " " + rs.getString(2);
             profilePic = rs.getString(3);
         }
+
+        String query6 = "SELECT photo FROM contains JOIN photos ON (contains.PhotoID = photos.photo_id) WHERE ItemID = ?";
+        pstmt = con.prepareStatement(query6);
+        pstmt.setString(1, currentItemId);
+        rs = pstmt.executeQuery();
+
+        ArrayList<String> photoArray = new ArrayList<>();
+
+        while (rs.next()) {
+            photoArray.add(rs.getString(1));
+        }
+
+        JSONArray jsonArray = new JSONArray(photoArray);
+        String jsonArrayString = jsonArray.toString();
+
         rs.close();
         pstmt.close();
 
         // Output HTML
 %>
-        <div class="view_item_photo_module">
-            <div class="view_item_photo"></div>
-            <div id="photo_back_button"></div>
-            <div id="photo_front_button"></div>
-        </div>
         <div class="view_item_information_module">
+            <div class="view_item_store_information" data-photos='<%=jsonArrayString%>' style="display:none"></div>
             <div class="view_item_title"> <strong><%=title%> </strong></div>
             <div class="view_item_prices"><%=price%></div>
             <div class="view_item_listed_date_module">
                 <div class="view_item_listed_date_name"> <strong>Listed date:</strong> </div>
-                <div class="view_item_listed_date"> <%=postedDate%>, </div>
-                <div class="view_item_listed_date_count"> 7 days ago </div>
+                <div class="view_item_listed_date"> <%=postedDate%> - </div>
+                <div class="view_item_listed_date_count"> <%=timeCount%> </div>
             </div>
             <div class="view_item_location_module">
                 <div class="view_item_location_name"> <strong>Location:</strong></div>

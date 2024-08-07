@@ -14,7 +14,7 @@ public class Group extends HttpServlet {
 
    private static final String DB_URL = "jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false";
    private static final String DB_USER = "root";
-   private static final String DB_PASSWORD = "1Wins4All";
+   private static final String DB_PASSWORD = "Hello1234!";
 
    public Group() {
       // Default constructor

@@ -5,9 +5,8 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="com.google.gson.JsonObject" %>
 <%@ page import="com.google.gson.JsonParser" %>
-<%@ page import="java.sql.*, java.util.*" %>
 
-<%! 
+<%!
     public double getDistance(String origin, String destination, String apiKey) throws IOException {
         try {
             URL url = new URL("https://maps.googleapis.com/maps/api/geocode/json?address=" + URLEncoder.encode(origin, "UTF-8") + "&key=" + apiKey);
@@ -52,6 +51,7 @@
     }
 %>
 
+<%@ page import="java.sql.*, java.util.*" %>
 <%
     String query = request.getParameter("query");
     String minPriceStr = request.getParameter("minPrice");
@@ -91,7 +91,7 @@
 
     String db = "rentle";
     String user = "root";
-    String password = "1Wins4All";
+    String password = "Hello1234!";
 
     if ((query != null && !query.trim().isEmpty()) || minPriceStr != null || maxPriceStr != null) {
         try {
@@ -214,8 +214,10 @@
                 price = price * duration * durationMap.get(durationCategory);
                 
                 String itemLocation = rs.getString("location");
+                String googleAPIKey = "AIzaSyA_GU7VS69C7Q8uwrRAjI8bMzpc-gtLImo";
+
                 //TODO: ADD API KEY
-                double distance = getDistance(location, itemLocation, "AIzaSyAla6MgiiNI_NQnyWQu1hqVTUhvD8wV-x8");
+                double distance = getDistance(location, itemLocation, googleAPIKey);
                 if (price >= minPrice && price <= maxPrice && distance <= locationDistance) {
                     item.put("name", itemName);
                     item.put("description", itemDescription);
@@ -253,14 +255,16 @@
                 String itemCategory = (String) it.get("category");
                 String itemFeature = (String) it.get("feature");
                 String itemImage = (String) it.get("image");
+                itemImage = itemImage.replace("./Images/", "images/");
                 String itemLocation = (String) it.get("location");
                 double price = (double) it.get("price");
                 double distance = -1;
                 if (location != null && !location.isEmpty()) {
                     distance = (double) it.get("distance");
                 }
+            %>
                 <div class="grid_item">
-                    <img src="<%=itemName%>" alt="" class="item_image">
+                    <img src="<%=itemImage%>" alt="" class="item_image">
                     <div class="grid_item_module_1">
                         <div class="grid_item_module_2">
                             <div class="item_name"><%=itemName%></div>
@@ -273,8 +277,8 @@
                         <div class="item_price"><%=String.format("%,.2f", price)%></div>
                     </div>
                 </div>
+            <%
             }
-
             con.close();
         } catch (Exception e) {
             out.println(e.getMessage());
@@ -285,5 +289,4 @@
         out.println(query);
         out.println(request);
     }
-    
 %>

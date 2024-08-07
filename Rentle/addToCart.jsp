@@ -5,7 +5,7 @@
 
     try {
         Class.forName("com.mysql.cj.jdbc.Driver"); // Updated driver class
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "1Wins4All");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false", "root", "Hello1234!");
 
         String currentItemId = request.getParameter("currentItemId");
         String currentUserId = request.getParameter("currentUserId");

@@ -28,7 +28,7 @@
     // Connect to the database
     String db = "rentle";
     String user = "root";
-    String password = "1Wins4All";
+    String password = "Hello1234!";
     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db + "?autoReconnect=true&useSSL=false", user, password);
 
     // Prepare the SQL statement
