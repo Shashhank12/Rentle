@@ -190,3 +190,46 @@ function viewAllFriends() {
     };
     xhr.send();
 }
+
+function addFriend() {
+    var itemUserId = $('.friends_view_user_id').text().trim();
+    var currentUserId = $('#user_id').text().trim();
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "addFriend.jsp?itemUserId=" + encodeURIComponent(itemUserId) +
+                    "&currentUserId=" + encodeURIComponent(currentUserId), true);
+                    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var decide = xhr.responseText;
+
+            console.log(xhr.responseText);
+
+            console.log("Success");
+
+            if (decide === "Friends") {
+                $('.view_user_profile_module_add_friend_friends_tab').css({
+                    'background': 'rgb(199, 231, 198)',
+                    'color': 'rgb(55, 161, 52)'
+                });
+                $('.view_user_profile_module').text('Friends');
+            } else if (decide === "Cancelled") {
+                $('.view_user_profile_module_add_friend').css({
+                    'background': 'rgb(231, 198, 198)',
+                    'color': 'rgb(211, 74, 74)'
+                });
+                $('.view_user_profile_module').text('Add friend');
+            } else if (decide === "Pending") {
+                $('.view_user_profile_module_add_friend').css({
+                    'background': 'rgb(231, 231, 198)',
+                    'color': 'rgb(161, 152, 52)'
+                });
+                $('.view_user_profile_module').text('Pending');
+            }
+            
+        } else {
+            console.log("Friend not request");
+        }
+    };
+    xhr.send();
+}

@@ -294,6 +294,7 @@ DROP TABLE IF EXISTS `friends`;
 CREATE TABLE `friends` (
   `FriendUserID1` int NOT NULL,
   `FriendUserID2` int NOT NULL,
+  `status` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`FriendUserID1`,`FriendUserID2`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -304,7 +305,7 @@ CREATE TABLE `friends` (
 
 LOCK TABLES `friends` WRITE;
 /*!40000 ALTER TABLE `friends` DISABLE KEYS */;
-INSERT INTO `friends` VALUES (1,2),(1,3),(1,4),(2,3),(3,4),(5,6);
+INSERT INTO `friends` VALUES (2,3,'0');
 /*!40000 ALTER TABLE `friends` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -872,4 +873,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-10  0:55:38
+-- Dump completed on 2024-08-10 10:03:26

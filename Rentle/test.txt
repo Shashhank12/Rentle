@@ -1,0 +1,337 @@
+.view_user_profile_1_friends_tab {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 93.75%;
+    top: 2.5%;
+}
+.view_user_profile_2_friends_tab {
+    display: flex; 
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    width: 100%;
+    font-size: 100%;
+}
+.view_user_profile_2_asterisk_friends_tab {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 2.5%;
+    left: 4.5%;
+    width: 100%;
+}
+.view_user_profile_module_friends_tab {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    gap: 10px;
+    width: 100%;
+    height: 25%;
+    bottom: 25%;
+}
+.view_user_profile_module_add_friend_friends_tab {
+    width: 15%;
+    background: rgb(231, 198, 198);
+    position: relative;
+    color: rgb(211, 74, 74);
+    border-radius: 7.5px;
+    box-shadow: 0 0 8px rgb(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.view_user_profile_module_add_friend::before_friends_tab {
+    content: '\f500';
+    font-family: FontAwesome;
+}
+.view_user_profile_module_message_friends_tab {
+    width: 45%;
+    background: rgb(229, 198, 231);
+    box-shadow: 0 0 8px rgb(0,0,0,0.5);
+    position: relative;
+    color: rgb(215, 45, 215);
+    border-radius: 7.5px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.view_user_profile_module_message::before_friends_tab {
+    content: '\f27a';
+    font-family: FontAwesome;
+    margin-right: 5px;
+}
+.view_user_profile_module_see_rentals_friends_tab {
+    width: 45%;
+    background: rgb(198, 226, 231);
+    box-shadow: 0 0 8px rgb(0,0,0,0.5);
+    position: relative;
+    color: rgb(68, 137, 155);
+    border-radius: 7.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.view_user_profile_module_see_rentals::before_friends_tab {
+    content: '\f206';
+    font-family: FontAwesome;
+    margin-right: 5px;
+}
+.view_user_profile_module_add_friend:hover_friends_tab {
+    box-shadow: 0 0 10px rgb(0,0,0,0.7);
+    background: rgb(244, 221, 221)
+}
+.view_user_profile_module_message:hover_friends_tab {
+    box-shadow: 0 0 10px rgb(0,0,0,0.7);
+    background: rgb(237, 215, 239);
+}
+.view_user_profile_module_see_rentals:hover_friends_tab {
+    box-shadow: 0 0 10px rgb(0,0,0,0.7);
+    background: rgb(219, 240, 244);
+}
+.profile_picture_friends_tab {
+    width: calc(26vw * 0.25);
+    height: calc(26vw * 0.25);
+    border-radius: 50%;
+    left: 2.5%;
+    position: relative;
+}
+.email_icon_friends_tab {
+    margin-bottom: 5px;
+}
+.email_icon::before_friends_tab {
+    content: '\f0e0';
+    font-family: FontAwesome;
+    margin-right: 5px;
+    font-size: 17.5px;
+}
+.phone_number_icon::before_friends_tab {
+    content: '\f095';
+    font-family: FontAwesome;
+    font-size: 17.5px;
+}
+.email, .phone_number_friends_tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 100%;
+    font-weight: 500;
+    left: 2.5%;
+    position: relative;
+    white-space: nowrap;
+}
+.email_friends_tab {
+    margin-bottom: 5px;
+}
+.user_full_name_friends_tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    left: 2.5%;
+    position: relative;
+    top: 2.5%;
+}
+.member_date_friends_tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 25px;
+    font-weight: 500;
+    left: 2.5%;
+    position: relative;
+    color: rgb(95, 88, 88);
+    top: 2.5%;
+}
+.current_location_friends_tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: 500;
+    left: 2.75%;
+    position: relative;
+    color: rgb(110, 108, 108);
+    top: 3%;
+}
+.view_user_profile_line_friends_tab {
+    height: 2px;
+    width: 87.5%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background: black;
+    top: 4.5%;
+}
+
+.renter_reviews_module_friends_tab {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: 2.5%;
+    top: 6.5%;
+    gap: 7.5px;
+    align-items: center;
+}
+.renter_reviews_name_friends_tab {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18.5px;
+    font-weight: 700;
+}
+.renter_reviews_friends_tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+.renter_reviews::before_friends_tab {
+    content: "(";
+    font-size: 110%;
+    right: 100%;
+    color: black;
+}
+.renter_reviews::after_friends_tab {
+    content: ")";
+    font-size: 110%;
+    right: 100%;
+    margin-left: 2px;
+    color: black;
+}
+#renter_review_star_icon_friends_tab {
+    font-size: 13px;
+    background: transparent;
+    color: yellow;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+    margin-left: 4.5px;
+}
+.renter_reviews_list_module_friends_tab {
+    top: 8.5%;
+    position: relative;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.renter_reviews_list_module::-webkit-scrollbar_friends_tab {
+    width: 5px;
+    background-color: transparent; 
+}
+.renter_reviews_list_module::-webkit-scrollbar-thumb_friends_tab {
+    background: #d3d0d0;
+    border-radius: 7.5px;
+}
+.renter_reviews_list_friends_tab {
+    display: grid;
+    position: relative;
+    left: 2.5%;
+    width: 92.5%;
+    gap: 12px;
+}
+.renter_reviews_list::before_friends_tab {
+    content: '';
+    flex: 0 0 12px;
+}
+.renter_reviews_list::after_friends_tab {
+    content: '';
+    flex: 0 0 12px;
+}
+.renter_reviews_list_item_friends_tab {
+    display: flex;
+    flex-direction: column;
+    height: calc(75vh * 0.1);
+    background: rgb(234, 246, 232);
+    border-radius: 7.5px;
+    box-shadow: 0 0 8px rgb(0,0,0,0.75);
+    transition: all 0.15s ease;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-right: 1.5%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    cursor: pointer;
+}
+.renter_reviews_list_item::-webkit-scrollbar_friends_tab {
+    width: 5px;
+    background-color: transparent; 
+}
+.renter_reviews_list_item::-webkit-scrollbar-thumb_friends_tab {
+    background: #d3d0d0;
+    border-radius: 7.5px;
+}
+
+.renter_reviews_list_item:hover_friends_tab {
+    box-shadow: 0 0 10px rgb(0,0,0,0.75);
+    background: rgb(226, 248, 223);
+}
+.renter_reviews_list_item_1_friends_tab {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: 1.5%;
+}
+.renter_reviews_list_item_1_module_friends_tab {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    gap: 7.5px;
+    align-items: center;
+}
+.renter_review_full_name_friends_tab {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16.5px;
+    font-weight: 700;
+}
+.renter_review_stars_friends_tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+.renter_review_stars::before_friends_tab {
+    content: "(";
+    font-size: 110%;
+    right: 100%;
+    color: black;
+}
+.renter_review_stars::after_friends_tab {
+    content: ")";
+    font-size: 110%;
+    right: 100%;
+    margin-left: 2px;
+    color: black;
+}
+#renter_review_star_icon_1_friends_tab {
+    font-size: 11.5px;
+    background: transparent;
+    color: yellow;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+    margin-left: 4.5px;
+}
+.renter_review_description_friends_tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15.5px;
+    font-weight: 500;
+    left: 1.5%;
+    position: relative;
+}
+
+.view_user_profile_line_1_friends_tab {
+    height: 2px;
+    width: 67.5%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(128, 128, 128, 0.577);
+    top: 11%;
+}

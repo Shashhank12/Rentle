@@ -854,28 +854,28 @@
         </div>
         <div class="friends_view_line"></div>
 
-        <div class="friends_view_module_2" data-state="">
+        <div class="friends_view_module_2">
 
-            <div class="view_user_profile_line"></div>
+            <div class="view_user_profile_line_friends_tab"></div>
 
-            <div class="renter_reviews_module">
-                <div class="renter_reviews_name"> Renter reviews</div>
-                <div class="renter_reviews"> <%=renterReviews%> <i class="fas fa-star" id="renter_review_star_icon"></i></div>
+            <div class="renter_reviews_module_friends_tab">
+                <div class="renter_reviews_name_friends_tab"> Renter reviews</div>
+                <div class="renter_reviews_friends_tab"> <%=renterReviews%> <i class="fas fa-star" id="renter_review_star_icon_friends_tab"></i></div>
             </div>
 
-            <div class="renter_reviews_list_module">
-                <div id="renter_reviews_list_2" class="renter_reviews_list"></div>
+            <div class="renter_reviews_list_module_friends_tab">
+                <div id="renter_reviews_list_2" class="renter_reviews_list_friends_tab"></div>
             </div>
 
-            <div class="view_user_profile_line_1"></div>
+            <div class="view_user_profile_line_1_friends_tab"></div>
 
-            <div class="renting_reviews_module">
-                <div class="renting_reviews_name"> Renting reviews</div>
-                <div class="renting_reviews"> <%=rentingReviews%> <i class="fas fa-star" id="renting_review_star_icon"></i></div>
+            <div class="renting_reviews_module_friends_tab">
+                <div class="renting_reviews_name_friends_tab"> Renting reviews</div>
+                <div class="renting_reviews_friends_tab"> <%=rentingReviews%> <i class="fas fa-star" id="renting_review_star_icon_friends_tab"></i></div>
             </div>
 
-            <div class="renting_reviews_list_module">
-                <div id="renting_reviews_list_2" class="renting_reviews_list"></div>
+            <div class="renting_reviews_list_module_friends_tab">
+                <div id="renting_reviews_list_2" class="renting_reviews_list_friends_tab"></div>
             </div>
 
         </div>
@@ -1999,7 +1999,7 @@
 
     <script>
         $(document).ready(function() {
-            $('.view_user_profile_module_message').click(function() {
+            $(document).on('click', '.view_user_profile_module_message', function() {
                 $('.view_item_module').css('display', 'none');
                 $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(0)');
                 $('.view_user_profile').css('display', 'none');
@@ -2010,15 +2010,8 @@
                 $('#messages_view').css('display', 'block');
             });
 
-            $('.view_user_profile_module_add_friend').click(function() {
-                $('.view_item_module').css('display', 'none');
-                $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(0)');
-                $('.view_user_profile').css('display', 'none');
-                $('.view_user_profile_close').css('display', 'none');
-                $('.view_item_view_user_profile').text('SEE INFO');
-                $('.view_item_module').css('transform', 'translate(-50%, -50%) translateX(0)');
-                $('.blur_background').css('display', 'none');
-                $('#friends_view').css('display', 'block');
+            $(document).on('click', '.view_user_profile_module_add_friend', function() {
+                addFriend();
             });
         });
     </script>

@@ -15,37 +15,43 @@
         pstmt.setString(1, itemUserId); // Safely set the parameter
         ResultSet rs = pstmt.executeQuery();
 
+        String fullname = "", email = "", number = "", pfp = "", date = "";
+
         if (rs.next()) {
             String fullname = rs.getString("first_name") + " " + rs.getString("last_name");
             String email = rs.getString("email");
             String number = rs.getString("phone_number");
             String pfp = rs.getString("profile_picture");
             String date = LocalDateTime.parse(rs.getString("creation_date").replace(" ","T")).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+        }
 %>
-<div class="view_user_profile_1">
-    <img src="<%=pfp%>" onerror="this.src='images/profilepicgroup.png';" alt="" class="profile_picture">
-    <div class="view_user_profile_2_asterisk">
-        <div class="view_user_profile_2">
-            <div class="view_user_profile_3">
-                <div class="email_icon"></div>
-                <div class="phone_number_icon"></div>
+<div class="view_user_profile_1_friends_tab">
+    <img src="<%=pfp%>" onerror="this.src='images/profilepicgroup.png';" alt="" class="profile_picture_friends_tab">
+    <div class="view_user_profile_2_asterisk_friends_tab">
+        <div class="view_user_profile_2_friends_tab">
+            <div class="view_user_profile_3_friends_tab">
+                <div class="email_icon_friends_tab"></div>
+                <div class="phone_number_icon_friends_tab"></div>
             </div>
-            <div class="view_user_profile_4">
-                <div class="email"><%=email%></div>
-                <div class="phone_number"><%=number%></div>
+            <div class="view_user_profile_4_friends_tab">
+                <div class="email_friends_tab"><%=email%></div>
+                <div class="phone_number_friends_tab"><%=number%></div>
             </div>
         </div>
-        <div class="view_user_profile_module">
-            <div class="view_user_profile_module_add_friend"> Add friend </div>
-            <div class="view_user_profile_module_message">Message</div>
-            <div class="view_user_profile_module_see_rentals">Rentals</div>
+        <div class="view_user_profile_module_friends_tab">
+<%
+        
+
+%>
+            <div class="view_user_profile_module_add_friend_friends_tab"> Add friend </div>
+            <div class="view_user_profile_module_message_friends_tab">Message</div>
+            <div class="view_user_profile_module_see_rentals_friends_tab">Rentals</div>
         </div>
     </div>
 </div>
-<div class="user_full_name"><%=fullname%></div>
-<div class="member_date"> Member since <%=date%></div>
+<div class="user_full_name_friends_tab"><%=fullname%></div>
+<div class="member_date_friends_tab"> Member since <%=date%></div>
 <%
-        }
         String getUserInfoQuery2 = "SELECT city, state FROM islocatedat JOIN address ON (islocatedat.AddressID = address.address_id) WHERE UserID = ?";
         pstmt = con.prepareStatement(getUserInfoQuery2);
         pstmt.setString(1, itemUserId);
@@ -55,7 +61,7 @@
             String city = rs.getString(1);
             String state = rs.getString(2);
 %>
-<div class="current_location"> Currently at <%=city%>, <%=state%> </div>
+<div class="current_location_friends_tab"> Currently at <%=city%>, <%=state%> </div>
 <%
         }
         rs.close();
