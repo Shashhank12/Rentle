@@ -1,4 +1,4 @@
-# CS157A-team3
+# Rentle
 
 ## Setup
 1. Download project files
