@@ -12,6 +12,6 @@
 4. Put all additional lib files in the lib folder of Apache Tomcat along with personal jar files such as JDBC.
 5. Open Rentle/JavaMessageFiles
 6. Copy the .java files into the lib folder of Apache Tomcat
-7. Open the lib folder in terminal and run: javac -cp "PATH_TO_LIB_FOLDER" *.java, replacing the file path with your own path
+7. Open the lib folder in terminal and run: `javac -cp "PATH_TO_LIB_FOLDER" *.java` replacing the file path with your own path
 8. Go to the lib folder and copy and paste all .class files into the WEB-INF/class folder within webapps/Rentle
 9. Start Tomcat server and go to http://localhost:8080/Rentle/ 
