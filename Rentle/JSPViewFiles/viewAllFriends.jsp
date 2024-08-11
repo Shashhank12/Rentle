@@ -28,7 +28,7 @@
             String profilePic = rs.getString(2);
             String name = rs.getString(3) + " " + rs.getString(4);
 
-            String query2 = "SELECT COUNT(*) FROM friends WHERE FriendUserID1 = ? OR FriendUserID2 = ?";
+            String query2 = "SELECT COUNT(*) FROM friends WHERE FriendUserID1 = ? OR FriendUserID2 = ? AND status = 1";
             pstmt = con.prepareStatement(query2);
             pstmt.setString(1, userId);
             pstmt.setString(2, userId);

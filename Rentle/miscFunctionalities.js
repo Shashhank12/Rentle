@@ -195,41 +195,98 @@ function addFriend() {
     var itemUserId = $('.friends_view_user_id').text().trim();
     var currentUserId = $('#user_id').text().trim();
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "addFriend.jsp?itemUserId=" + encodeURIComponent(itemUserId) +
-                    "&currentUserId=" + encodeURIComponent(currentUserId), true);
-                    
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var decide = xhr.responseText;
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else
+    {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
 
-            console.log(xhr.responseText);
+    xmlhttp.open("POST", "friends?currentUserId=" + encodeURIComponent(currentUserId) +
+                        "&itemUserId=" + encodeURIComponent(itemUserId), true);
 
-            console.log("Success");
-
-            if (decide === "Friends") {
-                $('.view_user_profile_module_add_friend_friends_tab').css({
-                    'background': 'rgb(199, 231, 198)',
-                    'color': 'rgb(55, 161, 52)'
-                });
-                $('.view_user_profile_module').text('Friends');
-            } else if (decide === "Cancelled") {
-                $('.view_user_profile_module_add_friend').css({
-                    'background': 'rgb(231, 198, 198)',
-                    'color': 'rgb(211, 74, 74)'
-                });
-                $('.view_user_profile_module').text('Add friend');
-            } else if (decide === "Pending") {
-                $('.view_user_profile_module_add_friend').css({
-                    'background': 'rgb(231, 231, 198)',
-                    'color': 'rgb(161, 152, 52)'
-                });
-                $('.view_user_profile_module').text('Pending');
+    xmlhttp.onreadystatechange = function()
+    {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            try {
+                console.log("Friend added");
+            } catch (e) {
+                console.error(e);
             }
-            
-        } else {
-            console.log("Friend not request");
         }
-    };
-    xhr.send();
+    }
+    xmlhttp.send(null);
+}
+
+function reloadFriends() {
+    var itemUserId = $('.friends_view_user_id').text().trim();
+    var currentUserId = $('#user_id').text().trim();
+
+    var xmlhttp;
+
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    }
+    else
+    {// code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.open("POST", "reloadfriends?currentUserId=" + encodeURIComponent(currentUserId) +
+                        "&itemUserId=" + encodeURIComponent(itemUserId), true);
+
+    xmlhttp.onreadystatechange = function()
+    {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            try {
+                if (itemUserId === currentUserId) {
+                    return;
+                }
+                var friendsArray = xmlhttp.responseText.split(",");
+
+                // Remove any existing '.view_user_profile_module_add_friend_friends_tab'
+                $('.view_user_profile_module_friends_tab').find('.view_user_profile_module_add_friend_friends_tab').remove();
+
+                var friendsTab = $('<div class="view_user_profile_module_add_friend_friends_tab"></div>');
+
+                // Apply styles and text based on the conditions
+                if (friendsArray[2] === '1') { // Use '1' as a string for comparison
+                    friendsTab.css({
+                        'background': 'rgb(199, 231, 198)',
+                        'color': 'rgb(55, 161, 52)'
+                    }).text('Friends');
+                }
+                else if (friendsArray[2] === '0') { // Use '0' as a string for comparison
+                    if (currentUserId === friendsArray[0]) {
+                        friendsTab.css({
+                            'background': 'rgb(231, 231, 198)',
+                            'color': 'rgb(161, 152, 52)'
+                        }).text('Pending');
+                    }
+                    else {
+                        friendsTab.css({
+                            'background': 'rgb(231, 231, 198)',
+                            'color': 'rgb(161, 152, 52)'
+                        }).text('Accept');
+                    }
+                }
+                else {
+                    friendsTab.css({
+                        'background': 'rgb(231, 198, 198)',
+                        'color': 'rgb(211, 74, 74)'
+                    }).text('Add friend');
+                }
+
+                // Insert the new tab at the beginning of the children in '.view_user_profile_module_friends_tab'
+                $('.view_user_profile_module_friends_tab').prepend(friendsTab);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    }
+    xmlhttp.send(null);
+    setTimeout(reloadFriends, 500);
 }

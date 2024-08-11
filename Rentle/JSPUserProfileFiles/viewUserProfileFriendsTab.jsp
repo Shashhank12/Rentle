@@ -7,6 +7,7 @@
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentle?autoReconnect=true&useSSL=false","root", "Hello1234!");
 
         String itemUserId = request.getParameter("itemUserId");
+        String currentUserId = request.getParameter("currentUserId");
 
         Statement stmt = con.createStatement();
 
@@ -18,11 +19,11 @@
         String fullname = "", email = "", number = "", pfp = "", date = "";
 
         if (rs.next()) {
-            String fullname = rs.getString("first_name") + " " + rs.getString("last_name");
-            String email = rs.getString("email");
-            String number = rs.getString("phone_number");
-            String pfp = rs.getString("profile_picture");
-            String date = LocalDateTime.parse(rs.getString("creation_date").replace(" ","T")).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+            fullname = rs.getString("first_name") + " " + rs.getString("last_name");
+            email = rs.getString("email");
+            number = rs.getString("phone_number");
+            pfp = rs.getString("profile_picture");
+            date = LocalDateTime.parse(rs.getString("creation_date").replace(" ","T")).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
         }
 %>
 <div class="view_user_profile_1_friends_tab">
@@ -39,11 +40,6 @@
             </div>
         </div>
         <div class="view_user_profile_module_friends_tab">
-<%
-        
-
-%>
-            <div class="view_user_profile_module_add_friend_friends_tab"> Add friend </div>
             <div class="view_user_profile_module_message_friends_tab">Message</div>
             <div class="view_user_profile_module_see_rentals_friends_tab">Rentals</div>
         </div>

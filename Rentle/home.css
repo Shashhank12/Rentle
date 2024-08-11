@@ -14,6 +14,156 @@ body {
     display: none;
 }
 
+.circle {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    position: absolute;
+    background: rgb(218, 66, 218);
+    outline: 3px solid rgb(237, 146, 237);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 72.5%;
+    bottom: 5%;
+    z-index: 5;
+    cursor: pointer;
+    outline-offset: 4.5px;
+    font-size: 45px;
+    transition: all 0.3s ease;
+}
+.circle::before {
+    content: "\f269";
+    font-family: FontAwesome;
+}
+.circle:hover {
+    transform: scale(1.1) rotate(180deg);
+    background: rgb(243, 196, 243);
+    outline: 3px solid rgb(237, 146, 237);
+    color: rgb(222, 30, 216);
+}
+
+.ai_module {
+    position: absolute;
+    left: 35%;
+    top: 45%;
+    width: 35vw;
+    height: 45vh;
+    z-index: 6;
+    display: none;
+}
+#inputbox {
+    width: 100%;
+    background: white;
+    outline: none;
+    height: 10%;
+    border-radius: 7.5px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 8px transparent;
+    margin-top: 10px;
+    transition: all 0.25s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    text-align: right;
+    padding-right: 2%;
+    cursor: pointer;
+}
+#inputbox:hover {
+    box-shadow: 0 0 8px rgba(219, 56, 211, 0.5);
+}
+.user_message {
+    background-color: #DCF8C6;
+    color: #000;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+}
+.user_profile_pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Additional styling for chatbox */
+#chatbox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 8px transparent;
+    width: 100%;
+    height: 80%;
+    background: white;
+    outline: none;
+    gap: 10px;
+    padding: 0.75%;
+    border-radius: 12.5px;
+    transition: all 0.25s ease;
+    flex-direction: column-reverse; 
+    overflow-y: auto;
+    cursor: pointer;
+}
+.ai_module_wrapper {
+    justify-content: flex-end;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+#chatbox::before {
+    content: '';
+}
+#chatbox::after {
+    content: '';
+}
+#chatbox:hover {
+    box-shadow: 0 0 8px rgba(219, 56, 211, 0.5);
+}
+#chatbox::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent; 
+}
+#chatbox::-webkit-scrollbar-thumb {
+    background: #dfdddd;
+    border-radius: 7.5px;
+}
+.chatbox_module {
+    align-self: flex-end;
+    justify-content: flex-end;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 5.5px;
+    margin-top: 3.5px;
+}
+.chatbox_module_1 {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 5.5px;
+    margin-top: 3.5px;
+}
+.user_message_1 {
+    background-color: #c6f2f8;
+    color: #000;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+    word-wrap: break-word;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+}
+.gpt_profile_pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+
 .homepage_bar {
     width: 100vw;
     height: 50px;
@@ -4340,7 +4490,7 @@ body {
     display: flex;
     flex-direction: row;
     gap: 7.5px;
-    display: block;
+    display: none;
 }
 .friends_view_module_1 {
     display: flex;
@@ -4369,6 +4519,7 @@ body {
     border-right: none;
     font-size: 15px;
     border-bottom: 2px solid rgb(133, 133, 134);
+    outline: none;
     transition: border-bottom 0.3s ease;
     background-color: transparent; 
     padding-right: 9%;
@@ -4514,7 +4665,7 @@ body {
     bottom: 25%;
 }
 .view_user_profile_module_add_friend_friends_tab {
-    width: 15%;
+    width: 30%;
     background: rgb(231, 198, 198);
     position: relative;
     color: rgb(211, 74, 74);
@@ -4525,20 +4676,24 @@ body {
     align-items: center;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: 700;
+    gap: 10px;
 }
 .view_user_profile_module_add_friend_friends_tab::before {
     content: '\f500';
     font-family: FontAwesome;
 }
 .view_user_profile_module_message_friends_tab {
-    width: 45%;
+    width: 30%;
     background: rgb(229, 198, 231);
     box-shadow: 0 0 8px rgb(0,0,0,0.5);
     position: relative;
     color: rgb(215, 45, 215);
     border-radius: 7.5px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
+    font-size: 17.5px;
     font-weight: 700;
     display: flex;
     justify-content: center;
@@ -4552,7 +4707,7 @@ body {
     margin-right: 5px;
 }
 .view_user_profile_module_see_rentals_friends_tab {
-    width: 45%;
+    width: 30%;
     background: rgb(198, 226, 231);
     box-shadow: 0 0 8px rgb(0,0,0,0.5);
     position: relative;
@@ -4562,7 +4717,7 @@ body {
     justify-content: center;
     align-items: center;
     font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
+    font-size: 17.5px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -4605,7 +4760,7 @@ body {
     font-family: FontAwesome;
     font-size: 17.5px;
 }
-.email, .phone_number_friends_tab {
+.email_friends_tab, .phone_number_friends_tab {
     font-family: 'Montserrat', sans-serif;
     font-size: 100%;
     font-weight: 500;
@@ -4741,6 +4896,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     cursor: pointer;
+    gap: 12.5px;
 }
 .renter_reviews_list_item_friends_tab::-webkit-scrollbar {
     width: 5px;
@@ -4771,15 +4927,16 @@ body {
 .renter_review_full_name_friends_tab {
     position: relative;
     font-family: 'Montserrat', sans-serif;
-    font-size: 16.5px;
+    font-size: 19.5px;
     font-weight: 700;
 }
 .renter_review_stars_friends_tab {
     font-family: 'Montserrat', sans-serif;
-    font-size: 15.5px;
+    font-size: 19.5px;
     font-weight: 500;
     display: flex;
     align-items: center;
+    gap: 1.5px;
 }
 .renter_review_stars_friends_tab::before {
     content: "(";
@@ -4791,11 +4948,18 @@ body {
     content: ")";
     font-size: 110%;
     right: 100%;
-    margin-left: 2px;
+    margin-left: 2.5px;
     color: black;
 }
-#renter_review_star_icon_1_friends_tab {
+#renter_review_star_icon_friends_tab {
     font-size: 11.5px;
+    background: transparent;
+    color: yellow;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+    margin-left: 4.5px;
+}
+#renter_review_star_icon_1_friends_tab {
+    font-size: 13.5px;
     background: transparent;
     color: yellow;
     text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
@@ -4803,7 +4967,7 @@ body {
 }
 .renter_review_description_friends_tab {
     font-family: 'Montserrat', sans-serif;
-    font-size: 15.5px;
+    font-size: 17.5px;
     font-weight: 500;
     left: 1.5%;
     position: relative;
@@ -4817,4 +4981,181 @@ body {
     transform: translateX(-50%);
     background: rgba(128, 128, 128, 0.577);
     top: 11%;
+}
+.renting_reviews_module_friends_tab {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: 2.5%;
+    top: 12.5%;
+    gap: 7.5px;
+    align-items: center;
+}
+.renting_reviews_name_friends_tab {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18.5px;
+    font-weight: 700;
+}
+.renting_reviews_friends_tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+.renting_reviews_friends_tab::before {
+    content: "(";
+    font-size: 110%;
+    right: 100%;
+    color: black;
+}
+.renting_reviews_friends_tab::after {
+    content: ")";
+    font-size: 110%;
+    right: 100%;
+    margin-left: 2px;
+    color: black;
+}
+#renting_review_star_icon_friends_tab {
+    font-size: 13px;
+    background: transparent;
+    color: yellow;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+    margin-left: 4.5px;
+}
+.renting_reviews_list_module_friends_tab {
+    top: 13%;
+    position: relative;
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.renting_reviews_list_module_friends_tab::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent; 
+}
+.renting_reviews_list_module_friends_tab::-webkit-scrollbar-thumb {
+    background: #d3d0d0;
+    border-radius: 7.5px;
+}
+.renting_reviews_list_friends_tab {
+    display: grid;
+    position: relative;
+    left: 2.5%;
+    width: 92.5%;
+    gap: 12px;
+}
+.renting_reviews_list_friends_tab::before {
+    content: '';
+    flex: 0 0 12px;
+}
+.renting_reviews_list_friends_tab::after {
+    content: '';
+    flex: 0 0 12px;
+}
+.renting_reviews_list_item_friends_tab {
+    display: flex;
+    flex-direction: column;
+    height: calc(75vh * 0.1);
+    background: rgb(234, 230, 244);
+    border-radius: 7.5px;
+    box-shadow: 0 0 8px rgb(0,0,0,0.5);
+    transition: all 0.2s ease;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-right: 1.5%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 10px;
+}
+.renting_reviews_list_item_friends_tab::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent; 
+}
+.renting_reviews_list_item_friends_tab::-webkit-scrollbar-thumb {
+    background: #d3d0d0;
+    border-radius: 7.5px;
+}
+.renting_reviews_list_item_friends_tab:hover {
+    box-shadow: 0 0 10px rgb(0,0,0,0.75);
+    background: rgb(229, 222, 245);
+}
+.renting_reviews_list_item_1_friends_tab {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    left: 1.5%;
+}
+.renting_reviews_list_item_1_module_friends_tab {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    gap: 7.5px;
+    align-items: center;
+}
+.renting_review_full_name_friends_tab {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 19.5px;
+    font-weight: 700;
+}
+.renting_review_stars_friends_tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 19.5px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+.renting_review_stars_friends_tab::before {
+    content: "(";
+    font-size: 110%;
+    right: 100%;
+    color: black;
+}
+.renting_review_stars_friends_tab::after {
+    content: ")";
+    font-size: 110%;
+    right: 100%;
+    margin-left: 2.5px;
+    color: black;
+}
+#renting_review_star_icon_1_friends_tab {
+    font-size: 13.5px;
+    background: transparent;
+    color: yellow;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
+    margin-left: 4.5px;
+}
+.renting_review_description_friends_tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18.5px;
+    font-weight: 500;
+    left: 1.5%;
+    position: relative;
+}
+.view_user_profile_close_friends_tab {
+    background: white;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: 0 0 8px black;
+    right: calc((2.5% - 25px) + 26vw);
+    top: 10%;
+    z-index: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    display: none;
+}
+.view_user_profile_close_friends_tab::before {
+    content: "\58";
+    font-family: FontAwesome;
+    font-size: 25px;
+    color: gray;
 }

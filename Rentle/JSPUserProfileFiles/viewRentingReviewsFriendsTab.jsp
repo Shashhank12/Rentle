@@ -22,14 +22,14 @@
             double starsDouble = Double.parseDouble(stars);
             String formattedStars = String.format("%.1f", starsDouble);
 %>
-<div class="renter_reviews_list_item_friends_tab">
-    <div class="renter_reviews_list_item_1_friends_tab"></div>
-        <div class="renter_reviews_list_item_1_module_friends_tab">
-            <div class="renter_review_full_name_friends_tab"> <%=name%> </div>
-            <div class="renter_review_stars_friends_tab"> <%=formattedStars%> <i class="fas fa-star" id="renter_review_star_icon_1_friends_tab"></i></div>
+<div class="renting_reviews_list_item_friends_tab">
+    <div class="renting_reviews_list_item_1_friends_tab">
+        <div class="renting_reviews_list_item_1_module_friends_tab">
+            <div class="renting_review_full_name_friends_tab"> <%=name%> </div>
+            <div class="renting_review_stars_friends_tab"> <%=formattedStars%> <i class="fas fa-star" id="renting_review_star_icon_1_friends_tab"></i></div>
         </div>
     </div>
-    <div class="renter_review_description_friends_tab"> <%=description%> </div>
+    <div class="renting_review_description_friends_tab"> <%=description%> </div>
 </div>
 <%
         }
@@ -37,13 +37,16 @@
         pstmt = con.prepareStatement(query2);
         pstmt.setString(1, itemUserId);
         rs = pstmt.executeQuery();
-        if (rs.next()) {
-            session.setAttribute("renting_reviews", rs.getString(1));
-        }
-        else {
-            session.setAttribute("renting_reviews", 0.0);
-        }
 
+        String friends_renting_reviews = "0.0";
+        if (rs.next()) {
+            friends_renting_reviews = rs.getString(1);
+        }
+%>
+<script type="text/javascript">
+    var friendsRentingReviews = "<%= friends_renting_reviews%>";
+</script>
+<%
         rs.close();
         pstmt.close();
         con.close();

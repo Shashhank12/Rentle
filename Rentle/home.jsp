@@ -65,6 +65,7 @@
     <script src="JSPMessageFiles/messages.js"></script>
     <script src="JSPRentingsFiles/yourRentings.js"></script>
     <script src="homeTools.js"></script>
+    <script src="chatgpt.js"></script>
     <script src="miscFunctionalities.js"></script>
     <script src="JSPUserProfileFiles/viewProfile.js"></script>
 
@@ -79,6 +80,7 @@
 
         setTimeout(reloaddata, 500);
         setTimeout(reloadDataGroup, 500);
+        setTimeout(reloadFriends, 500);
 
     </script>
 
@@ -90,8 +92,9 @@
 
     <!-- Shashhank Google Maps -->
     <div id="map"></div>
-    <!-- TODO: ADD API KEY -->
+    <!-- TODO: ADD GOOGLE MAPS API KEY -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_GU7VS69C7Q8uwrRAjI8bMzpc-gtLImo"></script>
+
     <script>
         var globalZoomLevel = 13;
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -182,6 +185,38 @@
             z-index: 0;
         }
     </style>
+
+    <div class="ai_module">
+        <div id="chatbox">
+            <div class="ai_module_wrapper"></div>
+        </div>
+        <input type="input" id="inputbox" placeholder="What are you looking for?">
+    </div>
+
+    <div class="circle"></div>
+
+    <script>
+        document.getElementById('inputbox').addEventListener('keydown', async function(event) {
+            // Check if the pressed key is 'Enter'
+            if (event.key === 'Enter') {
+                // Prevent the default action (optional)
+                event.preventDefault();
+                sendMessageToGPT();
+                sendMessage(); // Call the sendMessage function
+                this.value = '';
+
+            }
+        });
+
+        $('.circle').click(function() {
+            if ($('.ai_module').css('display') === 'block') {
+                $('.ai_module').css('display', 'none');
+            }
+            else {
+                $('.ai_module').css('display', 'block');
+            }
+        });
+    </script>
 
     <!-- Shashhank results filter -->
     <div class="leftbar">
@@ -831,7 +866,7 @@
     </script>
 
     <div id="friends_view">
-        <div class="friends_view_user_id" style="display:none"></div>
+        <div class="friends_view_user_id"></div>
         <div class="friends_view_module_1">
             <div class="friends_title"> Friends </div> 
             <input type="text" class="friends_search" oninput="
@@ -847,7 +882,7 @@
                 <div class="friends_view_module_people_friends_only"> Friends only </div>
             </div>
 
-            <div class="friends_view_module_1_grid_all_people"></div>
+            <div class="friends_view_module_1_grid_all_people"></div> 
 
             <div class="friends_view_module_1_grid_friends_only"></div>
 
@@ -860,7 +895,10 @@
 
             <div class="renter_reviews_module_friends_tab">
                 <div class="renter_reviews_name_friends_tab"> Renter reviews</div>
-                <div class="renter_reviews_friends_tab"> <%=renterReviews%> <i class="fas fa-star" id="renter_review_star_icon_friends_tab"></i></div>
+                <div class="renter_reviews_friends_tab">
+                    <div class="renter_reviews_friends_tab_average"></div>
+                    <i class="fas fa-star" id="renter_review_star_icon_friends_tab"></i>
+                </div>
             </div>
 
             <div class="renter_reviews_list_module_friends_tab">
@@ -871,7 +909,10 @@
 
             <div class="renting_reviews_module_friends_tab">
                 <div class="renting_reviews_name_friends_tab"> Renting reviews</div>
-                <div class="renting_reviews_friends_tab"> <%=rentingReviews%> <i class="fas fa-star" id="renting_review_star_icon_friends_tab"></i></div>
+                <div class="renting_reviews_friends_tab">
+                    <div class="renting_reviews_friends_tab_average"></div>
+                    <i class="fas fa-star" id="renting_review_star_icon_friends_tab"></i>
+                </div>
             </div>
 
             <div class="renting_reviews_list_module_friends_tab">
@@ -898,23 +939,23 @@
             $(document).on('click', '.friends_view_module_1_grid_item_all_people, .friends_view_module_1_grid_item_friends_only', function() {
                 var currentFriendsID = $(this).attr('value').trim();
                 $('.friends_view_user_id').text(currentFriendsID);
-                console.log($('.friends_view_user_id').text());
-                $('.friends_view_module_2').attr('data-state', 'true');
-                console.log($('.friends_view_module_2').attr('data-state').trim());
+
                 var $profile = $('.friends_view_module_2');
         
                 $profile.children().each(function() {
-                    if ($(this).is('.view_user_profile_line')) {
+                    if ($(this).is('.view_user_profile_line_friends_tab')) {
                         return false;
                     }
                     $(this).remove();
                 });
-                viewUserProfile();
-                viewRenterReviews();
-                viewRentingReviews();
-                
+                viewFriendsTabUserProfile();
+                viewFriendsTabRenterReviews();
+                viewFriendsTabRentingReviews();
             });
 
+            $(document).on('click', '.view_user_profile_module_add_friend_friends_tab', function() {
+                addFriend();
+            });
         });
     </script>
 
@@ -1361,6 +1402,8 @@
     
     <!-- Alicia view item user module  -->
     <div class="view_item_module">
+        <div class="view_item_module_friends_status"> Hello </div>
+
         <div class="view_item_photo_module">
             <div class="view_item_photo"></div>
             <div id="photo_back_button"></div>
@@ -2033,8 +2076,6 @@
                     $('.view_user_profile_close').css('display', 'none');
                     $('.view_item_view_user_profile').text('SEE INFO');
                 }
-                $('.friends_view_module_2').attr('data-state', 'false');
-                console.log($('.friends_view_module_2').attr('data-state').trim());
                 var $profile = $('.view_user_profile');
         
                 $profile.children().each(function() {
@@ -2337,6 +2378,9 @@
                     }
                     else {
                         $('#friends_view').css('display', 'flex');
+
+                        $('.friends_view_module_1_grid_all_people').css('display', 'block');
+
                         $('#your_rentals_view, #your_rentings_view, #messages_view').css('display', 'none');
                         $('.your_rentals_icon, .your_rentings_icon, .messages_icon').css({
                             'color': '#0f0404',

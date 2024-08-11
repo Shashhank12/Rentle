@@ -73,6 +73,20 @@
     <servlet-class>FileUploadServlet</servlet-class>
   </servlet>
 
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Friends</servlet-name>
+    <servlet-class>Friends</servlet-class>
+  </servlet>
+
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>ReloadFriends</servlet-name>
+    <servlet-class>ReloadFriends</servlet-class>
+  </servlet>
+
 
 
   <servlet-mapping>
@@ -108,6 +122,16 @@
   <servlet-mapping>
     <servlet-name>FileUploadServlet</servlet-name>
     <url-pattern>/fileuploadservlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>Friends</servlet-name>
+    <url-pattern>/friends</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ReloadFriends</servlet-name>
+    <url-pattern>/reloadfriends</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
