@@ -2,7 +2,7 @@
 by Shashhank Seethula, Phuc Thinh Nguyen, Alicia Shi
 
 ## Description
-Rentle is a rental application that allows users to rent out different items from other people. By bringing renters and rental suppliers together, Rentle provides a cheaper alternative to purchasing items. Commonly, people need renting options for vehicles, equipment, consumer goods, and event-related items.
+Rentle is a rental application that allows users to rent out different items from other people. By bringing renters and rental suppliers together, Rentle provides a cheaper alternative to purchasing items.
 
 ## Rentle Demo
 https://github.com/user-attachments/assets/a79ec689-479b-42e7-ad62-2f1fef8064b8
